@@ -15,6 +15,14 @@ BoardGameTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErr
 ]
 
 { #category : #tests }
+BoardGameTest >> testABoardGameCreationIsValid [
+| aBoard aBoardGame |
+aBoard := Board withAnAmountOfCells: 10.
+aBoardGame := BoardGame with: aBoard and: Spaceship new.
+self assert: aBoardGame isValid.
+]
+
+{ #category : #tests }
 BoardGameTest >> testWhenABoardCreationThenIsValid [
 | aBoard |
 aBoard := Board new.
@@ -26,6 +34,15 @@ BoardGameTest >> testWhenABoardCreationWith10CellsThenIsValid [
 | aBoard |
 aBoard := Board withAnAmountOfCells: 10.
 self assert: aBoard isValid.
+]
+
+{ #category : #tests }
+BoardGameTest >> testWhenABoardGameCreationWith2SpaceshipsThenValid [
+| aBoard aBoardGame spaceships |
+aBoard := Board withAnAmountOfCells: 10.
+spaceships:= OrderedCollection with: Spaceship new with: Spaceship new.
+aBoardGame := BoardGame with: aBoard and: spaceships.
+self assert: aBoardGame isValid.
 ]
 
 { #category : #tests }
