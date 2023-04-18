@@ -68,6 +68,18 @@ self assert: (aSpaceship whereIsMyPosition) equals: 0.
 ]
 
 { #category : #tests }
+BoardGameTest >> testWhenASpaceshipHasWonTheGameThenTrue [
+| aBoard aBoardGame spaceships aSpaceship1 aSpaceship2 |
+aBoard := Board withAnAmountOfCells: 10.
+aSpaceship1 := Spaceship withPosition: 10.
+aSpaceship2 := Spaceship withPosition: 0.
+spaceships:= OrderedCollection with: aSpaceship1 with: aSpaceship2.
+aBoardGame := BoardGame with: aBoard and: spaceships.
+
+self assert: aBoardGame hasAnySpaceshipWon equals: aSpaceship1.
+]
+
+{ #category : #tests }
 BoardGameTest >> testWhenSpaceshipCreationThenIsValid [
 
 | aSpaceship |

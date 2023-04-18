@@ -19,6 +19,11 @@ Board class >> withAnAmountOfCells: anAmount [
 	^(self new) initializeWithAnAmountOfCells: anAmount.
 ]
 
+{ #category : #'instance variables' }
+Board >> howManyCellsDoIHave [
+	^amountOfCells .
+]
+
 { #category : #initialization }
 Board >> initializeWithAnAmountOfCells: anAmount [ 
 	amountOfCells:= anAmount.

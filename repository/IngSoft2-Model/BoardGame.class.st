@@ -13,6 +13,11 @@ BoardGame class >> with: aBoard and: anAmountOfSpaceships [
 	^(self new) initializedWith: aBoard and: anAmountOfSpaceships. 
 ]
 
+{ #category : #validations }
+BoardGame >> hasAnySpaceshipWon [
+	^ spaceships detect: [:spaceship | spaceship whereIsMyPosition == board howManyCellsDoIHave].
+]
+
 { #category : #initialization }
 BoardGame >> initializedWith: aBoard and: aSpaceship [ 
 	board := aBoard.
