@@ -23,6 +23,25 @@ self assert: aBoardGame isValid.
 ]
 
 { #category : #tests }
+BoardGameTest >> testBanana [
+| aSpaceship aPosition |
+aSpaceship := Spaceship new.
+aPosition := Position new.
+
+self assert: (aPosition whereItIs: aSpaceship ).
+]
+
+{ #category : #tests }
+BoardGameTest >> testSpaceshipInitializeInZeroviCKylisto [
+| aSpaceship aPosition aPositionSpaceship |
+aSpaceship := Spaceship new.
+aPosition:= Position new.
+aPositionSpaceship := SpaceshipPosition withPosition: 0.
+
+self assert: (aPosition isValid: aPositionSpaceship).
+]
+
+{ #category : #tests }
 BoardGameTest >> testWhenABoardCreationThenIsValid [
 | aBoard |
 aBoard := Board new.
