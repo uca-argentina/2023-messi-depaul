@@ -23,25 +23,6 @@ self assert: aBoardGame isValid.
 ]
 
 { #category : #tests }
-BoardGameTest >> testBanana [
-| aSpaceship aPosition |
-aSpaceship := Spaceship new.
-aPosition := Position new.
-
-self assert: (aPosition whereItIs: aSpaceship ).
-]
-
-{ #category : #tests }
-BoardGameTest >> testSpaceshipInitializeInZeroviCKylisto [
-| aSpaceship aPosition aPositionSpaceship |
-aSpaceship := Spaceship new.
-aPosition:= Position new.
-aPositionSpaceship := SpaceshipPosition withPosition: 0.
-
-self assert: (aPosition isValid: aPositionSpaceship).
-]
-
-{ #category : #tests }
 BoardGameTest >> testWhenABoardCreationThenIsValid [
 | aBoard |
 aBoard := Board new.
@@ -67,6 +48,23 @@ self assert: aBoardGame isValid.
 { #category : #tests }
 BoardGameTest >> testWhenABoardWithNegativeAmountOfCellsThenFailsCreation [
 self should: [ Board withAnAmountOfCells: -10 ] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
+]
+
+{ #category : #tests }
+BoardGameTest >> testWhenASpaceshipAdvanceOnePositionThenTrue [
+|aSpaceship|
+aSpaceship := Spaceship withPosition: 0.
+aSpaceship advanceAnAmountOfCells: 1.
+
+self assert: (aSpaceship whereIsMyPosition) equals: 1.
+]
+
+{ #category : #tests }
+BoardGameTest >> testWhenASpaceshipCreationWithPositionCeroThenTrue [
+|aSpaceship|
+aSpaceship := Spaceship withPosition: 0.
+
+self assert: (aSpaceship whereIsMyPosition) equals: 0.
 ]
 
 { #category : #tests }
