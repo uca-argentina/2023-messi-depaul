@@ -15,45 +15,60 @@ BoardGameTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErr
 ]
 
 { #category : #tests }
-BoardGameTest >> testABoardGameCreationIsValid [
-| aBoard aBoardGame |
-aBoard := Board withAnAmountOfCells: 10.
-aBoardGame := BoardGame with: aBoard and: Spaceship new.
+BoardGameTest >> test01ABoardGameCreationIsValid [
+| aBoardGame |
+aBoardGame := BoardGame withAnAmountOfCells: 20.
 self assert: aBoardGame isValid.
 ]
 
 { #category : #tests }
-BoardGameTest >> testWhenABoardCreationThenIsValid [
-| aBoard |
-aBoard := Board new.
-self assert: aBoard isValid.
+BoardGameTest >> test02WhenABoardWithNegativeAmountOfCellsThenFailsCreation [
+self should: [ BoardGame withAnAmountOfCells: -10 ] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
 ]
 
 { #category : #tests }
-BoardGameTest >> testWhenABoardCreationWith10CellsThenIsValid [
-| aBoard |
-aBoard := Board withAnAmountOfCells: 10.
-self assert: aBoard isValid.
+BoardGameTest >> test03WhenASpaceshipCreationInitializeWithPositionCeroThenTrue [
+|aSpaceship|
+aSpaceship := Spaceship startsInPositionZero.
+self assert: (aSpaceship position) equals: 0.
 ]
 
 { #category : #tests }
-BoardGameTest >> testWhenABoardGameCreationWith2SpaceshipsThenValid [
-| aBoard aBoardGame spaceships |
-aBoard := Board withAnAmountOfCells: 10.
-spaceships:= OrderedCollection with: Spaceship new with: Spaceship new.
-aBoardGame := BoardGame with: aBoard and: spaceships.
-self assert: aBoardGame isValid.
+BoardGameTest >> test04WhenIsASpaceshipIsAddedToBoardgame [
+
+| aBoardGame aSpaceship |
+aBoardGame := BoardGame withAnAmountOfCells: 20.
+aSpaceship := Spaceship startsInPositionZero.
+self assert: (aBoardGame add: aSpaceship)
 ]
 
 { #category : #tests }
-BoardGameTest >> testWhenABoardWithNegativeAmountOfCellsThenFailsCreation [
-self should: [ Board withAnAmountOfCells: -10 ] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
-]
-
-{ #category : #tests }
-BoardGameTest >> testWhenSpaceshipCreationThenIsValid [
+BoardGameTest >> test05whenASpaceshipMovesForward5PositionsThenTrue [
 
 | aSpaceship |
-aSpaceship:= Spaceship new.
-self assert: aSpaceship isValid.
+aSpaceship := Spaceship startsInPositionZero.
+aSpaceship movesForward: 5.
+self assert: aSpaceship position equals: 5.
+]
+
+{ #category : #tests }
+BoardGameTest >> test06WhenSpaceship1Wins [
+| aBoardGame aSpaceship2 aSpaceship1 spaceships |
+aBoardGame := BoardGame withAnAmountOfCells: 20.
+aSpaceship1 := Spaceship startsInPositionZero.
+aSpaceship2 := Spaceship startsInPositionZero.
+aSpaceship1 movesForward: 5.
+aSpaceship1 movesForward: 15.
+spaceships := OrderedCollection new.
+spaceships add: aSpaceship1.
+spaceships add: aSpaceship2.
+self assert: (aBoardGame winner: spaceships) equals: aSpaceship1.
+]
+
+{ #category : #tests }
+BoardGameTest >> test07WhenAThreeFacedDiceCreationThenTrue [
+| aDice |
+aDice := Dice with: 3.
+self assert: aDice faces equals: 3.
+
 ]
