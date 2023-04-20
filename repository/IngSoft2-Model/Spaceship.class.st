@@ -7,9 +7,9 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #initialization }
-Spaceship class >> withPosition: aPosition [
-	^(self new) initializeWith: aPosition .
+{ #category : #initialize }
+Spaceship class >> startsInPositionZero [
+	^(self new) initializeInPositionZero.
 ]
 
 { #category : #adding }
@@ -17,9 +17,9 @@ Spaceship >> advanceAnAmountOfCells: anAmountOfCells [
 	position:= position + anAmountOfCells.
 ]
 
-{ #category : #'instance creation' }
-Spaceship >> initializeWith: aPosition [ 
-	position := aPosition .
+{ #category : #'instance initialization' }
+Spaceship >> initializeInPositionZero [
+	position := 0.
 ]
 
 { #category : #'tests - validation' }
@@ -27,7 +27,12 @@ Spaceship >> isValid [
 	^true.
 ]
 
+{ #category : #update }
+Spaceship >> movesForward: anAmountOfCells [ 
+	^ (position := position + anAmountOfCells).
+]
+
 { #category : #'instance variables' }
-Spaceship >> whereIsMyPosition [
+Spaceship >> position [
 	^position .
 ]
