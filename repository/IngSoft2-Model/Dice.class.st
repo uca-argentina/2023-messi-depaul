@@ -21,3 +21,8 @@ Dice >> faces [
 Dice >> initializeWith: aNumberOfFaces [ 
 	faces := aNumberOfFaces.
 ]
+
+{ #category : #actions }
+Dice >> throw [
+	^(1 to: faces) atRandom.
+]

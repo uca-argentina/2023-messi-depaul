@@ -62,6 +62,7 @@ aSpaceship1 movesForward: 15.
 spaceships := OrderedCollection new.
 spaceships add: aSpaceship1.
 spaceships add: aSpaceship2.
+
 self assert: (aBoardGame winner: spaceships) equals: aSpaceship1.
 ]
 
@@ -70,5 +71,32 @@ BoardGameTest >> test07WhenAThreeFacedDiceCreationThenTrue [
 | aDice |
 aDice := Dice with: 3.
 self assert: aDice faces equals: 3.
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test08WhenADiceThrowsThenItIsARandomBetweenOneAndHisAmountOfFaces [
+| aDice |
+aDice := Dice with: 10.
+self assert: ((aDice throw) between: 1 and: (aDice faces)).
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test09WhenAThreeFacedLoadedDiceWithASequenceCreationThenTrue [
+|aLoadedDice|
+aLoadedDice := LoadedDice with: 3 andWith: #(1 2 3).
+self assert: aLoadedDice faces equals: 3.
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test10 [
+|aLoadedDice|
+aLoadedDice := LoadedDice with: 3 andWith: #(1 2 3).
+self assert: aLoadedDice throw equals: 1.
+self assert: aLoadedDice throw equals: 2.
+self assert: aLoadedDice throw equals: 3.
+self assert: aLoadedDice throw equals: 1.
 
 ]
