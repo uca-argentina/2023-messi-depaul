@@ -10,7 +10,21 @@ Class {
 }
 
 { #category : #initialize }
+LoadedDice class >> validateAValue: aSequence [
+	(aSequence allSatisfy: [:value | value == 0]) ifTrue: [ 
+		Error signal: 'Cannot create dice with value 0' ]
+]
+
+{ #category : #initialize }
+LoadedDice class >> validateAnAmountOfFaces: anAmount [
+	anAmount > 2 ifFalse: [ 
+		Error signal: 'Cannot create dice with 2 or less amount of faces' ]
+]
+
+{ #category : #initialize }
 LoadedDice class >> with: aNumberFaces andWith: aSequence [
+	self validateAnAmountOfFaces: aNumberFaces. 
+	self validateAValue: aSequence. 
 	^(self new) initializeWith: aNumberFaces andWith: aSequence .
 ]
 
@@ -29,9 +43,8 @@ LoadedDice >> initializeWith: aNumberOfFaces andWith: aSequence [
 
 { #category : #action }
 LoadedDice >> throw [
-	|result|
-        result := sequence  at: sequenceIndex  .
+	|value|
+        value := sequence  at: sequenceIndex  .
         sequenceIndex := (sequenceIndex \\ sequence size) + 1.
-
-        ^ result.
+        ^ value.
 ]
