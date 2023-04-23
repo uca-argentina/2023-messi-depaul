@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'board',
 		'spaceships',
-		'amountofcells'
+		'amountofcells',
+		'tableOfPositions',
+		'shift'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -21,9 +23,20 @@ BoardGame class >> withAnAmountOfCells: anAmountOfCells [
 	^(self new) initializeWith: anAmountOfCells.
 ]
 
+{ #category : #'action handling' }
+BoardGame >> aSpaceshipMovesForward: aValue [ 
+	|aSpaceship|
+	aSpaceship := spaceships at: shift.
+	shift := (shift \\ spaceships size) + 1.
+	aSpaceship advanceAnAmountOfCells: aValue.
+]
+
 { #category : #adding }
-BoardGame >> add: aSpaceship [ 
-	^true.
+BoardGame >> add: aCollectionOfspaceships [ 
+	| tableOfPositions |
+	tableOfPositions := OrderedCollection new.
+	1 to: (aCollectionOfspaceships size) do: [tableOfPositions add: 0]. 
+	^tableOfPositions
 ]
 
 { #category : #validations }
@@ -34,11 +47,29 @@ BoardGame >> hasAnySpaceshipWon [
 { #category : #'instance creation' }
 BoardGame >> initializeWith: anAmountOfCells [ 
 	amountofcells := anAmountOfCells.
+	shift := 1.
+	spaceships := OrderedCollection new.
+]
+
+{ #category : #'adding item' }
+BoardGame >> introduce: aSpaceship [
+	spaceships add: aSpaceship.
 ]
 
 { #category : #validation }
 BoardGame >> isValid [
 	^true.
+]
+
+{ #category : #'as yet unclassified' }
+BoardGame >> showTableOfPositions [
+	^tableOfPositions .
+]
+
+{ #category : #'as yet unclassified' }
+BoardGame >> winner [
+	^((spaceships positions) detect: [:position | position == amountofcells])
+	
 ]
 
 { #category : #'as yet unclassified' }
