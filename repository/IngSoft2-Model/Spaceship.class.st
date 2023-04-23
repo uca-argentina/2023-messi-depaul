@@ -12,11 +12,6 @@ Spaceship class >> startsInPositionZero [
 	^(self new) initializeInPositionZero.
 ]
 
-{ #category : #adding }
-Spaceship >> advanceAnAmountOfCells: anAmountOfCells [ 
-	position:= position + anAmountOfCells.
-]
-
 { #category : #'instance initialization' }
 Spaceship >> initializeInPositionZero [
 	position := 0.
@@ -27,12 +22,12 @@ Spaceship >> isValid [
 	^true.
 ]
 
-{ #category : #update }
-Spaceship >> movesForward: anAmountOfCells [ 
-	^ (position := position + anAmountOfCells).
-]
-
 { #category : #'instance variables' }
 Spaceship >> position [
 	^position .
+]
+
+{ #category : #adding }
+Spaceship >> updatePosition: newPosition [
+	position:= newPosition.
 ]
