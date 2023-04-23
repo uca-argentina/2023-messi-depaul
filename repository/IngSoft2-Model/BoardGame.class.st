@@ -2,10 +2,8 @@ Class {
 	#name : #BoardGame,
 	#superclass : #Object,
 	#instVars : [
-		'board',
 		'spaceships',
 		'amountofcells',
-		'tableOfPositions',
 		'shift'
 	],
 	#category : #'IngSoft2-Model'
@@ -23,25 +21,20 @@ BoardGame class >> withAnAmountOfCells: anAmountOfCells [
 	^(self new) initializeWith: anAmountOfCells.
 ]
 
-{ #category : #'action handling' }
+{ #category : #action }
 BoardGame >> aSpaceshipMovesForward: aValue [ 
 	|aSpaceship|
 	aSpaceship := spaceships at: shift.
 	shift := (shift \\ spaceships size) + 1.
-	aSpaceship advanceAnAmountOfCells: aValue.
+	aSpaceship updatePosition: aValue + (aSpaceship position).
+	
+	(self winner == aSpaceship)
+	ifTrue: [^aSpaceship].
 ]
 
-{ #category : #adding }
-BoardGame >> add: aCollectionOfspaceships [ 
-	| tableOfPositions |
-	tableOfPositions := OrderedCollection new.
-	1 to: (aCollectionOfspaceships size) do: [tableOfPositions add: 0]. 
-	^tableOfPositions
-]
-
-{ #category : #validations }
-BoardGame >> hasAnySpaceshipWon [
-	^ spaceships detect: [:spaceship | spaceship position == board howManyCellsDoIHave].
+{ #category : #action }
+BoardGame >> allSpaceshipPositions [
+	^ spaceships collect: [:spaceship | spaceship position].
 ]
 
 { #category : #'instance creation' }
@@ -51,8 +44,8 @@ BoardGame >> initializeWith: anAmountOfCells [
 	spaceships := OrderedCollection new.
 ]
 
-{ #category : #'adding item' }
-BoardGame >> introduce: aSpaceship [
+{ #category : #action }
+BoardGame >> insert: aSpaceship [
 	spaceships add: aSpaceship.
 ]
 
@@ -61,18 +54,12 @@ BoardGame >> isValid [
 	^true.
 ]
 
-{ #category : #'as yet unclassified' }
-BoardGame >> showTableOfPositions [
-	^tableOfPositions .
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 BoardGame >> winner [
-	^((spaceships positions) detect: [:position | position == amountofcells])
-	
-]
+	| result |
+	result := spaceships detect: [:spaceship | spaceship position >= amountofcells] ifNone: [nil].
+	^ result
 
-{ #category : #'as yet unclassified' }
-BoardGame >> winner: aSpaceshipsCollection [
-	^(aSpaceshipsCollection detect: [ :spaceship | (spaceship position) == amountofcells ]).
+	
+	
 ]

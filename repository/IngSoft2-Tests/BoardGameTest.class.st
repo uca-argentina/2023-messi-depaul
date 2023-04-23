@@ -4,11 +4,6 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #asserting }
-BoardGameTest >> assert: aBoardGame winner: aSpaceship [ 
-	self shouldBeImplemented.
-]
-
 { #category : #tests }
 BoardGameTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErrorMessage [
 
@@ -32,38 +27,14 @@ self should: [ BoardGame withAnAmountOfCells: -10 ] raise: Error withMessage: 'C
 ]
 
 { #category : #tests }
-BoardGameTest >> test03WhenASpaceshipCreationInitializeWithPositionCeroThenTrue [
+BoardGameTest >> test03WhenASpaceshipCreationInitializeWithPositionZeroThenPositionZero [
 |aSpaceship|
 aSpaceship := Spaceship startsInPositionZero.
 self assert: (aSpaceship position) equals: 0.
 ]
 
 { #category : #tests }
-BoardGameTest >> test05whenASpaceshipMovesForward5PositionsThenTrue [
-
-| aSpaceship |
-aSpaceship := Spaceship startsInPositionZero.
-aSpaceship movesForward: 5.
-self assert: aSpaceship position equals: 5.
-]
-
-{ #category : #tests }
-BoardGameTest >> test06WhenSpaceship1Wins [
-| aBoardGame aSpaceship2 aSpaceship1 spaceships |
-aBoardGame := BoardGame withAnAmountOfCells: 20.
-aSpaceship1 := Spaceship startsInPositionZero.
-aSpaceship2 := Spaceship startsInPositionZero.
-aSpaceship1 movesForward: 5.
-aSpaceship1 movesForward: 15.
-spaceships := OrderedCollection new.
-spaceships add: aSpaceship1.
-spaceships add: aSpaceship2.
-
-self assert: (aBoardGame winner: spaceships) equals: aSpaceship1.
-]
-
-{ #category : #tests }
-BoardGameTest >> test07WhenAThreeFacedDiceCreationThenTrue [
+BoardGameTest >> test04WhenAThreeFacedDiceCreationThenTrue [
 | aDice |
 aDice := Dice with: 3.
 self assert: aDice faces equals: 3.
@@ -71,7 +42,13 @@ self assert: aDice faces equals: 3.
 ]
 
 { #category : #tests }
-BoardGameTest >> test08WhenADiceThrowsThenItIsARandomBetweenOneAndHisAmountOfFaces [
+BoardGameTest >> test05WhenADiceIsCreatedWithNegativeFacesThenFailsCreation [
+
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test06WhenADiceThrowsThenItIsARandomBetweenOneAndHisAmountOfFaces [
 | aDice |
 aDice := Dice with: 10.
 self assert: ((aDice throw) between: 1 and: (aDice faces)).
@@ -79,11 +56,23 @@ self assert: ((aDice throw) between: 1 and: (aDice faces)).
 ]
 
 { #category : #tests }
-BoardGameTest >> test09WhenAThreeFacedLoadedDiceWithASequenceCreationThenTrue [
+BoardGameTest >> test07WhenAThreeFacedLoadedDiceWithASequenceCreationThenTrue [
 |aLoadedDice|
 aLoadedDice := LoadedDice with: 3 andWith: #(1 2 3).
 self assert: aLoadedDice faces equals: 3.
 
+]
+
+{ #category : #tests }
+BoardGameTest >> test08WhenLoadedDiceWithANegativeSequenceThenFailsCreation [
+self should: [ LoadedDice with: 3 andWith: #(0) ] raise: Error withMessage: 'Cannot create dice with value 0'.
+"la secuencia no debe tener ningun elemento <= 0"
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test09WhenATwoOrLessLoadedFacedDiceThenFailsCreation [
+self should: [ LoadedDice with: 2 andWith: #(1 2 3) ] raise: Error withMessage: 'Cannot create dice with 2 or less amount of faces'.
 ]
 
 { #category : #tests }
@@ -98,41 +87,22 @@ self assert: aLoadedDice throw equals: 1.
 ]
 
 { #category : #tests }
-BoardGameTest >> test11WhenA3FacedLoadedDiceIsThrownOnceAndASpaceshipMovesForwardOnePositionThenTrue [
-|aLoadedDice aSpaceship |
+BoardGameTest >> test11WhenALoadedDiceIsThrownThenASpaceshipMovesForwardOnePosition [
+|aLoadedDice aSpaceship aBoardGame|
 aSpaceship := Spaceship startsInPositionZero.
 aLoadedDice := LoadedDice with: 3 andWith: #(1 2 3).
-aSpaceship movesForward: aLoadedDice throw.
+aBoardGame := BoardGame withAnAmountOfCells: 10.
+
+aBoardGame insert: aSpaceship .
+aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+
 self assert: aSpaceship position equals: 1.
 
 
 ]
 
 { #category : #tests }
-BoardGameTest >> test12WhenATwoOrLessLoadedFacedDiceThenFailsCreation [
-self should: [ LoadedDice with: 2 andWith: #(1 2 3) ] raise: Error withMessage: 'Cannot create dice with 2 or less amount of faces'.
-]
-
-{ #category : #tests }
-BoardGameTest >> test13WhenAThreeFacedLoadedDiceAndValue0ThenFailsCreation [
-self should: [ LoadedDice with: 3 andWith: #(0) ] raise: Error withMessage: 'Cannot create dice with value 0'.
-]
-
-{ #category : #tests }
-BoardGameTest >> test15WhenASpaceshipMovesForwardAnAmountOfCellsThenValid [
-| aBoardGame aSpaceship1 aLoadedDice|
-aLoadedDice := LoadedDice with: 3 andWith: #(1 2 3).
-aBoardGame := BoardGame withAnAmountOfCells: 20.
-aSpaceship1 := Spaceship startsInPositionZero.
-aBoardGame introduce: aSpaceship1.
-aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
-
-self assert: (aSpaceship1 position) equals: 1.
-
-]
-
-{ #category : #tests }
-BoardGameTest >> test16When2RoundsArePlayedThenSpaceshipsMovesForwardAmountOfCells [
+BoardGameTest >> test12When2RoundsArePlayedThenSpaceshipsMovesForwardAmountOfCells [
 | aBoardGame aSpaceship1 aSpaceship2 aSpaceship3 aLoadedDice|
 aLoadedDice := LoadedDice with: 3 andWith: #(1 2 3).
 
@@ -142,9 +112,9 @@ aSpaceship1 := Spaceship startsInPositionZero.
 aSpaceship2 := Spaceship startsInPositionZero.
 aSpaceship3 := Spaceship startsInPositionZero.
 
-aBoardGame introduce: aSpaceship1.
-aBoardGame introduce: aSpaceship2.
-aBoardGame introduce: aSpaceship3.
+aBoardGame insert: aSpaceship1.
+aBoardGame insert: aSpaceship2.
+aBoardGame insert: aSpaceship3.
 
 aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
 self assert: (aSpaceship1 position) equals: 1.
@@ -164,4 +134,74 @@ self assert: (aSpaceship3 position) equals: 6.
 
 
 
+]
+
+{ #category : #tests }
+BoardGameTest >> test13WhenASpaceshipWinsThenGameOver [
+
+
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test14WhenTwoSpaceshipPlayThenSpaceship1Wins [
+| aBoardGame aSpaceship1 aSpaceship2 aLoadedDice|
+aLoadedDice := LoadedDice with: 6 andWith: #(5 2).
+
+aBoardGame := BoardGame withAnAmountOfCells: 10.
+
+aSpaceship1 := Spaceship startsInPositionZero.
+aSpaceship2 := Spaceship startsInPositionZero.
+
+aBoardGame insert: aSpaceship1.
+aBoardGame insert: aSpaceship2.
+
+aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+
+self assert: (aBoardGame winner) equals: aSpaceship1.
+]
+
+{ #category : #tests }
+BoardGameTest >> test15WhenAllSpaceshipsPositionsThenAnOrderedCollection [
+| aBoardGame aSpaceship1 aSpaceship2 aLoadedDice|
+aLoadedDice := LoadedDice with: 6 andWith: #(1 3 4).
+
+aBoardGame := BoardGame withAnAmountOfCells: 10.
+
+aSpaceship1 := Spaceship startsInPositionZero.
+aSpaceship2 := Spaceship startsInPositionZero.
+
+aBoardGame insert: aSpaceship1.
+aBoardGame insert: aSpaceship2.
+
+aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+
+
+self assert: (aBoardGame allSpaceshipPositions) equals: (OrderedCollection with: 5 with: 3) .
+]
+
+{ #category : #tests }
+BoardGameTest >> test16WhenThereAreTwoDicesOnTheGameThenSpaceshipsPositionsTrue [
+| aBoardGame aSpaceship1 aSpaceship2 aLoadedDice1 aLoadedDice2|
+aLoadedDice1 := LoadedDice with: 6 andWith: #(1 3 4 5 6 6 6).
+aLoadedDice2 := LoadedDice with: 4 andWith: #(1 1 3).
+
+aBoardGame := BoardGame withAnAmountOfCells: 10.
+
+aSpaceship1 := Spaceship startsInPositionZero.
+aSpaceship2 := Spaceship startsInPositionZero.
+
+aBoardGame insert: aSpaceship1.
+aBoardGame insert: aSpaceship2.
+
+aBoardGame aSpaceshipMovesForward: aLoadedDice1 throw.
+aBoardGame aSpaceshipMovesForward: aLoadedDice2 throw.
+aBoardGame aSpaceshipMovesForward: aLoadedDice1 throw.
+
+self assert: (aSpaceship1 position) equals: 4.
+self assert: (aSpaceship2 position) equals: 1.
 ]
