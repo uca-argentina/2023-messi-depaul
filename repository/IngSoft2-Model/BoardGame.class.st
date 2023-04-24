@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'spaceships',
 		'amountofcells',
-		'shift'
+		'shift',
+		'aWinner',
+		'aCollectionOfLoadedDices'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -27,9 +29,12 @@ BoardGame >> aSpaceshipMovesForward: aValue [
 	aSpaceship := spaceships at: shift.
 	shift := (shift \\ spaceships size) + 1.
 	aSpaceship updatePosition: aValue + (aSpaceship position).
-	
-	(self winner == aSpaceship)
-	ifTrue: [^aSpaceship].
+	self winner == aSpaceship.
+]
+
+{ #category : #'instance variables' }
+BoardGame >> aWinner [
+	^ aWinner
 ]
 
 { #category : #action }
@@ -49,17 +54,30 @@ BoardGame >> insert: aSpaceship [
 	spaceships add: aSpaceship.
 ]
 
+{ #category : #actions }
+BoardGame >> insertDices: aLoadedDice [ 
+	aCollectionOfLoadedDices add: aLoadedDice .
+]
+
 { #category : #validation }
 BoardGame >> isValid [
 	^true.
 ]
 
 { #category : #action }
-BoardGame >> winner [
-	| result |
-	result := spaceships detect: [:spaceship | spaceship position >= amountofcells] ifNone: [nil].
-	^ result
+BoardGame >> validateWinner [
 
-	
-	
+	Error signal: 'There is a winner, stop playing'
+]
+
+{ #category : #action }
+BoardGame >> winner [
+
+	aWinner isNil
+		ifFalse: [ self validateWinner ]
+		ifTrue: [ 
+			aWinner := spaceships
+				           detect: [ :spaceship | 
+				           spaceship position >= amountofcells ]
+				           ifNone: [  ] ]
 ]

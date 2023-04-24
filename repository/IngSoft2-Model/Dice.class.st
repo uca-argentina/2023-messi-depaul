@@ -8,7 +8,14 @@ Class {
 }
 
 { #category : #initialize }
+Dice class >> validateAnAmountOfFaces: anAmount [
+	anAmount > 2 ifFalse: [ 
+		Error signal: 'Cannot create dice with 2 or less amount of faces' ]
+]
+
+{ #category : #initialize }
 Dice class >> with: aNumberFaces [
+	self validateAnAmountOfFaces: aNumberFaces. 
 	^(self new) initializeWith: aNumberFaces .
 ]
 
