@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'faces',
 		'sequence',
-		'sequenceIndex',
-		'aCollectionOfLoadedDices'
+		'sequenceIndex'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -22,16 +21,10 @@ LoadedDice class >> with: aSequence [
 	^(self new) initializeWith: aSequence.
 ]
 
-{ #category : #'instance variables' }
-LoadedDice >> faces [
-	^ faces
-]
-
 { #category : #'instance creation' }
 LoadedDice >> initializeWith: aSequence [
 	sequence:= aSequence.
 	sequenceIndex := 1.
-	aCollectionOfLoadedDices:= OrderedCollection new.
 	
 	
 ]

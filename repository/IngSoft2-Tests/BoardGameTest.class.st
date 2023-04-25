@@ -111,17 +111,19 @@ aBoardGame insert: aSpaceship1.
 aBoardGame insert: aSpaceship2.
 aBoardGame insert: aSpaceship3.
 
-aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame insertDices: aLoadedDice .
+
+aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 self assert: (aSpaceship1 position) equals: 1.
-aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 self assert: (aSpaceship2 position) equals: 2.
-aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 self assert: (aSpaceship3 position) equals: 3.
-aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 self assert: (aSpaceship1 position) equals: 2.
-aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 self assert: (aSpaceship2 position) equals: 4.
-aBoardGame aSpaceshipMovesForward: aLoadedDice throw.
+aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 self assert: (aSpaceship3 position) equals: 6.
 
 
@@ -148,7 +150,7 @@ aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 
-self should: [ aBoardGame aSpaceshipMovesForward: aLoadedDice throw ] raise: Error withMessage: 'There is a winner, stop playing'.
+self should: [ aBoardGame aSpaceshipMovesForward: aBoardGame throwDices ] raise: Error withMessage: 'There is a winner, you cant keep moving forward'.
 
 
 
@@ -273,5 +275,7 @@ aBoardGame insertDices: aDice2.
 aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
 aBoardGame aSpaceshipMovesForward: aBoardGame throwDices.
+
+self assert: aBoardGame anOrderedCollectionOfDices size equals: 2.
 
 ]

@@ -42,6 +42,11 @@ BoardGame >> allSpaceshipPositions [
 	^ spaceships collect: [:spaceship | spaceship position].
 ]
 
+{ #category : #'instance variables' }
+BoardGame >> anOrderedCollectionOfDices [
+	^ anOrderedCollectionOfDices
+]
+
 { #category : #'instance creation' }
 BoardGame >> initializeWith: anAmountOfCells [ 
 	amountofcells := anAmountOfCells.
@@ -67,19 +72,19 @@ BoardGame >> isValid [
 
 { #category : #action }
 BoardGame >> throwDices [
-	|contador result|
+	|index result|
 	result:= 0.
-	contador := 1.
-	[contador  <= anOrderedCollectionOfDices size] whileTrue: [
-    result := result + (anOrderedCollectionOfDices at: contador) throw.
-	contador := contador + 1.].
+	index := 1.
+	[index  <= anOrderedCollectionOfDices size] whileTrue: [
+    result := result + (anOrderedCollectionOfDices at: index) throw.
+	index := index + 1.].
 	^result
 ]
 
 { #category : #action }
 BoardGame >> validateWinner [
 
-	Error signal: 'There is a winner, stop playing'
+	Error signal: 'There is a winner, you cant keep moving forward'
 ]
 
 { #category : #action }
