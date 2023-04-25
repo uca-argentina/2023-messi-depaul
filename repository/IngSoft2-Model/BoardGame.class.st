@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'spaceships',
 		'amountofcells',
-		'shift'
+		'shift',
+		'aWinner',
+		'anOrderedCollectionOfDices'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -27,9 +29,12 @@ BoardGame >> aSpaceshipMovesForward: aValue [
 	aSpaceship := spaceships at: shift.
 	shift := (shift \\ spaceships size) + 1.
 	aSpaceship updatePosition: aValue + (aSpaceship position).
-	
-	(self winner == aSpaceship)
-	ifTrue: [^aSpaceship].
+	self winner == aSpaceship.
+]
+
+{ #category : #'instance variables' }
+BoardGame >> aWinner [
+	^ aWinner
 ]
 
 { #category : #action }
@@ -37,16 +42,27 @@ BoardGame >> allSpaceshipPositions [
 	^ spaceships collect: [:spaceship | spaceship position].
 ]
 
+{ #category : #'instance variables' }
+BoardGame >> anOrderedCollectionOfDices [
+	^ anOrderedCollectionOfDices
+]
+
 { #category : #'instance creation' }
 BoardGame >> initializeWith: anAmountOfCells [ 
 	amountofcells := anAmountOfCells.
 	shift := 1.
 	spaceships := OrderedCollection new.
+	anOrderedCollectionOfDices := OrderedCollection new.
 ]
 
 { #category : #action }
 BoardGame >> insert: aSpaceship [
 	spaceships add: aSpaceship.
+]
+
+{ #category : #actions }
+BoardGame >> insertDices: aLoadedDice [ 
+	anOrderedCollectionOfDices add: aLoadedDice .
 ]
 
 { #category : #validation }
@@ -55,11 +71,30 @@ BoardGame >> isValid [
 ]
 
 { #category : #action }
-BoardGame >> winner [
-	| result |
-	result := spaceships detect: [:spaceship | spaceship position >= amountofcells] ifNone: [nil].
-	^ result
+BoardGame >> throwDices [
+	|index result|
+	result:= 0.
+	index := 1.
+	[index  <= anOrderedCollectionOfDices size] whileTrue: [
+    result := result + (anOrderedCollectionOfDices at: index) throw.
+	index := index + 1.].
+	^result
+]
 
-	
-	
+{ #category : #action }
+BoardGame >> validateWinner [
+
+	Error signal: 'There is a winner, you cant keep moving forward'
+]
+
+{ #category : #action }
+BoardGame >> winner [
+
+	aWinner isNil
+		ifFalse: [ self validateWinner ]
+		ifTrue: [ 
+			aWinner := spaceships
+				           detect: [ :spaceship | 
+				           spaceship position >= amountofcells ]
+				           ifNone: [  ] ]
 ]

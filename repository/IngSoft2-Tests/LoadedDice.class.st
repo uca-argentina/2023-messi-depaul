@@ -10,35 +10,28 @@ Class {
 }
 
 { #category : #initialize }
-LoadedDice class >> validateAValue: aSequence [
-	(aSequence allSatisfy: [:value | value == 0]) ifTrue: [ 
-		Error signal: 'Cannot create dice with value 0' ]
+LoadedDice class >> validateInitialization: aSequence [
+	(aSequence anySatisfy: [:value | value <= 0]) ifTrue: [ 
+		Error signal: 'Cannot create dice with value less than 0' ].
 ]
 
 { #category : #initialize }
-LoadedDice class >> validateAnAmountOfFaces: anAmount [
-	anAmount > 2 ifFalse: [ 
-		Error signal: 'Cannot create dice with 2 or less amount of faces' ]
-]
-
-{ #category : #initialize }
-LoadedDice class >> with: aNumberFaces andWith: aSequence [
-	self validateAnAmountOfFaces: aNumberFaces. 
-	self validateAValue: aSequence. 
-	^(self new) initializeWith: aNumberFaces andWith: aSequence .
-]
-
-{ #category : #'instance variables' }
-LoadedDice >> faces [
-	^ faces
+LoadedDice class >> with: aSequence [
+	self validateInitialization: aSequence.
+	^(self new) initializeWith: aSequence.
 ]
 
 { #category : #'instance creation' }
-LoadedDice >> initializeWith: aNumberOfFaces andWith: aSequence [ 
-	faces:= aNumberOfFaces .
-	sequence:= aSequence .
+LoadedDice >> initializeWith: aSequence [
+	sequence:= aSequence.
 	sequenceIndex := 1.
 	
+	
+]
+
+{ #category : #'instance variables' }
+LoadedDice >> sequence [
+	^ sequence
 ]
 
 { #category : #action }
