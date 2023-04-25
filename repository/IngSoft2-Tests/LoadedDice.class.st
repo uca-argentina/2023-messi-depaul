@@ -11,15 +11,15 @@ Class {
 }
 
 { #category : #initialize }
-LoadedDice class >> validateAnAmountOfFaces: anAmount [
-	anAmount > 2 ifFalse: [ 
-		Error signal: 'Cannot create dice with 2 or less amount of faces' ]
+LoadedDice class >> validateInitialization: aSequence [
+	(aSequence anySatisfy: [:value | value <= 0]) ifTrue: [ 
+		Error signal: 'Cannot create dice with value less than 0' ].
 ]
 
 { #category : #initialize }
-LoadedDice class >> with: aNumberFaces [
-	self validateAnAmountOfFaces: aNumberFaces.
-	^(self new) initializeWith: aNumberFaces.
+LoadedDice class >> with: aSequence [
+	self validateInitialization: aSequence.
+	^(self new) initializeWith: aSequence.
 ]
 
 { #category : #'instance variables' }
@@ -28,13 +28,17 @@ LoadedDice >> faces [
 ]
 
 { #category : #'instance creation' }
-LoadedDice >> initializeWith: aNumberOfFaces [
-	faces:= aNumberOfFaces .
-	sequence:= #(1 2 3) .
+LoadedDice >> initializeWith: aSequence [
+	sequence:= aSequence.
 	sequenceIndex := 1.
 	aCollectionOfLoadedDices:= OrderedCollection new.
 	
 	
+]
+
+{ #category : #'instance variables' }
+LoadedDice >> sequence [
+	^ sequence
 ]
 
 { #category : #action }

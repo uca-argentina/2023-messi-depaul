@@ -6,7 +6,7 @@ Class {
 		'amountofcells',
 		'shift',
 		'aWinner',
-		'aCollectionOfLoadedDices'
+		'anOrderedCollectionOfDices'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -47,6 +47,7 @@ BoardGame >> initializeWith: anAmountOfCells [
 	amountofcells := anAmountOfCells.
 	shift := 1.
 	spaceships := OrderedCollection new.
+	anOrderedCollectionOfDices := OrderedCollection new.
 ]
 
 { #category : #action }
@@ -56,12 +57,23 @@ BoardGame >> insert: aSpaceship [
 
 { #category : #actions }
 BoardGame >> insertDices: aLoadedDice [ 
-	aCollectionOfLoadedDices add: aLoadedDice .
+	anOrderedCollectionOfDices add: aLoadedDice .
 ]
 
 { #category : #validation }
 BoardGame >> isValid [
 	^true.
+]
+
+{ #category : #action }
+BoardGame >> throwDices [
+	|contador result|
+	result:= 0.
+	contador := 1.
+	[contador  <= anOrderedCollectionOfDices size] whileTrue: [
+    result := result + (anOrderedCollectionOfDices at: contador) throw.
+	contador := contador + 1.].
+	^result
 ]
 
 { #category : #action }
