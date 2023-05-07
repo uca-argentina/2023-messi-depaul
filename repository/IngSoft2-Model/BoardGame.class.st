@@ -3,33 +3,33 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'spaceships',
-		'amountofcells',
-		'shift',
+		'amountOfCells',
+		'turn',
 		'aWinner',
-		'anOrderedCollectionOfDices'
+		'dice'
 	],
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #initialize }
+BoardGame class >> of: anAmountOfCells with: spaceships andWith: dice [
+	self validateCanExistWith: anAmountOfCells.
+	^(self new) initializesOf: anAmountOfCells with: spaceships andWith: dice.
+]
+
 { #category : #'instance creation' }
-BoardGame class >> validateAnAmountOfCells: anAmount [
+BoardGame class >> validateCanExistWith: anAmount [
 	anAmount > 1 ifFalse: [ 
 		Error signal: 'Cannot create board with a negative amount of cells' ]
 ]
 
-{ #category : #initialization }
-BoardGame class >> withAnAmountOfCells: anAmountOfCells [
-	self validateAnAmountOfCells: anAmountOfCells.
-	^(self new) initializeWith: anAmountOfCells.
-]
-
 { #category : #action }
-BoardGame >> aSpaceshipMovesForward: aValue [ 
-	|aSpaceship|
-	aSpaceship := spaceships at: shift.
-	shift := (shift \\ spaceships size) + 1.
-	aSpaceship updatePosition: aValue + (aSpaceship position).
-	self winner == aSpaceship.
+BoardGame >> aSpaceshipTurn [
+
+	| aSpaceship |
+	aSpaceship := spaceships at: turn.
+	turn := turn \\ spaceships size + 1.
+	^ aSpaceship
 ]
 
 { #category : #'instance variables' }
@@ -37,48 +37,45 @@ BoardGame >> aWinner [
 	^ aWinner
 ]
 
+{ #category : #'instance variables' }
+BoardGame >> dice [
+	^ dice
+]
+
+{ #category : #initialization }
+BoardGame >> initializesOf: anAmountOfCells with: spaceshipsCollection andWith: diceCollection [ 
+	amountOfCells := anAmountOfCells .
+	spaceships := spaceshipsCollection .
+	dice := diceCollection .
+	turn:= 1.
+]
+
 { #category : #action }
-BoardGame >> allSpaceshipPositions [
-	^ spaceships collect: [:spaceship | spaceship position].
+BoardGame >> positions [
+
+	^ spaceships collect: [ :spaceship | spaceship position ]
+]
+
+{ #category : #action }
+BoardGame >> spaceshipPlays [
+	| aSpaceship |
+	aSpaceship := self aSpaceshipTurn.
+	aSpaceship updatePosition: self throwDice .
+	self winner == aSpaceship.
 ]
 
 { #category : #'instance variables' }
-BoardGame >> anOrderedCollectionOfDices [
-	^ anOrderedCollectionOfDices
-]
-
-{ #category : #'instance creation' }
-BoardGame >> initializeWith: anAmountOfCells [ 
-	amountofcells := anAmountOfCells.
-	shift := 1.
-	spaceships := OrderedCollection new.
-	anOrderedCollectionOfDices := OrderedCollection new.
+BoardGame >> spaceships [
+	^ spaceships
 ]
 
 { #category : #action }
-BoardGame >> insert: aSpaceship [
-	spaceships add: aSpaceship.
-]
+BoardGame >> throwDice [
 
-{ #category : #actions }
-BoardGame >> insertDices: aLoadedDice [ 
-	anOrderedCollectionOfDices add: aLoadedDice .
-]
-
-{ #category : #validation }
-BoardGame >> isValid [
-	^true.
-]
-
-{ #category : #action }
-BoardGame >> throwDices [
-	|index result|
-	result:= 0.
-	index := 1.
-	[index  <= anOrderedCollectionOfDices size] whileTrue: [
-    result := result + (anOrderedCollectionOfDices at: index) throw.
-	index := index + 1.].
-	^result
+	| result |
+	result := 0.
+	dice do: [ :each | result := result + each throw ].
+	^ result
 ]
 
 { #category : #action }
@@ -95,6 +92,8 @@ BoardGame >> winner [
 		ifTrue: [ 
 			aWinner := spaceships
 				           detect: [ :spaceship | 
-				           spaceship position >= amountofcells ]
+				           spaceship position >= amountOfCells ]
 				           ifNone: [  ] ]
+			
+		"Encararlo por un true or false. Si aWinner es true, no se puede seguir jugando."
 ]

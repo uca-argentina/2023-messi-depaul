@@ -9,17 +9,12 @@ Class {
 
 { #category : #initialize }
 Spaceship class >> startsInPositionZero [
-	^(self new) initializeInPositionZero.
+	^(self new) creation.
 ]
 
 { #category : #'instance initialization' }
-Spaceship >> initializeInPositionZero [
+Spaceship >> creation [
 	position := 0.
-]
-
-{ #category : #'tests - validation' }
-Spaceship >> isValid [
-	^true.
 ]
 
 { #category : #'instance variables' }
@@ -29,5 +24,5 @@ Spaceship >> position [
 
 { #category : #adding }
 Spaceship >> updatePosition: newPosition [
-	position:= newPosition.
+	position:= position + newPosition.
 ]
