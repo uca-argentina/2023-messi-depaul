@@ -40,6 +40,7 @@ BoardGame >> aSpaceshipPlays: aName [
 					aSpaceshipPosition1
 						change: self throwDice
 						and: board anAmountOfCells.
+						self applyEffect: aSpaceshipPosition1.
 						
 					self validateWinner: aSpaceshipPosition1 ]
 				
@@ -55,6 +56,14 @@ BoardGame >> aSpaceshipTurn [
 	aSpaceship := spaceships at: turn.
 	turn := turn \\ spaceships size + 1.
 	^ aSpaceship
+]
+
+{ #category : #action }
+BoardGame >> applyEffect: aSpaceshipPosition [ 
+	|aCellEffect|
+	aCellEffect := (board cellsEffect) detect: [:cell | cell number = aSpaceshipPosition position].
+	aCellEffect applyAEffect: aSpaceshipPosition and: board anAmountOfCells.
+.
 ]
 
 { #category : #'instance variables' }
@@ -123,7 +132,7 @@ BoardGame >> validateTurn [
 { #category : #validation }
 BoardGame >> validateWinner: aSpaceshipPosition [
 
-	aSpaceshipPosition round >= board rounds ifTrue: [ 
+	aSpaceshipPosition round > board rounds ifTrue: [ 
 		play := false.
 		aSpaceshipPosition winner: board rounds.
 		winner:= aSpaceshipPosition spaceship.

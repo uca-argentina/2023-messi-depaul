@@ -16,16 +16,23 @@ BoardGameTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErr
 
 { #category : #tests }
 BoardGameTest >> test02WhenABoardWithNegativeAmountOfCellsThenFailsCreation [
-self should: [ Board of: -10 and:  2] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
+| aCellEfect cellEffects |
+aCellEfect := CellEfect on: 2 of: SpeedUpEffect.
+cellEffects := OrderedCollection new. 
+cellEffects add: aCellEfect.
+self should: [ Board of: -10 and: 2 with: cellEffects] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
 ]
 
 { #category : #tests }
 BoardGameTest >> test03WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
-|spaceships aBoard aBoardGame |
+|spaceships aBoard aBoardGame aCellEfect cellEffects |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 10 and: 2.
+	aCellEfect := CellEfect on: 2 of: SpeedUpEffect.
+	cellEffects := OrderedCollection new. 
+	cellEffects add: aCellEfect.
+	aBoard:= Board of: 10 and: 2 with: cellEffects.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -411,29 +418,23 @@ self should: [aBoardGame aSpaceshipPlays: 'Cami'] raise: Error withMessage: 'The
 ]
 
 { #category : #tests }
-BoardGameTest >> test31 [
-|spaceships aBoard aBoardGame |
+BoardGameTest >> test32 [
+
+	| aCellEfect spaceships aBoard aBoardGame cellEffects |
+	aCellEfect := CellEfect on: 2 of: SpeedUpEffect.
+	cellEffects := OrderedCollection new. 
+	cellEffects add: aCellEfect.
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
-	spaceships add: 'Cami'.
-	aBoard:= Board of: 5 and: 2.
+	aBoard := Board of: 5 and: 2 with: cellEffects.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
 		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 3 4 58 ))).
+		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 ))).
 
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
 	aBoardGame aSpaceshipPlays: 'Vicky'.
 
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
-	
-
-
-
-
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2.
 ]
