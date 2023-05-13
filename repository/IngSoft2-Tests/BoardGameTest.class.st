@@ -16,17 +16,32 @@ BoardGameTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErr
 
 { #category : #tests }
 BoardGameTest >> test02WhenABoardWithNegativeAmountOfCellsThenFailsCreation [
-|aLoadedDie aSpaceship|
-aSpaceship := Spaceship startsInPositionZero.
+|aLoadedDie spaceships|
 aLoadedDie := LoadedDie of: #(4 3).
-self should: [ BoardGame of: -10 with: aSpaceship andWith: aLoadedDie] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
+spaceships := OrderedCollection new.
+spaceships add: 'Vicky'.
+spaceships add: 'Cami'.
+self should: [ BoardGame of: -10 with:  spaceships andWith: aLoadedDie] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
 ]
 
 { #category : #tests }
-BoardGameTest >> test03WhenASpaceshipCreationInitializeWithPositionZeroThenPositionZero [
-|aSpaceship|
-aSpaceship := Spaceship startsInPositionZero.
-self assert: (aSpaceship position) equals: 0.
+BoardGameTest >> test03WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
+| spaceships aBoardGame |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoardGame := BoardGame
+		              of: 30
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )) with: (LoadedDie of: #( 4 5 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame aSpaceshipPlays: 'Cami'.
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+
+self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 12.
+self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 7.
 ]
 
 { #category : #tests }
@@ -39,7 +54,7 @@ self assert: aDie faces equals: 3.
 
 { #category : #tests }
 BoardGameTest >> test05WhenADieIsCreatedWithNegativeFacesThenFailsCreation [
-self should: [ Die of: 1 ] raise: Error withMessage: 'Cannot create dice with 2 or less amount of faces'.
+self should: [ Die of: 1 ] raise: Error withMessage: 'Cannot create die with 2 or less amount of faces'.
 
 
 ]
@@ -62,7 +77,7 @@ self assert: aLoadedDie sequence equals: #(1 2 3).
 
 { #category : #tests }
 BoardGameTest >> test08WhenALoadedDieWithNegativeSequenceThenFailsCreation [
-self should: [ LoadedDie of: #(-1)] raise: Error withMessage: 'Cannot create dice with value less than 0'.
+self should: [ LoadedDie of: #(-1)] raise: Error withMessage: 'Cannot create die with value less than 0'.
 ]
 
 { #category : #tests }
@@ -78,58 +93,59 @@ self assert: aLoadedDie throw equals: 1.
 
 { #category : #tests }
 BoardGameTest >> test10WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePosition [
+| aBoardGame spaceships |
+spaceships := OrderedCollection new.
+spaceships add: 'Vicky'.
+aBoardGame := BoardGame of: 3 with: spaceships andWith: (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
 
-	| aBoardGame |
-	aBoardGame := BoardGame
-		              of: 10
-		              with:
-		              (OrderedCollection with:
-			               Spaceship startsInPositionZero)
-		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
+aBoardGame aSpaceshipPlays: 'Vicky'.
 
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 1) position equals: 1.
+self assert: ((aBoardGame spaceshipPosition: 'Vicky')) equals: 1.
 
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 1) position equals: 3.
 ]
 
 { #category : #tests }
 BoardGameTest >> test11WhenALoadedDieIsThrownThenASpaceshipMovesForwardThreePosition [
 
-	| aBoardGame |
+	| aBoardGame spaceships|
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
 	aBoardGame := BoardGame
 		              of: 10
-		              with:
-		              (OrderedCollection with:
-			               Spaceship startsInPositionZero)
+		              with: spaceships
 		              andWith:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
 
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 1) position equals: 1.
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
 
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 1) position equals: 3.
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
 ]
 
 { #category : #tests }
 BoardGameTest >> test12WhenASpaceshipWinsThenGameOver [
-| aBoardGame |
+| spaceships aBoardGame |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
 	aBoardGame := BoardGame
-		              of: 3
-		              with: (OrderedCollection
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero)
+		              of: 10
+		              with: spaceships
 		              andWith:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
 
-aBoardGame spaceshipPlays.
-aBoardGame spaceshipPlays.
-aBoardGame spaceshipPlays.
+aBoardGame aSpaceshipPlays: 'Vicky'.
+aBoardGame aSpaceshipPlays: 'Cami'.
+aBoardGame aSpaceshipPlays: 'Vicky'.
+aBoardGame aSpaceshipPlays: 'Cami'.
+aBoardGame aSpaceshipPlays: 'Vicky'.
+aBoardGame aSpaceshipPlays: 'Cami'.
+aBoardGame aSpaceshipPlays: 'Vicky'.
+aBoardGame aSpaceshipPlays: 'Cami'.
+aBoardGame aSpaceshipPlays: 'Vicky'.
 
-self should: [ aBoardGame spaceshipPlays ] raise: Error withMessage: 'There is a winner, you cant keep moving forward'.
+self should: [ aBoardGame aSpaceshipPlays: 'Cami'. ] raise: Error withMessage: 'There is a winner, you cant keep moving forward'.
 
 
 
@@ -138,37 +154,45 @@ self should: [ aBoardGame spaceshipPlays ] raise: Error withMessage: 'There is a
 { #category : #tests }
 BoardGameTest >> test13WhenTwoSpaceshipPlayThenSpaceship1Wins [
 
-	| aBoardGame |
+| spaceships aBoardGame |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
 	aBoardGame := BoardGame
-		              of: 3
-		              with: (OrderedCollection
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero)
+		              of: 10
+		              with: spaceships
 		              andWith:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
 
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
+aBoardGame aSpaceshipPlays: 'Vicky'.
+aBoardGame aSpaceshipPlays: 'Cami'.
+aBoardGame aSpaceshipPlays: 'Vicky'.
+aBoardGame aSpaceshipPlays: 'Cami'.
+aBoardGame aSpaceshipPlays: 'Vicky'.
+aBoardGame aSpaceshipPlays: 'Cami'.
+aBoardGame aSpaceshipPlays: 'Vicky'.
+aBoardGame aSpaceshipPlays: 'Cami'.
+aBoardGame aSpaceshipPlays: 'Vicky'.
 
-	self assert: aBoardGame aWinner equals: (aBoardGame spaceships at: 1)
+self assert: aBoardGame gameWinner spaceship equals: 'Vicky'
 ]
 
 { #category : #tests }
 BoardGameTest >> test14WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 
-	| aBoardGame |
+	| spaceships aBoardGame |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
 	aBoardGame := BoardGame
 		              of: 10
-		              with: (OrderedCollection
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero)
+		              with: spaceships
 		              andWith:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
 		
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame aSpaceshipPlays: 'Cami'.
+	aBoardGame aSpaceshipPlays: 'Vicky'.
 
 
 	self
@@ -178,93 +202,138 @@ BoardGameTest >> test14WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 
 { #category : #tests }
 BoardGameTest >> test15WhenThereAreTwoDieOnTheGameThenSpaceshipsPositionsTrue [
-| aBoardGame |
+| spaceships aBoardGame |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
 	aBoardGame := BoardGame
 		              of: 10
-		              with: (OrderedCollection
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero)
+		              with: spaceships
 		              andWith:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )) with: (LoadedDie of: #( 1 2 3 ))).
 
-aBoardGame spaceshipPlays.
-aBoardGame spaceshipPlays.
-aBoardGame spaceshipPlays.
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame aSpaceshipPlays: 'Cami'.
+	aBoardGame aSpaceshipPlays: 'Vicky'.
 
-self assert: ((aBoardGame spaceships at: 1) position) equals: 8.
-self assert: ((aBoardGame spaceships at: 2) position) equals: 4.
-]
-
-{ #category : #tests }
-BoardGameTest >> test16WhenThreeSpaceshipsThrowThreeDieThenCorrectPositions [
-
-	| aBoardGame |
-	aBoardGame := BoardGame
-		              of: 30
-		              with: (OrderedCollection
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero)
-		              andWith: (OrderedCollection
-				               with: (LoadedDie of: #( 1 2 3 ))
-				               with: (LoadedDie of: #( 4 5 ))
-				               with: (LoadedDie of: #( 6 ))).
-
-
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
-
-	self assert: (aBoardGame spaceships at: 1) position equals: 23.
-	self assert: (aBoardGame spaceships at: 2) position equals: 13.
-	self assert: (aBoardGame spaceships at: 3) position equals: 13
+self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 8.
+self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 4.
 ]
 
 { #category : #tests }
 BoardGameTest >> test17WhenBoardGameHasTwoDieThenCollectionOfDieCorrectSize [
 
-	| aBoardGame |
+	| aBoardGame spaceships|
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
 	aBoardGame := BoardGame
 		              of: 10
-		              with: (OrderedCollection
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero)
+		              with: spaceships
 		              andWith:
 		              (OrderedCollection
 			               with: (Die of: 3)
 			               with: (Die of: 3)).
 
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
-	aBoardGame spaceshipPlays.
-
 	self assert: aBoardGame dice size equals: 2
 ]
 
 { #category : #tests }
-BoardGameTest >> test20When2RoundsArePlayedThenSpaceshipsMovesForwardAmountOfCells [
+BoardGameTest >> test20When2RoundsArePlayedThenThreeSpaceshipsMovesForward [
 
-	| aBoardGame |
+	| aBoardGame spaceships|
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	spaceships add: 'Delfi'.
 	aBoardGame := BoardGame
 		              of: 20
-		              with: (OrderedCollection
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero
-				               with: Spaceship startsInPositionZero)
+		              with: spaceships 
 		              andWith:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
 
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 1) position equals: 1.
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 2) position equals: 2.
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 3) position equals: 3.
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 1) position equals: 2.
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 2) position equals: 4.
-	aBoardGame spaceshipPlays.
-	self assert: (aBoardGame spaceships at: 3) position equals: 6
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	aBoardGame aSpaceshipPlays: 'Cami'.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 2.
+	aBoardGame aSpaceshipPlays: 'Delfi'.
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') equals: 3.
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
+	aBoardGame aSpaceshipPlays: 'Cami'.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 4.
+	aBoardGame aSpaceshipPlays: 'Delfi'.
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') equals: 6
+]
+
+{ #category : #tests }
+BoardGameTest >> test21WhenABoardGameIsCreatedThen [
+|aBoardGame spaceships|
+
+spaceships := #('Vicky').
+
+aBoardGame := BoardGame
+		              of: 10
+		              with:
+		              (spaceships)
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
+
+
+
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test25WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
+| aBoardGame spaceships |
+spaceships := OrderedCollection new.
+spaceships add: 'Vicky'.
+spaceships add: 'Cami'.
+aBoardGame := BoardGame of: 3 with: spaceships andWith: (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
+
+aBoardGame aSpaceshipPlays: 'Vicky'.
+
+self assert: ((aBoardGame spaceshipPosition: 'Vicky')) equals: 1.
+
+aBoardGame aSpaceshipPlays: 'Cami'.
+
+self assert: ((aBoardGame spaceshipPosition: 'Cami')) equals: 2.
+
+aBoardGame aSpaceshipPlays: 'Vicky'.
+
+self assert: ((aBoardGame spaceshipPosition: 'Vicky')) equals: 4.
+
+
+
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test26WhenItsNotASpaceshipsTruenThenThrowsErrorMessage [
+| aBoardGame spaceships |
+spaceships := OrderedCollection new.
+spaceships add: 'Vicky'.
+spaceships add: 'Cami'.
+aBoardGame := BoardGame of: 3 with: spaceships andWith: (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
+
+
+self should: [aBoardGame aSpaceshipPlays: 'Cami'.] raise: Error withMessage: 'Its not your turn'.
+
+
+
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test27WhenABoardGameWithNoSpaceshipsThenFailsCreation [
+| spaceships |
+spaceships := OrderedCollection new.
+self should: [ BoardGame of: 3 with: spaceships andWith: (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))] raise: Error withMessage: 'Cannot create board with no spaceships'.
+
+
+
+
+
+
 ]

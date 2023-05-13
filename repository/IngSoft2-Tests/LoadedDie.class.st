@@ -42,7 +42,7 @@ LoadedDie class >> of: aSequence [
 { #category : #initialize }
 LoadedDie class >> validateExistsWith: aSequence [
 	(aSequence anySatisfy: [:value | value <= 0]) ifTrue: [ 
-		Error signal: 'Cannot create dice with value less than 0' ].
+		Error signal: 'Cannot create die with value less than 0' ].
 ]
 
 { #category : #'instance creation' }
