@@ -4,10 +4,11 @@ Class {
 	#instVars : [
 		'spaceships',
 		'turn',
-		'aWinner',
 		'dice',
 		'spaceshipPositions',
-		'board'
+		'board',
+		'play',
+		'winner'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -25,27 +26,26 @@ BoardGame class >> validateCanExistWith: aSpaceshipCollection [
 ]
 
 { #category : #action }
-BoardGame >> aSpaceshipKeepPlaying [
-
-	aWinner := spaceshipPositions anySatisfy: [ :spaceship | 
-		           spaceship position = (board anAmountOfCells) ].
-	^ aWinner.
-]
-
-{ #category : #action }
 BoardGame >> aSpaceshipPlays: aName [
 
 	| aSpaceshipPosition1 |
-	self aSpaceshipKeepPlaying
-		ifFalse: [ 
+	play
+		ifTrue: [ 
 			self aSpaceshipTurn = aName
 				ifTrue: [ 
 					aSpaceshipPosition1 := spaceshipPositions detect: [ 
 						                       :aSpaceshipPosition | 
 						                       aSpaceshipPosition spaceship == aName ].
-					aSpaceshipPosition1 change: self throwDice ]
+
+					aSpaceshipPosition1
+						change: self throwDice
+						and: board anAmountOfCells.
+						
+					self validateWinner: aSpaceshipPosition1 ]
+				
 				ifFalse: [ self validateTurn ] ]
-		ifTrue: [ self validateWinner ]
+			
+		ifFalse: [ self validateKeepPlaying ]
 ]
 
 { #category : #action }
@@ -62,15 +62,6 @@ BoardGame >> dice [
 	^ dice
 ]
 
-{ #category : #action }
-BoardGame >> gameWinner [
-
-	^ (spaceshipPositions
-		           detect: [ :spaceship | 
-		           spaceship position = board anAmountOfCells ]
-		           ifNone: [  ]).
-]
-
 { #category : #initialization }
 BoardGame >> initializesOf: aBoard with: spaceshipsCollection andWith: diceCollection [ 
 	board := aBoard  .
@@ -78,7 +69,7 @@ BoardGame >> initializesOf: aBoard with: spaceshipsCollection andWith: diceColle
 	dice := diceCollection .
 	turn:= 1.
 	self spaceshipsInitialization.
-	aWinner := false.
+	play := true.
 ]
 
 { #category : #action }
@@ -93,6 +84,11 @@ BoardGame >> spaceshipPosition: aName [
 ]
 
 { #category : #action }
+BoardGame >> spaceshipRound: aName [ 
+	^ ((spaceshipPositions detect: [:spaceshipPosition | spaceshipPosition spaceship == aName ]) round).
+]
+
+{ #category : #action }
 BoardGame >> spaceshipsInitialization [
 
 	| size |
@@ -100,7 +96,7 @@ BoardGame >> spaceshipsInitialization [
 	spaceshipPositions := OrderedCollection new.
 	[ spaceships size > size ] whileTrue: [ 
 		spaceshipPositions add:
-			(SpaceshipPosition of: (spaceships at: size + 1) with: 0).
+			(SpaceshipPosition of: (spaceships at: size + 1) with: 1).
 		size := size + 1 ]
 ]
 
@@ -113,13 +109,29 @@ BoardGame >> throwDice [
 	^ result
 ]
 
+{ #category : #action }
+BoardGame >> validateKeepPlaying [
+
+	Error signal: 'There is a winner, you cant keep moving forward'
+]
+
 { #category : #validation }
 BoardGame >> validateTurn [
 	Error signal: 'Its not your turn'.
 ]
 
-{ #category : #action }
-BoardGame >> validateWinner [
+{ #category : #validation }
+BoardGame >> validateWinner: aSpaceshipPosition [
 
-	Error signal: 'There is a winner, you cant keep moving forward'
+	aSpaceshipPosition round >= board rounds ifTrue: [ 
+		play := false.
+		aSpaceshipPosition winner: board rounds.
+		winner:= aSpaceshipPosition spaceship.
+		]
+	ifFalse:[].
+]
+
+{ #category : #'instance variable' }
+BoardGame >> winner [
+	^ winner
 ]
