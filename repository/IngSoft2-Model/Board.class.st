@@ -33,3 +33,8 @@ Board >> initializeOf: anAmountOfCells and: anAmountOfRounds [
 	amountOfCells:= anAmountOfCells .
 	rounds:= anAmountOfRounds .
 ]
+
+{ #category : #'instance variable' }
+Board >> rounds [
+	^rounds.
+]
