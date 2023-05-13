@@ -3,25 +3,24 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'spaceships',
-		'amountOfCells',
 		'turn',
 		'aWinner',
 		'dice',
-		'spaceshipPositions'
+		'spaceshipPositions',
+		'board'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #initialize }
-BoardGame class >> of: anAmountOfCells with: spaceships andWith: dice [
-	self validateCanExistWith: anAmountOfCells and: spaceships.
-	^(self new) initializesOf: anAmountOfCells with: spaceships andWith: dice.
+BoardGame class >> of: aBoard with: spaceships andWith: dice [
+	self validateCanExistWith: spaceships.
+	^(self new) initializesOf: aBoard with: spaceships andWith: dice.
 ]
 
 { #category : #'instance creation' }
-BoardGame class >> validateCanExistWith: anAmount and: aSpaceshipCollection [
-	anAmount > 1 ifFalse: [ 
-		Error signal: 'Cannot create board with a negative amount of cells' ].
+BoardGame class >> validateCanExistWith: aSpaceshipCollection [
+	
 	(aSpaceshipCollection isEmpty) ifTrue: [Error signal: 'Cannot create board with no spaceships'].
 ]
 
@@ -29,7 +28,7 @@ BoardGame class >> validateCanExistWith: anAmount and: aSpaceshipCollection [
 BoardGame >> aSpaceshipKeepPlaying [
 
 	aWinner := spaceshipPositions anySatisfy: [ :spaceship | 
-		           spaceship position = amountOfCells ].
+		           spaceship position = (board anAmountOfCells) ].
 	^ aWinner.
 ]
 
@@ -68,13 +67,13 @@ BoardGame >> gameWinner [
 
 	^ (spaceshipPositions
 		           detect: [ :spaceship | 
-		           spaceship position = amountOfCells ]
+		           spaceship position = board anAmountOfCells ]
 		           ifNone: [  ]).
 ]
 
 { #category : #initialization }
-BoardGame >> initializesOf: anAmountOfCells with: spaceshipsCollection andWith: diceCollection [ 
-	amountOfCells := anAmountOfCells .
+BoardGame >> initializesOf: aBoard with: spaceshipsCollection andWith: diceCollection [ 
+	board := aBoard  .
 	spaceships := spaceshipsCollection .
 	dice := diceCollection .
 	turn:= 1.
