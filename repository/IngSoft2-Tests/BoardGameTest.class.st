@@ -25,13 +25,11 @@ self should: [ Board of: -10 and: 2 with: cellEffects] raise: Error withMessage:
 
 { #category : #tests }
 BoardGameTest >> test03WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
-|spaceships aBoard aBoardGame aCellEfect cellEffects |
+|spaceships aBoard aBoardGame cellEffects |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aCellEfect := CellEfect on: 2 of: SpeedUpEffect.
 	cellEffects := OrderedCollection new. 
-	cellEffects add: aCellEfect.
 	aBoard:= Board of: 10 and: 2 with: cellEffects.
 	aBoardGame := BoardGame
 		              of: aBoard
@@ -43,7 +41,7 @@ BoardGameTest >> test03WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPosit
 	aBoardGame aSpaceshipPlays: 'Cami'.
 	aBoardGame aSpaceshipPlays: 'Vicky'.
 
-self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
 self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 8.
 ]
 
@@ -99,7 +97,7 @@ BoardGameTest >> test10WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePositi
 |spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
-	aBoard:= Board of: 3 and: 2.
+	aBoard:= Board of: 3 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -117,7 +115,7 @@ BoardGameTest >> test11WhenALoadedDieIsThrownThenASpaceshipMovesForwardThreePosi
 |spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -137,7 +135,7 @@ BoardGameTest >> test12WhenASpaceshipWinsThenGameOver [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 1 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -166,7 +164,7 @@ BoardGameTest >> test13WhenTwoSpaceshipPlayThenSpaceship1Wins [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 1 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -183,7 +181,7 @@ aBoardGame aSpaceshipPlays: 'Vicky'.
 aBoardGame aSpaceshipPlays: 'Cami'.
 aBoardGame aSpaceshipPlays: 'Vicky'.
 
-self assert: aBoardGame winner equals: 'Vicky'
+self assert: (aBoardGame winner) equals: 'Vicky'.
 ]
 
 { #category : #tests }
@@ -193,7 +191,7 @@ BoardGameTest >> test14WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -216,7 +214,7 @@ BoardGameTest >> test15WhenThereAreTwoDieOnTheGameThenSpaceshipsPositionsTrue [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -238,7 +236,7 @@ BoardGameTest >> test17WhenBoardGameHasTwoDieThenCollectionOfDieCorrectSize [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -257,7 +255,7 @@ BoardGameTest >> test20When2RoundsArePlayedThenThreeSpaceshipsMovesForward [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	spaceships add: 'Delfi'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -284,7 +282,7 @@ BoardGameTest >> test25WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -309,7 +307,7 @@ BoardGameTest >> test26WhenItsNotASpaceshipsTruenThenThrowsErrorMessage [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 10 and: 2.
+	aBoard:= Board of: 10 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -329,7 +327,7 @@ BoardGameTest >> test27WhenABoardGameWithNoSpaceshipsThenFailsCreation [
 	self
 		should: [ 
 			BoardGame
-				of: (Board of: 10 and: 2)
+				of: (Board of: 10 and: 2 with: OrderedCollection new)
 				with: OrderedCollection new
 				andWith: (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))) ]
 		raise: Error
@@ -342,7 +340,7 @@ BoardGameTest >> test28WhenASpaceshipAdvanceToNextRoundThenSpaceshipRound [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 5 and: 2.
+	aBoard:= Board of: 5 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -353,8 +351,8 @@ BoardGameTest >> test28WhenASpaceshipAdvanceToNextRoundThenSpaceshipRound [
 	aBoardGame aSpaceshipPlays: 'Cami'.
 	aBoardGame aSpaceshipPlays: 'Vicky'.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5.
 	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
 	
@@ -370,7 +368,7 @@ BoardGameTest >> test29WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRo
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 5 and: 3.
+	aBoard:= Board of: 5 and: 3 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -382,7 +380,7 @@ BoardGameTest >> test29WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRo
 	aBoardGame aSpaceshipPlays: 'Vicky'.
 
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 4.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5.
 	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
@@ -399,7 +397,7 @@ BoardGameTest >> test30WhenASpaceshipAdvanceTwoRoundsThenFails [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard:= Board of: 5 and: 2.
+	aBoard:= Board of: 5 and: 2 with: OrderedCollection new.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
@@ -418,10 +416,10 @@ self should: [aBoardGame aSpaceshipPlays: 'Cami'] raise: Error withMessage: 'The
 ]
 
 { #category : #tests }
-BoardGameTest >> test32 [
+BoardGameTest >> test32WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 
 	| aCellEfect spaceships aBoard aBoardGame cellEffects |
-	aCellEfect := CellEfect on: 2 of: SpeedUpEffect.
+	aCellEfect := CellEfect on: 2 of: SpeedUpEffect new.
 	cellEffects := OrderedCollection new. 
 	cellEffects add: aCellEfect.
 	spaceships := OrderedCollection new.
@@ -437,4 +435,209 @@ BoardGameTest >> test32 [
 
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
 	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2.
+]
+
+{ #category : #tests }
+BoardGameTest >> test33WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
+
+	| spaceships aBoard aBoardGame cellEffects |
+	
+	cellEffects := OrderedCollection new. 
+	cellEffects add: (CellEfect on: 3 of: SpeedUpEffect new).
+	
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: 3 and: 4 with: cellEffects.
+	
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 2 2 1 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
+
+	
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test33WhenAllCellsAreSpeedUpThenEffectIsApplied [
+
+	| spaceships aBoard aBoardGame cellEffects |
+	
+	cellEffects := OrderedCollection new. 
+	cellEffects add: (CellEfect on: 2 of: SpeedUpEffect new).
+	cellEffects add: (CellEfect on: 3 of: SpeedUpEffect new).
+	cellEffects add: (CellEfect on: 7 of: SpeedUpEffect new).
+	
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: 10 and: 4 with: cellEffects.
+	
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 1 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 6.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+	
+	aBoardGame aSpaceshipPlays: 'Cami'.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 7.
+	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
+	
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2.
+	
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test34WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositions [
+
+	| aCellEfect spaceships aBoard aBoardGame cellEffects |
+	aCellEfect := CellEfect on: 6 of: WormHoleEffect new.
+	cellEffects := OrderedCollection new. 
+	cellEffects add: aCellEfect.
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	aBoard := Board of: 10 and: 2 with: cellEffects.
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+]
+
+{ #category : #tests }
+BoardGameTest >> test35WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoesBackTwoRounds [
+
+	| aCellEfect spaceships aBoard aBoardGame cellEffects |
+	aCellEfect := CellEfect on: 1 of: WormHoleEffect new.
+	cellEffects := OrderedCollection new.
+	cellEffects add: aCellEfect.
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	aBoard := Board of: 2 and: 4 with: cellEffects.
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 4 1 3 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+]
+
+{ #category : #tests }
+BoardGameTest >> test35WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLessThanFourThenGoesToStart [
+
+	| aCellEfect spaceships aBoard aBoardGame cellEffects |
+	aCellEfect := CellEfect on: 3 of: WormHoleEffect new.
+	cellEffects := OrderedCollection new. 
+	cellEffects add: aCellEfect.
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	aBoard := Board of: 10 and: 2 with: cellEffects.
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 2 1 3 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+]
+
+{ #category : #tests }
+BoardGameTest >> test35WhenASpaceshipLandsOnWormHoleThenChangesRoundAndPosition [
+
+	| aCellEfect spaceships aBoard aBoardGame cellEffects |
+	aCellEfect := CellEfect on: 2 of: WormHoleEffect new.
+	cellEffects := OrderedCollection new. 
+	cellEffects add: aCellEfect.
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	aBoard := Board of: 8 and: 2 with: cellEffects.
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 9 1 3 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 6.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+]
+
+{ #category : #tests }
+BoardGameTest >> test36WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart [
+
+	| aCellEfect spaceships aBoard aBoardGame cellEffects |
+	aCellEfect := CellEfect on: 6 of: AtomicBombEffect new.
+	cellEffects := OrderedCollection new. 
+	cellEffects add: aCellEfect.
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	aBoard := Board of: 10 and: 2 with: cellEffects.
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+]
+
+{ #category : #tests }
+BoardGameTest >> test37WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToStart [
+
+	| spaceships aBoard aBoardGame cellEffects |
+	cellEffects := OrderedCollection new.
+	cellEffects add: (CellEfect on: 6 of: AtomicBombEffect new).
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: 10 and: 2 with: cellEffects.
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 2 1 3 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+
+	aBoardGame aSpaceshipPlays: 'Cami'.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 2.
+	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+
+	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 1.
+	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1
 ]

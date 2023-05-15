@@ -28,24 +28,25 @@ BoardGame class >> validateCanExistWith: aSpaceshipCollection [
 { #category : #action }
 BoardGame >> aSpaceshipPlays: aName [
 
-	| aSpaceshipPosition1 |
+	| aSpaceshipPosition aNumber |
 	play
 		ifTrue: [ 
 			self aSpaceshipTurn = aName
 				ifTrue: [ 
-					aSpaceshipPosition1 := spaceshipPositions detect: [ 
-						                       :aSpaceshipPosition | 
-						                       aSpaceshipPosition spaceship == aName ].
+					aNumber := self throwDice.
+					aSpaceshipPosition := spaceshipPositions detect: [ 
+						                      :spaceshipPosition | 
+						                      spaceshipPosition spaceship == aName ].
 
-					aSpaceshipPosition1
-						change: self throwDice
-						and: board anAmountOfCells.
-						self applyEffect: aSpaceshipPosition1.
+					aSpaceshipPosition changePosition:
+						aSpaceshipPosition position + aNumber.
 						
-					self validateWinner: aSpaceshipPosition1 ]
-				
+					board adaptPosition: aSpaceshipPosition.
+					
+					self detectEffectOf: aSpaceshipPosition With: aName.
+					
+					self validateWinner: aSpaceshipPosition ]
 				ifFalse: [ self validateTurn ] ]
-			
 		ifFalse: [ self validateKeepPlaying ]
 ]
 
@@ -59,11 +60,16 @@ BoardGame >> aSpaceshipTurn [
 ]
 
 { #category : #action }
-BoardGame >> applyEffect: aSpaceshipPosition [ 
-	|aCellEffect|
-	aCellEffect := (board cellsEffect) detect: [:cell | cell number = aSpaceshipPosition position].
-	aCellEffect applyAEffect: aSpaceshipPosition and: board anAmountOfCells.
-.
+BoardGame >> detectEffectOf: aSpaceshipPosition With: aName [
+
+	| aCellEffect |
+	(board cellsEffect anySatisfy: [ :cell | cell number = aSpaceshipPosition position ]) 
+	ifTrue: [ 
+		aCellEffect := board cellsEffect detect: [ :cell | 
+			               cell number = aSpaceshipPosition position ].
+		aCellEffect effect implementTo: spaceshipPositions of: aName.
+		board adaptAllPositions: spaceshipPositions ]
+	ifFalse:[].
 ]
 
 { #category : #'instance variables' }

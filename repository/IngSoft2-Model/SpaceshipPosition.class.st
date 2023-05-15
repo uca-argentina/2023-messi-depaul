@@ -15,20 +15,13 @@ SpaceshipPosition class >> of: aSpaceship with: aPositionNumber [
 ]
 
 { #category : #action }
-SpaceshipPosition >> change: aNumber and: anAmountOfCells [
+SpaceshipPosition >> changePosition: newPosition [
+	position:= newPosition.
+]
 
-	| moveAmount |
-	moveAmount := position + aNumber.
-
-	moveAmount > anAmountOfCells
-		ifTrue: [ 
-			[ moveAmount > anAmountOfCells ] whileTrue: [ 
-				round := round + 1.
-				moveAmount := moveAmount - anAmountOfCells ].
-
-			position := position + aNumber % anAmountOfCells.
-			position = 0 ifTrue: [ position := 1 ] ]
-		ifFalse: [ position := position + aNumber ]
+{ #category : #action }
+SpaceshipPosition >> changeRound: aNum [
+	round:= round + aNum.
 ]
 
 { #category : #initialization }

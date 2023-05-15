@@ -23,6 +23,39 @@ Board class >> validateCanExistWith: anAmountOfCells and: anAmountOfRounds [
 		Error signal: 'Cannot create board with a negative amount of rounds' ].
 ]
 
+{ #category : #action }
+Board >> adaptAllPositions: spaceshipPositions [ 
+	spaceshipPositions do: [ :spaceshipPosition | self adaptPosition: spaceshipPosition  ].
+]
+
+{ #category : #action }
+Board >> adaptPosition: aSpaceshipPosition [
+
+	| moveAmount|
+	moveAmount := aSpaceshipPosition position.
+
+	moveAmount > amountOfCells
+		ifTrue: [ 
+			[ moveAmount > amountOfCells ] whileTrue: [ 
+				aSpaceshipPosition changeRound: 1.
+				moveAmount := moveAmount - amountOfCells ].
+
+			aSpaceshipPosition changePosition: (aSpaceshipPosition position % amountOfCells).
+			aSpaceshipPosition position = 0 ifTrue: [ 
+				aSpaceshipPosition changePosition: 1 ] ]
+		ifFalse: [].
+		
+	[aSpaceshipPosition position <= 0]whileTrue:[
+	(aSpaceshipPosition round = 1)
+		ifTrue:[aSpaceshipPosition changePosition: 1]
+		ifFalse:[
+			aSpaceshipPosition changeRound: -1.
+			aSpaceshipPosition changePosition: aSpaceshipPosition position + amountOfCells ].
+		].
+	
+		
+]
+
 { #category : #'instance creation' }
 Board >> anAmountOfCells [
 
@@ -31,7 +64,7 @@ Board >> anAmountOfCells [
 
 { #category : #'instance variables' }
 Board >> cellsEffect [
-	^cellsEffects.
+	^cellsEffects .
 ]
 
 { #category : #'instance creation' }

@@ -5,11 +5,11 @@ Class {
 }
 
 { #category : #action }
-SpeedUpEffect class >> applyFor: aSpaceshipPosition [ 
-	self shouldBeImplemented.
-]
+SpeedUpEffect >> implementTo: spaceshipsPositions of: aName [
 
-{ #category : #action }
-SpeedUpEffect class >> applyFor: aSpaceshipPosition and: anAmountOfCells [. 
-	aSpaceshipPosition change: 4 and:  anAmountOfCells.
+	| aSpaceshipPosition |
+	aSpaceshipPosition := spaceshipsPositions detect: [ 
+		                      :spaceshipPosition | 
+		                      spaceshipPosition spaceship == aName ].
+	aSpaceshipPosition changePosition: aSpaceshipPosition position + 4
 ]

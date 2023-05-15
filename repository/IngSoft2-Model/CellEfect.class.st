@@ -13,18 +13,13 @@ Class {
 }
 
 { #category : #initialization }
-CellEfect class >> on: aCellNumber of: anEffect [ 
+CellEfect class >> on: aCellNumber of: anEffect [
 	^(self new) initializeOf: aCellNumber and: anEffect.
 ]
 
-{ #category : #action }
-CellEfect >> applyAEffect: aSpaceshipPosition [ 
-	effect applyFor: aSpaceshipPosition.
-]
-
-{ #category : #action }
-CellEfect >> applyAEffect: aSpaceshipPosition and: anAmountOfCells [ 
-	effect applyFor: aSpaceshipPosition and: anAmountOfCells.
+{ #category : #'instance creation' }
+CellEfect >> effect [
+	^ effect
 ]
 
 { #category : #'instance creation' }
