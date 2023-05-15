@@ -94,6 +94,21 @@ BoardGame >> positions [
 ]
 
 { #category : #action }
+BoardGame >> ranking [
+
+	| namesRanking |
+	namesRanking := (spaceshipPositions sort: [ 
+		                 :spaceshipPosition1 
+		                 :spaceshipPosition2 | 
+		                 spaceshipPosition2 round
+			                 < spaceshipPosition1 round or:
+			                 spaceshipPosition2 position
+			                 < spaceshipPosition1 position ]) first: 3.
+	^ namesRanking collect: [ :spaceshipPosition | 
+		  spaceshipPosition spaceship ]
+]
+
+{ #category : #action }
 BoardGame >> spaceshipPosition: aName [
 	^ ((spaceshipPositions detect: [:spaceshipPosition | spaceshipPosition spaceship == aName ]) position).
 ]
