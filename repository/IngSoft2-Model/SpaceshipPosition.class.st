@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'spaceship',
 		'position',
-		'round'
+		'round',
+		'parsec'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -12,6 +13,11 @@ Class {
 { #category : #'instance creation' }
 SpaceshipPosition class >> of: aSpaceship with: aPositionNumber [
 	^(self new) initializeWith: aSpaceship and: aPositionNumber.
+]
+
+{ #category : #action }
+SpaceshipPosition >> changeParsec: aNum [ 
+	parsec := aNum.
 ]
 
 { #category : #action }
@@ -29,6 +35,12 @@ SpaceshipPosition >> initializeWith: aSpaceship and: aPositionNumber [
 	spaceship := aSpaceship.
 	position := aPositionNumber.
 	round:= 1.
+	parsec:= 1.
+]
+
+{ #category : #'instance variable' }
+SpaceshipPosition >> parsec [
+	^ parsec
 ]
 
 { #category : #'instance variable' }

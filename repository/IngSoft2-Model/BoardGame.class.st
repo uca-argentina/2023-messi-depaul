@@ -97,13 +97,15 @@ BoardGame >> positions [
 BoardGame >> ranking [
 
 	| namesRanking |
-	namesRanking := (spaceshipPositions sort: [ 
-		                 :spaceshipPosition1 
-		                 :spaceshipPosition2 | 
-		                 spaceshipPosition2 round
-			                 < spaceshipPosition1 round or:
-			                 spaceshipPosition2 position
-			                 < spaceshipPosition1 position ]) first: 3.
+	namesRanking := spaceshipPositions sort: [ 
+		                :spaceshipPosition1 
+		                :spaceshipPosition2 | 
+		                spaceshipPosition2 round < spaceshipPosition1 round 
+			                or:
+			                spaceshipPosition2 position
+			                < spaceshipPosition1 position ].
+	namesRanking size >= 3 ifTrue: [ 
+		namesRanking := namesRanking first: 3 ].
 	^ namesRanking collect: [ :spaceshipPosition | 
 		  spaceshipPosition spaceship ]
 ]
