@@ -1250,11 +1250,36 @@ BoardGameTest >> test54WhenABoardIsCreatedWithRandomCellsBasedOnProbabilitiesThe
 ]
 
 { #category : #tests }
-BoardGameTest >> test55 [
+BoardGameTest >> test55WhenCreationOf1000RandomBoardsThenRandomBoardsSizeIsCorrect [
 
-	| randomBoards numberOfBoards |
+	| randomBoards |
 	randomBoards := OrderedCollection new.
-	numberOfBoards := 3.
-	[ numberOfBoards > 0 ] whileTrue: [ 
-		randomBoards add: (Board of: 5 with: 3 and: 3) ]
+	1 to: 1000 do: [ :index | 
+		randomBoards add:
+			(Board of: 100 with: 100 atRandom and: 100 atRandom) ].
+		
+	self assert: randomBoards size equals: 1000.
+]
+
+{ #category : #tests }
+BoardGameTest >> test56QueGaneLaMejorIdea [
+
+	| randomBoards effectsProbabilities|
+	effectsProbabilities := OrderedCollection new.
+	effectsProbabilities add: (ProbabilityEffects of: SpeedUpEffect new) .
+	effectsProbabilities add: (ProbabilityEffects of: WormHoleEffect new).
+	effectsProbabilities add: (ProbabilityEffects of: MoonWalkEffect new).
+	effectsProbabilities add: (ProbabilityEffects of: AtomicBombEffect new).
+	effectsProbabilities add: (ProbabilityEffects of: NoEffect new).
+	effectsProbabilities add: (ProbabilityEffects of: HyperJumpEffect new).
+	
+	randomBoards := OrderedCollection new.
+	
+	1 to: 1000 do: [ :index | 
+		|aBoard|
+		aBoard := Board of: 100 with: 100 atRandom and: 100 atRandom.
+		randomBoards add: aBoard.
+		aBoard ].
+		
+	
 ]
