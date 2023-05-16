@@ -15,29 +15,18 @@ Board class >> of: anAmountOfCells with: anAmountOfRounds and: anAmountOfParsecs
 	^ (self new) initializeOf: anAmountOfCells with: anAmountOfRounds and: anAmountOfParsecs.
 ]
 
-{ #category : #initialization }
-Board >> initializeCellsEffects [
-	| aNoEffect aNoEffectProbability aSpeedUpEffect aSpeedUpEffectProbability allEffectsProbability size allEffects |
-	size := 0.
-	allEffects := OrderedCollection new.
-	aNoEffect := NoEffect new.
-	aNoEffectProbability := OrderedCollection new.
-	aNoEffectProbability add: aNoEffect.
-	aNoEffectProbability add: 0.4.
-	
-	aSpeedUpEffect := SpeedUpEffect new.
-	aSpeedUpEffectProbability := OrderedCollection new.
-	aSpeedUpEffectProbability add: aSpeedUpEffect.
-	aSpeedUpEffectProbability add: 0.4.
-	
-	allEffectsProbability := OrderedCollection new.
-	allEffectsProbability add: aNoEffectProbability.
-	allEffectsProbability add: aSpeedUpEffectProbability.
-	
-	allEffects add: aSpeedUpEffect.
-	allEffects add: aNoEffect.
-	
-	cellsEffects := OrderedCollection new. 
+{ #category : #'instance variable' }
+Board >> cellsEffect [
+	^cellsEffects.
+]
+
+{ #category : #action }
+Board >> hyperJumpEffectRandom [
+
+	|aSequence |
+	aSequence := (1 to: 4) collect: [ :i | 5].
+	aSequence sort reverse.
+	^(HyperJumpEffect with: aSequence).
 
 	
 ]
@@ -47,5 +36,40 @@ Board >> initializeOf: anAmountOfCells with: anAmountOfRounds and: anAmountOfPar
 	amountOfCells := anAmountOfCells.
 	rounds := anAmountOfRounds.
 	parsecs := anAmountOfParsecs.
-	self initializeCellsEffects.
+	cellsEffects := OrderedCollection new.
+	self probabilities.
+]
+
+{ #category : #action }
+Board >> moonWalkEffectRandom [
+	| aNumber |
+	aNumber:= 5.
+	^(MoonWalkEffect with: aNumber).
+]
+
+{ #category : #action }
+Board >> probabilities [
+	1 to: amountOfCells do: [:index |
+    | aNumber |
+    aNumber := 100 atRandom.
+    (aNumber > 0 and: aNumber < 40) ifTrue: [
+        cellsEffects add: (CellEfect on: index of: NoEffect new).
+    ].
+    (aNumber > 40 and: aNumber < 60) ifTrue: [
+        cellsEffects add: (CellEfect on: index of: WormHoleEffect new).
+    ].
+    (aNumber > 60 and: aNumber < 80) ifTrue: [
+        cellsEffects add: (CellEfect on: index of: SpeedUpEffect new).
+    ].
+    (aNumber > 80 and: aNumber < 90) ifTrue: [
+        cellsEffects add: (CellEfect on: index of: MoonWalkEffect new).
+    ].
+    (aNumber > 90 and: aNumber < 98) ifTrue: [
+        cellsEffects add: (CellEfect on: index of: HyperJumpEffect new).
+    ].
+    (aNumber > 98 and: aNumber < 100) ifTrue: [
+        cellsEffects add: (CellEfect on: index of: AtomicBombEffect new).
+    ].
+].
+
 ]

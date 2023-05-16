@@ -9,8 +9,8 @@ Class {
 }
 
 { #category : #initialization }
-HyperJumpEffect class >> with: anAmountOfParsecs [ 
-	^(self new) initializeWith: anAmountOfParsecs.
+HyperJumpEffect class >> with: aSequenceOfParsecs [ 
+	^(self new) initializeWith: aSequenceOfParsecs.
 ]
 
 { #category : #action }
@@ -28,7 +28,7 @@ HyperJumpEffect >> implementTo: spaceshipsPositions of: aName [
 ]
 
 { #category : #'instance creation' }
-HyperJumpEffect >> initializeWith: anAmountOfParsecs [
-	parsecsValues:= anAmountOfParsecs .
+HyperJumpEffect >> initializeWith: aSequenceOfParsecs [
+	parsecsValues:= aSequenceOfParsecs .
 	parsecIndex:= 1.
 ]

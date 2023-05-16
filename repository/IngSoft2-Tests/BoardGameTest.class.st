@@ -1240,19 +1240,21 @@ BoardGameTest >> test52WhenCreationOfLoadedBoardThenValid [
 ]
 
 { #category : #tests }
-BoardGameTest >> test53ABoardGameProbability [
+BoardGameTest >> test54WhenABoardIsCreatedWithRandomCellsBasedOnProbabilitiesThenCorrectSizeOfBoard [
 
-	| spaceships aBoard aBoardGame  |
-	
-	
-	
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
+	|  aBoard  |
 	
 	aBoard := Board of: 5 with: 4 and: 15.
-	aBoardGame := BoardGame
-		              of: aBoard
-		              with: spaceships
-		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 ))).
+	self assert: (aBoard cellsEffect size) equals: 5.
+
+]
+
+{ #category : #tests }
+BoardGameTest >> test55 [
+
+	| randomBoards numberOfBoards |
+	randomBoards := OrderedCollection new.
+	numberOfBoards := 3.
+	[ numberOfBoards > 0 ] whileTrue: [ 
+		randomBoards add: (Board of: 5 with: 3 and: 3) ]
 ]
