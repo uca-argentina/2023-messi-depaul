@@ -101,26 +101,11 @@ LoadedBoard >> cellsEffect [
 ]
 
 { #category : #'instance creation' }
-LoadedBoard >> initializeOf: anAmountOfCells and: anAmountOfRounds with: aCollectionOfCellsEffects [
-	amountOfCells:= anAmountOfCells .
-	rounds:= anAmountOfRounds .
-	cellsEffects := aCollectionOfCellsEffects.
-]
-
-{ #category : #'instance creation' }
 LoadedBoard >> initializeOf: collectionOfCellsEffect with: numberOfRounds and: amountOfParsecs [ 
 	cellsEffects := collectionOfCellsEffect.
 	rounds := numberOfRounds.
 	parsecs := amountOfParsecs.
 	amountOfCells := cellsEffects size.
-]
-
-{ #category : #'instance creation' }
-LoadedBoard >> initializeOf: anAmountOfCells with: anAmountOfParsecs and: anAmountOfRounds with: aCollectionOfCellsEffects [
-	amountOfCells:= anAmountOfCells .
-	rounds:= anAmountOfRounds .
-	cellsEffects := aCollectionOfCellsEffects.
-	parsecs:= anAmountOfParsecs .
 ]
 
 { #category : #action }

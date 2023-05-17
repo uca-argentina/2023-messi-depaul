@@ -55,22 +55,14 @@ self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 8.
 ]
 
 { #category : #tests }
-BoardGameTest >> test03WhenAThreeFacedDieCreationThenTrue [
-| aDie |
-aDie := Die of: 3.
-self assert: aDie faces equals: 3.
-
-]
-
-{ #category : #tests }
-BoardGameTest >> test04WhenADieIsCreatedWithNegativeFacesThenFailsCreation [
+BoardGameTest >> test03WhenADieIsCreatedWithNegativeFacesThenFailsCreation [
 self should: [ Die of: 1 ] raise: Error withMessage: 'Cannot create die with 2 or less amount of faces'.
 
 
 ]
 
 { #category : #tests }
-BoardGameTest >> test05WhenADieThrowsThenItIsARandomBetweenOneAndHisAmountOfFaces [
+BoardGameTest >> test04WhenADieThrowsThenItIsARandomBetweenOneAndHisAmountOfFaces [
 | aDie |
 aDie := Die of: 10.
 self assert: ((aDie throw) between: 1 and: (aDie faces)).
@@ -78,15 +70,7 @@ self assert: ((aDie throw) between: 1 and: (aDie faces)).
 ]
 
 { #category : #tests }
-BoardGameTest >> test06WhenALoadedDieSequenceCreationThenSequenceIsValid [
-|aLoadedDie|
-aLoadedDie := LoadedDie of: #(1 2 3).
-self assert: aLoadedDie sequence equals: #(1 2 3).
-
-]
-
-{ #category : #tests }
-BoardGameTest >> test07WhenALoadedDieIsThrown4TimesWithSequenceValues1231ThenSequenceIsValid [
+BoardGameTest >> test05WhenALoadedDieIsThrown4TimesWithSequenceValues1231ThenSequenceIsValid [
 |aLoadedDie|
 aLoadedDie := LoadedDie of: #(1 2 3) .
 self assert: aLoadedDie throw equals: 1.
@@ -97,12 +81,12 @@ self assert: aLoadedDie throw equals: 1.
 ]
 
 { #category : #tests }
-BoardGameTest >> test08WhenALoadedDieWithNegativeSequenceThenFailsCreation [
+BoardGameTest >> test06WhenALoadedDieWithNegativeSequenceThenFailsCreation [
 self should: [ LoadedDie of: #(-1)] raise: Error withMessage: 'Cannot create die with value less than 0'.
 ]
 
 { #category : #tests }
-BoardGameTest >> test09WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePosition [
+BoardGameTest >> test07WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePosition [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -125,74 +109,7 @@ BoardGameTest >> test09WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePositi
 ]
 
 { #category : #tests }
-BoardGameTest >> test10WhenALoadedDieIsThrownThenASpaceshipMovesForwardThreePosition [
-
-	| spaceships aBoard aBoardGame cellEffects |
-	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
-
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
-	aBoard := LoadedBoard of: cellEffects with: 2 and: 15.
-	aBoardGame := BoardGame
-		              of: aBoard
-		              with: spaceships
-		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
-
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
-
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 4
-]
-
-{ #category : #tests }
-BoardGameTest >> test11WhenThereAreTwoDieOnTheGameThenSpaceshipsPositionsTrue [
-
-	| spaceships aBoard aBoardGame cellEffects |
-	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
-
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
-	spaceships add: 'Cami'.
-	aBoard := LoadedBoard of: cellEffects with: 2 and: 15.
-	aBoardGame := BoardGame
-		              of: aBoard
-		              with: spaceships
-		              andWith: (OrderedCollection
-				               with: (LoadedDie of: #( 1 2 3 ))
-				               with: (LoadedDie of: #( 1 2 3 ))).
-
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 9.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5
-]
-
-{ #category : #tests }
-BoardGameTest >> test12WhenASpaceshipWinsThenGameOver [
+BoardGameTest >> test08WhenASpaceshipWinsThenGameOver [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -234,7 +151,7 @@ BoardGameTest >> test12WhenASpaceshipWinsThenGameOver [
 ]
 
 { #category : #tests }
-BoardGameTest >> test13WhenTwoSpaceshipPlayThenSpaceship1Wins [
+BoardGameTest >> test09WhenTwoSpaceshipPlayThenSpaceship1Wins [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -273,7 +190,7 @@ BoardGameTest >> test13WhenTwoSpaceshipPlayThenSpaceship1Wins [
 ]
 
 { #category : #tests }
-BoardGameTest >> test14WhenAllSpaceshipsPositionsThenAnOrderedCollection [
+BoardGameTest >> test10WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -309,77 +226,7 @@ BoardGameTest >> test14WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 ]
 
 { #category : #tests }
-BoardGameTest >> test15WhenBoardGameHasTwoDieThenCollectionOfDieCorrectSize [
-
-	| spaceships aBoard aBoardGame cellEffects |
-	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
-
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
-	spaceships add: 'Cami'.
-	aBoard := LoadedBoard of: cellEffects with: 2 and: 15.
-	aBoardGame := BoardGame
-		              of: aBoard
-		              with: spaceships
-		              andWith:
-		              (OrderedCollection with: (Die of: 3) with: (Die of: 3)).
-
-	self assert: aBoardGame dice size equals: 2
-]
-
-{ #category : #tests }
-BoardGameTest >> test16When2RoundsArePlayedThenThreeSpaceshipsMovesForward [
-
-	| spaceships aBoard aBoardGame cellEffects |
-	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
-
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
-	spaceships add: 'Cami'.
-	spaceships add: 'Delfi'.
-	aBoard := LoadedBoard of: cellEffects with: 2 and: 15.
-	aBoardGame := BoardGame
-		              of: aBoard
-		              with: spaceships
-		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
-
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 3.
-	aBoardGame aSpaceshipPlays: 'Delfi'.
-	self assert: (aBoardGame spaceshipPosition: 'Delfi') equals: 4.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5.
-	aBoardGame aSpaceshipPlays: 'Delfi'.
-	self assert: (aBoardGame spaceshipPosition: 'Delfi') equals: 7
-]
-
-{ #category : #tests }
-BoardGameTest >> test17WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
+BoardGameTest >> test11WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -413,7 +260,7 @@ BoardGameTest >> test17WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 ]
 
 { #category : #tests }
-BoardGameTest >> test18WhenItsNotASpaceshipsTruenThenThrowsErrorMessage [
+BoardGameTest >> test12WhenItsNotASpaceshipsTruenThenThrowsErrorMessage [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -445,7 +292,7 @@ BoardGameTest >> test18WhenItsNotASpaceshipsTruenThenThrowsErrorMessage [
 ]
 
 { #category : #tests }
-BoardGameTest >> test19WhenABoardGameWithNoSpaceshipsThenFailsCreation [
+BoardGameTest >> test13WhenABoardGameWithNoSpaceshipsThenFailsCreation [
 
 	| cellEffects |
 	cellEffects := OrderedCollection new.
@@ -466,38 +313,7 @@ BoardGameTest >> test19WhenABoardGameWithNoSpaceshipsThenFailsCreation [
 ]
 
 { #category : #tests }
-BoardGameTest >> test20WhenASpaceshipAdvanceToNextRoundThenSpaceshipRound [
-
-	| spaceships aBoard aBoardGame cellEffects |
-	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
-	spaceships add: 'Cami'.
-	aBoard := LoadedBoard of: cellEffects with: 2 and: 15.
-	aBoardGame := BoardGame
-		              of: aBoard
-		              with: spaceships
-		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 3 4 3 ))).
-
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1
-]
-
-{ #category : #tests }
-BoardGameTest >> test29WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRounds [
+BoardGameTest >> test14WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRounds [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -529,7 +345,7 @@ BoardGameTest >> test29WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRo
 ]
 
 { #category : #tests }
-BoardGameTest >> test30WhenASpaceshipAdvanceTwoRoundsThenFails [
+BoardGameTest >> test15WhenASpaceshipAdvanceTwoRoundsThenFails [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -560,7 +376,7 @@ BoardGameTest >> test30WhenASpaceshipAdvanceTwoRoundsThenFails [
 ]
 
 { #category : #tests }
-BoardGameTest >> test32WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
+BoardGameTest >> test16WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -585,7 +401,7 @@ BoardGameTest >> test32WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 ]
 
 { #category : #tests }
-BoardGameTest >> test33WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
+BoardGameTest >> test17WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -611,7 +427,7 @@ BoardGameTest >> test33WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
 ]
 
 { #category : #tests }
-BoardGameTest >> test33WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
+BoardGameTest >> test18WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -650,7 +466,7 @@ BoardGameTest >> test33WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
 ]
 
 { #category : #tests }
-BoardGameTest >> test34WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositions [
+BoardGameTest >> test19WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositions [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -682,7 +498,7 @@ BoardGameTest >> test34WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositio
 ]
 
 { #category : #tests }
-BoardGameTest >> test35WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoesBackTwoRounds [
+BoardGameTest >> test20WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoesBackTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -706,7 +522,7 @@ BoardGameTest >> test35WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoesB
 ]
 
 { #category : #tests }
-BoardGameTest >> test35WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLessThanFourThenGoesToStart [
+BoardGameTest >> test21WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLessThanFourThenGoesToStart [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -738,37 +554,7 @@ BoardGameTest >> test35WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLessT
 ]
 
 { #category : #tests }
-BoardGameTest >> test35WhenASpaceshipLandsOnWormHoleThenChangesRoundAndPosition [
-
-	| spaceships aBoard aBoardGame cellEffects |
-	cellEffects := OrderedCollection new.
-
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: WormHoleEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
-	aBoard := LoadedBoard of: cellEffects with: 2 and: 15.
-	aBoardGame := BoardGame
-		              of: aBoard
-		              with: spaceships
-		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 9 1 3 ))).
-
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 6.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
-]
-
-{ #category : #tests }
-BoardGameTest >> test36WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart [
+BoardGameTest >> test22WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -800,7 +586,7 @@ BoardGameTest >> test36WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart 
 ]
 
 { #category : #tests }
-BoardGameTest >> test37WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToStart [
+BoardGameTest >> test23WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToStart [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -843,39 +629,37 @@ BoardGameTest >> test37WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToSta
 ]
 
 { #category : #tests }
-BoardGameTest >> test38WhenASpacehipLandsOnMoonWalkThenSpaceshipPositionDoesNotChange [
+BoardGameTest >> test24WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsAndRoundDoesNotChange [
 
-	| spaceships aBoard aBoardGame cellEffects aMoonWalkEffect |
+	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
-	aMoonWalkEffect := MoonWalkEffect with: 5.
 
 	cellEffects add: (CellEfect on: 1 of: NoEffect new).
 	cellEffects add: (CellEfect on: 2 of: NoEffect new).
 	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
+	cellEffects add: (CellEfect on: 4 of: AtomicBombEffect new).
 	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: aMoonWalkEffect).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
-	aBoard := LoadedBoard of: cellEffects with: 2 and: 15.
+	aBoard := LoadedBoard of: cellEffects with: 4 and: 15.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
 		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 ))).
+		              (OrderedCollection with: (LoadedDie of: #( 11 2 3 ))).
 
 	aBoardGame aSpaceshipPlays: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 6.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
+	
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
 ]
 
 { #category : #tests }
-BoardGameTest >> test39WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePositions [
+BoardGameTest >> test25WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePositions [
 
 	| spaceships aBoard aBoardGame cellEffects aMoonWalkEffect |
 	cellEffects := OrderedCollection new.
@@ -916,10 +700,9 @@ BoardGameTest >> test39WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePos
 ]
 
 { #category : #tests }
-BoardGameTest >> test40WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEffectThenEffectNotApplied [
+BoardGameTest >> test26WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEffectThenEffectNotApplied [
 
 	| spaceships aBoard aBoardGame cellEffects |
-	cellEffects := OrderedCollection new.
 	cellEffects := OrderedCollection new.
 
 	cellEffects add: (CellEfect on: 1 of: NoEffect new).
@@ -949,7 +732,7 @@ BoardGameTest >> test40WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEffe
 ]
 
 { #category : #tests }
-BoardGameTest >> test41WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
+BoardGameTest >> test27WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -986,7 +769,7 @@ BoardGameTest >> test41WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
 ]
 
 { #category : #tests }
-BoardGameTest >> test45ASpaceshipLandsOnHyperJumpThenMovesOneCell [
+BoardGameTest >> test28ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
@@ -1012,7 +795,7 @@ BoardGameTest >> test45ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 ]
 
 { #category : #tests }
-BoardGameTest >> test46ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
+BoardGameTest >> test29ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
@@ -1038,7 +821,7 @@ BoardGameTest >> test46ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 ]
 
 { #category : #tests }
-BoardGameTest >> test47ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
+BoardGameTest >> test30ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
@@ -1063,7 +846,7 @@ BoardGameTest >> test47ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 ]
 
 { #category : #tests }
-BoardGameTest >> test48WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPositions [
+BoardGameTest >> test31WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPositions [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
@@ -1098,7 +881,7 @@ BoardGameTest >> test48WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPosit
 ]
 
 { #category : #tests }
-BoardGameTest >> test49WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMovesBackwards [
+BoardGameTest >> test32WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMovesBackwards [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
@@ -1125,7 +908,7 @@ BoardGameTest >> test49WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMove
 ]
 
 { #category : #tests }
-BoardGameTest >> test50WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToInitialPosition [
+BoardGameTest >> test33WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToInitialPosition [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
@@ -1152,7 +935,7 @@ BoardGameTest >> test50WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToInitia
 ]
 
 { #category : #tests }
-BoardGameTest >> test51WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
+BoardGameTest >> test34WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
@@ -1183,7 +966,7 @@ BoardGameTest >> test51WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 ]
 
 { #category : #tests }
-BoardGameTest >> test52WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThenGoesBack2Rounds [
+BoardGameTest >> test35WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThenGoesBack2Rounds [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
@@ -1214,33 +997,7 @@ BoardGameTest >> test52WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThen
 ]
 
 { #category : #tests }
-BoardGameTest >> test52WhenCreationOfLoadedBoardThenValid [
-
-	| spaceships aBoard aBoardGame cellEffects |
-	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: SpeedUpEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
-
-	aBoard := LoadedBoard of: cellEffects with: 4 and: 15.
-	aBoardGame := BoardGame
-		              of: aBoard
-		              with: spaceships
-		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 ))).
-
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2
-]
-
-{ #category : #tests }
-BoardGameTest >> test54WhenABoardIsCreatedWithRandomCellsBasedOnProbabilitiesThenCorrectSizeOfBoard [
+BoardGameTest >> test36WhenABoardIsCreatedThenCorrectSizeOfBoard [
 
 	|  aBoard  |
 	
@@ -1250,36 +1007,115 @@ BoardGameTest >> test54WhenABoardIsCreatedWithRandomCellsBasedOnProbabilitiesThe
 ]
 
 { #category : #tests }
-BoardGameTest >> test55WhenCreationOf1000RandomBoardsThenRandomBoardsSizeIsCorrect [
+BoardGameTest >> test37When1000BoardsAreCreatedThenProbabilityOfAtomicBombBetween1And3 [
 
-	| randomBoards |
+	| randomBoards sum |
 	randomBoards := OrderedCollection new.
+	sum := 0.
 	1 to: 1000 do: [ :index | 
-		randomBoards add:
-			(Board of: 100 with: 100 atRandom and: 100 atRandom) ].
-		
-	self assert: randomBoards size equals: 1000.
+		| aBoard |
+		aBoard := Board of: 100 with: 100 atRandom and: 100 atRandom.
+		randomBoards add: aBoard ].
+
+	1 to: randomBoards size do: [ :index | 
+		sum := sum
+		       + ((randomBoards at: index) amountOfCellsEffect at: 6) amount ].
+	
+	
+	self assert: ((sum // 1000) between: 1 and: 3)
 ]
 
 { #category : #tests }
-BoardGameTest >> test56QueGaneLaMejorIdea [
+BoardGameTest >> test38When1000BoardsAreCreatedThenProbabilityOfHyperJumpBetween7And9 [
 
-	| randomBoards effectsProbabilities|
-	effectsProbabilities := OrderedCollection new.
-	effectsProbabilities add: (ProbabilityEffects of: SpeedUpEffect new) .
-	effectsProbabilities add: (ProbabilityEffects of: WormHoleEffect new).
-	effectsProbabilities add: (ProbabilityEffects of: MoonWalkEffect new).
-	effectsProbabilities add: (ProbabilityEffects of: AtomicBombEffect new).
-	effectsProbabilities add: (ProbabilityEffects of: NoEffect new).
-	effectsProbabilities add: (ProbabilityEffects of: HyperJumpEffect new).
-	
+	| randomBoards sum |
 	randomBoards := OrderedCollection new.
-	
+	sum := 0.
 	1 to: 1000 do: [ :index | 
-		|aBoard|
+		| aBoard |
 		aBoard := Board of: 100 with: 100 atRandom and: 100 atRandom.
-		randomBoards add: aBoard.
-		aBoard ].
-		
+		randomBoards add: aBoard ].
+
+	1 to: randomBoards size do: [ :index | 
+		sum := sum
+		       + ((randomBoards at: index) amountOfCellsEffect at: 5) amount ].
 	
+	
+	self assert: ((sum // 1000) between: 7 and: 9)
+]
+
+{ #category : #tests }
+BoardGameTest >> test39When1000BoardsAreCreatedThenProbabilityOfMoonWalkBetween9And11 [
+
+	| randomBoards sum |
+	randomBoards := OrderedCollection new.
+	sum := 0.
+	1 to: 1000 do: [ :index | 
+		| aBoard |
+		aBoard := Board of: 100 with: 100 atRandom and: 100 atRandom.
+		randomBoards add: aBoard ].
+
+	1 to: randomBoards size do: [ :index | 
+		sum := sum
+		       + ((randomBoards at: index) amountOfCellsEffect at: 4) amount ].
+	
+	
+	self assert: ((sum // 1000) between: 9 and: 11)
+]
+
+{ #category : #tests }
+BoardGameTest >> test40When1000BoardsAreCreatedThenProbabilityOfNoEffectBetween39And41 [
+
+	| randomBoards sum |
+	randomBoards := OrderedCollection new.
+	sum := 0.
+	1 to: 1000 do: [ :index | 
+		| aBoard |
+		aBoard := Board of: 100 with: 100 atRandom and: 100 atRandom.
+		randomBoards add: aBoard ].
+
+	1 to: randomBoards size do: [ :index | 
+		sum := sum
+		       + ((randomBoards at: index) amountOfCellsEffect at: 1) amount ].
+	
+	
+	self assert: ((sum // 1000) between: 39 and: 41)
+]
+
+{ #category : #tests }
+BoardGameTest >> test41When1000BoardsAreCreatedThenProbabilityOfSpeedUpBetween19And21 [
+
+	| randomBoards sum |
+	randomBoards := OrderedCollection new.
+	sum := 0.
+	1 to: 1000 do: [ :index | 
+		| aBoard |
+		aBoard := Board of: 100 with: 100 atRandom and: 100 atRandom.
+		randomBoards add: aBoard ].
+
+	1 to: randomBoards size do: [ :index | 
+		sum := sum
+		       + ((randomBoards at: index) amountOfCellsEffect at: 3) amount ].
+	
+	
+	self assert: ((sum // 1000) between: 19 and: 21)
+]
+
+{ #category : #tests }
+BoardGameTest >> test42When1000BoardsAreCreatedThenProbabilityOfWormHoleBetween19And21 [
+
+	| randomBoards sum |
+	randomBoards := OrderedCollection new.
+	sum := 0.
+	1 to: 1000 do: [ :index | 
+		| aBoard |
+		aBoard := Board of: 100 with: 100 atRandom and: 100 atRandom.
+		randomBoards add: aBoard ].
+
+	1 to: randomBoards size do: [ :index | 
+		sum := sum
+		       + ((randomBoards at: index) amountOfCellsEffect at: 2) amount ].
+	
+	
+	self assert: ((sum // 1000) between: 19 and: 21)
 ]
