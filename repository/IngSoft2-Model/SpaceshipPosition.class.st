@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'spaceship',
 		'position',
-		'round'
+		'round',
+		'parsec'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -15,20 +16,18 @@ SpaceshipPosition class >> of: aSpaceship with: aPositionNumber [
 ]
 
 { #category : #action }
-SpaceshipPosition >> change: aNumber and: anAmountOfCells [
+SpaceshipPosition >> changeParsec: aNum [ 
+	parsec := aNum.
+]
 
-	| moveAmount |
-	moveAmount := position + aNumber.
+{ #category : #action }
+SpaceshipPosition >> changePosition: newPosition [
+	position:= newPosition.
+]
 
-	moveAmount > anAmountOfCells
-		ifTrue: [ 
-			[ moveAmount > anAmountOfCells ] whileTrue: [ 
-				round := round + 1.
-				moveAmount := moveAmount - anAmountOfCells ].
-
-			position := position + aNumber % anAmountOfCells.
-			position = 0 ifTrue: [ position := 1 ] ]
-		ifFalse: [ position := position + aNumber ]
+{ #category : #action }
+SpaceshipPosition >> changeRound: aNum [
+	round:= round + aNum.
 ]
 
 { #category : #initialization }
@@ -36,6 +35,12 @@ SpaceshipPosition >> initializeWith: aSpaceship and: aPositionNumber [
 	spaceship := aSpaceship.
 	position := aPositionNumber.
 	round:= 1.
+	parsec:= 1.
+]
+
+{ #category : #'instance variable' }
+SpaceshipPosition >> parsec [
+	^ parsec
 ]
 
 { #category : #'instance variable' }

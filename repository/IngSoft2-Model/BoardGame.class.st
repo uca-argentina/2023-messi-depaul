@@ -28,23 +28,25 @@ BoardGame class >> validateCanExistWith: aSpaceshipCollection [
 { #category : #action }
 BoardGame >> aSpaceshipPlays: aName [
 
-	| aSpaceshipPosition1 |
+	| aSpaceshipPosition aNumber |
 	play
 		ifTrue: [ 
 			self aSpaceshipTurn = aName
 				ifTrue: [ 
-					aSpaceshipPosition1 := spaceshipPositions detect: [ 
-						                       :aSpaceshipPosition | 
-						                       aSpaceshipPosition spaceship == aName ].
+					aNumber := self throwDice.
+					aSpaceshipPosition := spaceshipPositions detect: [ 
+						                      :spaceshipPosition | 
+						                      spaceshipPosition spaceship == aName ].
 
-					aSpaceshipPosition1
-						change: self throwDice
-						and: board anAmountOfCells.
+					aSpaceshipPosition changePosition:
+						aSpaceshipPosition position + aNumber.
 						
-					self validateWinner: aSpaceshipPosition1 ]
-				
+					board adaptPosition: aSpaceshipPosition.
+					
+					self detectEffectOf: aSpaceshipPosition With: aName.
+					
+					self validateWinner: aSpaceshipPosition ]
 				ifFalse: [ self validateTurn ] ]
-			
 		ifFalse: [ self validateKeepPlaying ]
 ]
 
@@ -55,6 +57,19 @@ BoardGame >> aSpaceshipTurn [
 	aSpaceship := spaceships at: turn.
 	turn := turn \\ spaceships size + 1.
 	^ aSpaceship
+]
+
+{ #category : #action }
+BoardGame >> detectEffectOf: aSpaceshipPosition With: aName [
+
+	| aCellEffect |
+	(board cellsEffect anySatisfy: [ :cell | cell number = aSpaceshipPosition position ]) 
+	ifTrue: [ 
+		aCellEffect := board cellsEffect detect: [ :cell | 
+			               cell number = aSpaceshipPosition position ].
+		aCellEffect effect implementTo: spaceshipPositions of: aName.
+		board adaptAllPositions: spaceshipPositions ]
+	ifFalse:[].
 ]
 
 { #category : #'instance variables' }
@@ -76,6 +91,23 @@ BoardGame >> initializesOf: aBoard with: spaceshipsCollection andWith: diceColle
 BoardGame >> positions [
 
 	^ spaceshipPositions collect: [ :spaceship | spaceship position ].
+]
+
+{ #category : #action }
+BoardGame >> ranking [
+
+	| namesRanking |
+	namesRanking := spaceshipPositions sort: [ 
+		                :spaceshipPosition1 
+		                :spaceshipPosition2 | 
+		                spaceshipPosition2 round < spaceshipPosition1 round 
+			                or:
+			                spaceshipPosition2 position
+			                < spaceshipPosition1 position ].
+	namesRanking size >= 3 ifTrue: [ 
+		namesRanking := namesRanking first: 3 ].
+	^ namesRanking collect: [ :spaceshipPosition | 
+		  spaceshipPosition spaceship ]
 ]
 
 { #category : #action }
@@ -123,7 +155,7 @@ BoardGame >> validateTurn [
 { #category : #validation }
 BoardGame >> validateWinner: aSpaceshipPosition [
 
-	aSpaceshipPosition round >= board rounds ifTrue: [ 
+	aSpaceshipPosition round > board rounds ifTrue: [ 
 		play := false.
 		aSpaceshipPosition winner: board rounds.
 		winner:= aSpaceshipPosition spaceship.
