@@ -10,6 +10,11 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #initialization }
+SpaceshipPosition class >> named: spaceshipName on: aPosition at: aRound [ 
+	^(self new)  initializeNamed: spaceshipName on: aPosition at: aRound.
+]
+
 { #category : #'instance creation' }
 SpaceshipPosition class >> of: aSpaceship with: aPositionNumber [
 	^(self new) initializeWith: aSpaceship and: aPositionNumber.
@@ -28,6 +33,13 @@ SpaceshipPosition >> changePosition: newPosition [
 { #category : #action }
 SpaceshipPosition >> changeRound: aNum [
 	round:= round + aNum.
+]
+
+{ #category : #'instance creation' }
+SpaceshipPosition >> initializeNamed: spaceshipName on: aPosition at: aRound [ 
+	spaceship:= spaceshipName.
+	position := aPosition.
+	round := aRound.
 ]
 
 { #category : #initialization }

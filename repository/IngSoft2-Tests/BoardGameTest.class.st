@@ -119,21 +119,19 @@ BoardGameTest >> test08WhenASpaceshipWinsThenGameOver [
 	cellEffects add: (CellEfect on: 4 of: NoEffect new).
 	cellEffects add: (CellEfect on: 5 of: NoEffect new).
 	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := LoadedBoard of: cellEffects with: 1 and: 15.
+	aBoard := LoadedBoard of: cellEffects with: 3 and: 15.
 	aBoardGame := BoardGame
 		              of: aBoard
 		              with: spaceships
 		              andWith:
-		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
+		              (OrderedCollection with: (LoadedDie of: #(3))).
 
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame aSpaceshipPlays: 'Cami'.
 	aBoardGame aSpaceshipPlays: 'Vicky'.
 	aBoardGame aSpaceshipPlays: 'Cami'.
 	aBoardGame aSpaceshipPlays: 'Vicky'.
@@ -222,7 +220,7 @@ BoardGameTest >> test10WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 
 	self
 		assert: aBoardGame positions
-		equals: (OrderedCollection with: 5 with: 3)
+		equals: (OrderedCollection with: 3 with: 5)
 ]
 
 { #category : #tests }
@@ -337,7 +335,7 @@ BoardGameTest >> test14WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRo
 	aBoardGame aSpaceshipPlays: 'Cami'.
 	aBoardGame aSpaceshipPlays: 'Vicky'.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 5.
 	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
 
 	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5.
@@ -1118,4 +1116,27 @@ BoardGameTest >> test42When1000BoardsAreCreatedThenProbabilityOfWormHoleBetween1
 	
 	
 	self assert: ((sum // 1000) between: 19 and: 21)
+]
+
+{ #category : #tests }
+BoardGameTest >> test69 [
+
+	| spaceships aBoard aBoardGame cellEffects |
+	cellEffects := OrderedCollection new.
+	cellEffects add: (CellEfect on: 1 of: NoEffect new).
+	cellEffects add: (CellEfect on: 2 of: NoEffect new).
+	cellEffects add: (CellEfect on: 3 of: NoEffect new).
+
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	aBoard := LoadedBoard of: cellEffects with: 2 and: 15.
+	aBoardGame := BoardGame
+		              of: aBoard
+		              with: spaceships
+		              andWith:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 ))).
+
+	aBoardGame aSpaceshipPlays: 'Vicky'.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2
 ]

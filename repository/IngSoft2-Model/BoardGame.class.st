@@ -26,27 +26,19 @@ BoardGame class >> validateCanExistWith: aSpaceshipCollection [
 ]
 
 { #category : #action }
-BoardGame >> aSpaceshipPlays: aName [
+BoardGame >> aSpaceshipPlays: aSpaceship [
 
-	| aSpaceshipPosition aNumber |
+	| aSpaceshipPosition |
 	play
 		ifTrue: [ 
-			self aSpaceshipTurn = aName
-				ifTrue: [ 
-					aNumber := self throwDice.
-					aSpaceshipPosition := spaceshipPositions detect: [ 
-						                      :spaceshipPosition | 
-						                      spaceshipPosition spaceship == aName ].
+			self validateSpaceshipTurnFor: aSpaceship.
+			aSpaceshipPosition := self playingSpaceshipPosition: aSpaceship.
 
-					aSpaceshipPosition changePosition:
-						aSpaceshipPosition position + aNumber.
-						
-					board adaptPosition: aSpaceshipPosition.
-					
-					self detectEffectOf: aSpaceshipPosition With: aName.
-					
-					self validateWinner: aSpaceshipPosition ]
-				ifFalse: [ self validateTurn ] ]
+			self relocates: aSpaceshipPosition to: self throwDice.
+
+			self validateWinner:( self playingSpaceshipPosition: aSpaceship).
+
+			turn := turn \\ spaceships size + 1 ]
 		ifFalse: [ self validateKeepPlaying ]
 ]
 
@@ -88,6 +80,46 @@ BoardGame >> initializesOf: aBoard with: spaceshipsCollection andWith: diceColle
 ]
 
 { #category : #action }
+BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
+
+	| moveAmount amountOfRounds aSpaceshipPositionNew |
+	moveAmount := aSpaceshipPosition position + amountOfCellsToMove.
+	amountOfRounds := aSpaceshipPosition round.
+
+	[ moveAmount > board anAmountOfCells ] whileTrue: [ 
+		amountOfRounds := amountOfRounds + 1.
+		moveAmount := moveAmount - board anAmountOfCells ].
+
+
+	[ moveAmount <= 0 ] whileTrue: [ 
+		amountOfRounds = 1
+			ifTrue: [ moveAmount := 1 ]
+			ifFalse: [ 
+				amountOfRounds := amountOfRounds - 1.
+				moveAmount := moveAmount + board anAmountOfCells ] ].
+
+	moveAmount = 0 ifTrue: [ moveAmount := 1 ].
+
+	aSpaceshipPositionNew := SpaceshipPosition
+		                         named: aSpaceshipPosition spaceship
+		                         on: moveAmount
+		                         at: amountOfRounds.
+
+	spaceshipPositions remove: aSpaceshipPosition.
+	spaceshipPositions add: aSpaceshipPositionNew
+
+]
+
+{ #category : #action }
+BoardGame >> playingSpaceshipPosition: aSpaceship [
+
+	| aSpaceshipPosition |
+	aSpaceshipPosition := spaceshipPositions detect: [ :spaceshipPosition | 
+		                      spaceshipPosition spaceship == aSpaceship ].
+	^ aSpaceshipPosition
+]
+
+{ #category : #action }
 BoardGame >> positions [
 
 	^ spaceshipPositions collect: [ :spaceship | spaceship position ].
@@ -111,6 +143,13 @@ BoardGame >> ranking [
 ]
 
 { #category : #action }
+BoardGame >> relocates: aSpaceshipPosition to: aNumber [
+	
+	self moves: aSpaceshipPosition to: aNumber.
+	
+]
+
+{ #category : #action }
 BoardGame >> spaceshipPosition: aName [
 	^ ((spaceshipPositions detect: [:spaceshipPosition | spaceshipPosition spaceship == aName ]) position).
 ]
@@ -128,7 +167,7 @@ BoardGame >> spaceshipsInitialization [
 	spaceshipPositions := OrderedCollection new.
 	[ spaceships size > size ] whileTrue: [ 
 		spaceshipPositions add:
-			(SpaceshipPosition of: (spaceships at: size + 1) with: 1).
+			(SpaceshipPosition named: (spaceships at: size + 1) on: 1 at: 1).
 		size := size + 1 ]
 ]
 
@@ -145,6 +184,13 @@ BoardGame >> throwDice [
 BoardGame >> validateKeepPlaying [
 
 	Error signal: 'There is a winner, you cant keep moving forward'
+]
+
+{ #category : #action }
+BoardGame >> validateSpaceshipTurnFor: aSpaceship [
+
+	(spaceships at: turn) = aSpaceship
+		ifFalse: [ Error signal: 'Its not your turn' ].
 ]
 
 { #category : #validation }
