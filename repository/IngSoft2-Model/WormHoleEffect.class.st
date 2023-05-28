@@ -5,10 +5,7 @@ Class {
 }
 
 { #category : #action }
-WormHoleEffect >> implementTo: spaceshipsPositions of: aName [
-	|aSpaceshipPosition|
-	aSpaceshipPosition:= spaceshipsPositions detect: [ 
-		                      :spaceshipPosition | 
-		                      spaceshipPosition spaceship == aName ].
-	aSpaceshipPosition changePosition: aSpaceshipPosition position - 4.
+WormHoleEffect >> implementOn: aBoardGame [
+
+	aBoardGame applyWormHoleEffect
 ]

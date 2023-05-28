@@ -14,6 +14,16 @@ HyperJumpEffect class >> with: aSequenceOfParsecs [
 ]
 
 { #category : #action }
+HyperJumpEffect >> implementOn: aBoardGame [
+
+	| value |
+	value := parsecsValues at: parsecIndex.
+	parsecIndex := parsecIndex \\ parsecsValues size + 1.
+
+	aBoardGame applyHyperJumpEffect: value
+]
+
+{ #category : #action }
 HyperJumpEffect >> implementTo: spaceshipsPositions of: aName [
 
 	| aSpaceshipPosition value |

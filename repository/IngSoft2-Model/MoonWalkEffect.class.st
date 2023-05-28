@@ -13,14 +13,9 @@ MoonWalkEffect class >> with: aNumber [
 ]
 
 { #category : #action }
-MoonWalkEffect >> implementTo: spaceshipsPositions of: aName [
-		
-	1 to:spaceshipsPositions size do: [:position | 
-		|spaceshipPosition| 
-		spaceshipPosition:= spaceshipsPositions at: position.
-		(spaceshipPosition spaceship ~= aName)ifTrue: [ 
-			spaceshipPosition changePosition:
-				spaceshipPosition position - number ]ifFalse:[] ].
+MoonWalkEffect >> implementOn: aBoardGame [
+
+	aBoardGame applyMoonWalkEffect: number
 ]
 
 { #category : #'instance creation' }

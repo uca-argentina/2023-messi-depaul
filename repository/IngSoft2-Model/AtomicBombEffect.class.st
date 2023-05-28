@@ -5,6 +5,7 @@ Class {
 }
 
 { #category : #action }
-AtomicBombEffect >> implementTo: spaceshipsPositions of: aName [ 
-	spaceshipsPositions do: [ :spaceshipPosition | spaceshipPosition changePosition: 1 ]
+AtomicBombEffect >> implementOn: aBoardGame [
+
+	aBoardGame applyAtomicBombEffect
 ]
