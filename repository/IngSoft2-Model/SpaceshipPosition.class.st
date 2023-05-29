@@ -19,16 +19,6 @@ SpaceshipPosition class >> of: aSpaceship with: aPositionNumber [
 	^(self new) initializeWith: aSpaceship and: aPositionNumber.
 ]
 
-{ #category : #action }
-SpaceshipPosition >> changePosition: newPosition [
-	position:= newPosition.
-]
-
-{ #category : #action }
-SpaceshipPosition >> changeRound: aNum [
-	round:= round + aNum.
-]
-
 { #category : #'instance creation' }
 SpaceshipPosition >> initializeNamed: spaceshipName on: aPosition at: aRound [ 
 	spaceship:= spaceshipName.
@@ -44,12 +34,12 @@ SpaceshipPosition >> initializeWith: aSpaceship and: aPositionNumber [
 
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 SpaceshipPosition >> position [
 	^ position
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 SpaceshipPosition >> round [
 	^round.
 ]

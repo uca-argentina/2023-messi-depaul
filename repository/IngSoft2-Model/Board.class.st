@@ -35,7 +35,7 @@ Board class >> validateCanExistWith: cellsEffectsCollection [
 	
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'instance variables' }
 Board >> anAmountOfCells [
 
 	^ amountOfCells
@@ -53,7 +53,7 @@ Board >> initializeOf: aCollectionOfCellsEffects withLenght: anAmountOfParsecs [
 	amountOfCells := cellsEffects size.
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 Board >> parsecs [
 	^ parsecs
 ]

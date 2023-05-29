@@ -17,7 +17,7 @@ CellEfect class >> on: aCellNumber of: anEffect [
 	^(self new) initializeOf: aCellNumber and: anEffect.
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'instance variable' }
 CellEfect >> effect [
 	^ effect
 ]

@@ -23,12 +23,12 @@ ProbabilityCellEffect >> atomicBombs [
 	^ atomicBombs
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'instance variables' }
 ProbabilityCellEffect >> hyperJumps [
 	^ hyperJumps
 ]
 
-{ #category : #action }
+{ #category : #'instance creation' }
 ProbabilityCellEffect >> initializeCells [
 	1 to: amountOfCells do: [ :index | 
 		| aNumber |
@@ -59,12 +59,12 @@ ProbabilityCellEffect >> initializeWithCellEffects: aNumber [
 	self initializeCells.
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 ProbabilityCellEffect >> moonWalks [
 	^ moonWalks
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'instance variables' }
 ProbabilityCellEffect >> noEffects [
 	^ noEffects
 ]
@@ -88,12 +88,12 @@ ProbabilityCellEffect >> obtainAnAmountOfCells [
 			atomicBombs := atomicBombs + 1]].
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 ProbabilityCellEffect >> speedUps [
 	^ speedUps
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 ProbabilityCellEffect >> wormHoles [
 	^ wormHoles
 ]
