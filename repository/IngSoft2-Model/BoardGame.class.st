@@ -8,21 +8,26 @@ Class {
 		'spaceshipPositions',
 		'board',
 		'play',
-		'winner'
+		'winner',
+		'rounds'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #initialize }
-BoardGame class >> of: aBoard with: spaceships andWith: dice [
-	self validateCanExistWith: spaceships.
-	^(self new) initializesOf: aBoard with: spaceships andWith: dice.
+BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with:rounds [
+	self validateCanExistWith: spaceships andWith: rounds.
+	^(self new) initializePlayedBy: spaceships rolling: dice on: aBoard with:rounds.
 ]
 
 { #category : #'instance creation' }
-BoardGame class >> validateCanExistWith: aSpaceshipCollection [
-	
-	(aSpaceshipCollection isEmpty) ifTrue: [Error signal: 'Cannot create board with no spaceships'].
+BoardGame class >> validateCanExistWith: aSpaceshipCollection andWith: anAmountOfRounds [
+
+	aSpaceshipCollection isEmpty ifTrue: [ 
+		Error signal: 'Cannot create board with no spaceships' ].
+
+	anAmountOfRounds > 0 ifFalse: [ 
+		Error signal: 'Cannot create board with a negative amount of rounds' ]
 ]
 
 { #category : #action }
@@ -44,7 +49,7 @@ BoardGame >> aSpaceshipPlays: aSpaceship [
 BoardGame >> amountOfCellsOfNegativeParsecs: parsecs [
 
 	| parsecsPerCell amountOfCells amountOfParsecs |
-	parsecsPerCell := parsecs // board anAmountOfCells.
+	parsecsPerCell := (board parsecs) // board anAmountOfCells.
 	amountOfCells := 0.
 	amountOfParsecs := parsecs.
 
@@ -59,11 +64,11 @@ BoardGame >> amountOfCellsOfNegativeParsecs: parsecs [
 BoardGame >> amountOfCellsOfPositiveParsecs: parsecs [
 
 	| parsecsPerCell amountOfCells amountOfParsecs |
-	parsecsPerCell := parsecs // board anAmountOfCells.
+	parsecsPerCell := (board parsecs) // (board anAmountOfCells).
 	amountOfCells := 0.
 	amountOfParsecs := parsecs.
 
-	[ amountOfParsecs > parsecsPerCell ] whileTrue: [ 
+	[ amountOfParsecs >= parsecsPerCell ] whileTrue: [ 
 		amountOfCells := amountOfCells + 1.
 		amountOfParsecs := amountOfParsecs - parsecsPerCell ].
 
@@ -126,19 +131,21 @@ BoardGame >> dice [
 ]
 
 { #category : #initialization }
-BoardGame >> initializesOf: aBoard with: spaceshipsCollection andWith: diceCollection [ 
+BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds [
 	board := aBoard  .
 	spaceships := spaceshipsCollection .
-	dice := diceCollection .
+	dice := dieCollection .
 	turn:= 1.
-	self spaceshipsInitialization.
 	play := true.
+	rounds:= amountOfRounds.
+	self spaceshipsInitialization.
+	
 ]
 
 { #category : #action }
 BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 
-	| moveAmount amountOfRounds aSpaceshipPositionNew |
+	| moveAmount amountOfRounds aSpaceshipPositionNew posicion |
 
 	moveAmount := aSpaceshipPosition position + amountOfCellsToMove.
 	amountOfRounds := aSpaceshipPosition round.
@@ -162,8 +169,8 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 		                         on: moveAmount
 		                         at: amountOfRounds.
 		
-	spaceshipPositions remove: (spaceshipPositions at: 1).
-	spaceshipPositions add: aSpaceshipPositionNew.
+	posicion:= spaceshipPositions indexOf: aSpaceshipPosition.
+	spaceshipPositions at: posicion put: aSpaceshipPositionNew.
 
 ]
 
@@ -263,9 +270,9 @@ BoardGame >> validateTurn [
 { #category : #validation }
 BoardGame >> validateWinner: aSpaceshipPosition [
 
-	aSpaceshipPosition round > board rounds ifTrue: [ 
+	aSpaceshipPosition round > rounds ifTrue: [ 
 		play := false.
-		aSpaceshipPosition winner: board rounds.
+		aSpaceshipPosition winner: rounds.
 		winner:= aSpaceshipPosition spaceship.
 		]
 	ifFalse:[].
