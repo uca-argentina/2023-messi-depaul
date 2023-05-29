@@ -215,7 +215,6 @@ BoardGame >> relocatesSpaceshipPositionTo: aNumber [
 	
 	self applyEffect.
 	
-	
 ]
 
 { #category : #action }

@@ -17,7 +17,7 @@ CellEffectTest >> test16WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -46,7 +46,7 @@ CellEffectTest >> test17WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -78,7 +78,7 @@ CellEffectTest >> test18WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -119,7 +119,7 @@ CellEffectTest >> test19WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositi
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -145,7 +145,7 @@ CellEffectTest >> test20WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoes
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 		
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -181,7 +181,7 @@ CellEffectTest >> test21WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLess
 	spaceships add: 'Vicky'.
 	
 		
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -215,7 +215,7 @@ CellEffectTest >> test22WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -250,7 +250,7 @@ CellEffectTest >> test23WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToSt
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -289,7 +289,7 @@ CellEffectTest >> test24WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsAndRoun
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -329,7 +329,7 @@ CellEffectTest >> test25WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePo
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 		
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -369,7 +369,7 @@ CellEffectTest >> test26WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEff
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -405,7 +405,7 @@ CellEffectTest >> test27WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
 	spaceships add: 'Cami'.
 	spaceships add: 'Delfi'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -437,7 +437,7 @@ CellEffectTest >> test28ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -465,7 +465,7 @@ CellEffectTest >> test29ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -492,7 +492,7 @@ CellEffectTest >> test30ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -521,7 +521,7 @@ CellEffectTest >> test31WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPosi
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -558,7 +558,7 @@ CellEffectTest >> test32WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMov
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -587,7 +587,7 @@ CellEffectTest >> test33WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToIniti
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -616,7 +616,7 @@ CellEffectTest >> test34WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -649,7 +649,7 @@ CellEffectTest >> test35WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThe
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -681,7 +681,7 @@ CellEffectTest >> test3WhenThreeSpaceshipPlaysAndACellSpeedUpThenSpaceshipMovesW
 	spaceships add: 'Cami'.
 	spaceships add: 'Delfi'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:

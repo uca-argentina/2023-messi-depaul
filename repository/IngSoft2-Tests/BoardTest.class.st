@@ -16,6 +16,6 @@ BoardTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErrorMe
 
 { #category : #tests }
 BoardTest >> test01WhenABoardWithNegativeAmountOfCellsThenFailsCreation [
-self should: [ LoadedBoard of: OrderedCollection new withLenght: 15] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
+self should: [ Board of: OrderedCollection new withLenght: 15] raise: Error withMessage: 'Cannot create board with a negative amount of cells'.
 
 ]

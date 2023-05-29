@@ -34,7 +34,7 @@ DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := LoadedBoard of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: 15.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
