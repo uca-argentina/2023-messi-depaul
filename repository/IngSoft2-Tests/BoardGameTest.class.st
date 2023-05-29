@@ -51,7 +51,7 @@ BoardGameTest >> test07WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePositi
 		              on: aBoard
 		              with: 2.
 	
-	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2
 	
 	"PlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds"
@@ -73,16 +73,16 @@ BoardGameTest >> test08WhenASpaceshipWinsThenGameOver [
 		              on: aBoard
 		              with: 1.
 
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
 
 	self
-		should: [ aBoardGame aSpaceshipPlays: 'Cami' ]
+		should: [ aBoardGame playTurnFor: 'Cami' ]
 		raise: Error
 		withMessage: 'There is a winner, you cant keep moving forward'
 ]
@@ -103,15 +103,15 @@ BoardGameTest >> test09WhenTwoSpaceshipPlayThenSpaceship1Wins [
 		              on: aBoard
 		              with: 1.
 
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
 	self assert: aBoardGame winner equals: 'Vicky'
 ]
 
@@ -129,9 +129,9 @@ BoardGameTest >> test10WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
 		              with: 2.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
 	self
 		assert: aBoardGame positions
 		equals: (OrderedCollection with: 5 with: 3)
@@ -151,15 +151,15 @@ BoardGameTest >> test11WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
 		              with: 2.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 5.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 3
 ]
 
 { #category : #tests }
-BoardGameTest >> test12WhenItsNotASpaceshipsTruenThenThrowsErrorMessage [
+BoardGameTest >> test12WhenItsNotASpaceshipsTruenThenCannotPlay [
 
 	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
@@ -173,7 +173,7 @@ BoardGameTest >> test12WhenItsNotASpaceshipsTruenThenThrowsErrorMessage [
 		              on: aBoard
 		              with: 2.
 	self
-		should: [ aBoardGame aSpaceshipPlays: 'Cami' ]
+		should: [ aBoardGame playTurnFor: 'Cami' ]
 		raise: Error
 		withMessage: 'Its not your turn'
 ]
@@ -193,7 +193,7 @@ BoardGameTest >> test13WhenABoardGameWithNoSpaceshipsThenFailsCreation [
 ]
 
 { #category : #tests }
-BoardGameTest >> test14WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRounds [
+BoardGameTest >> test14WhenASpaceshipAdvanceTwoRoundsThenCurrentPositionAndRound [
 
 	| spaceships aBoard aBoardGame |
 	
@@ -207,9 +207,9 @@ BoardGameTest >> test14WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRo
 		              (OrderedCollection with: (LoadedDie of: #( 3 4 20 )))
 		              on: aBoard
 		              with: 3.	
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 4.
 	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5.
@@ -217,7 +217,7 @@ BoardGameTest >> test14WhenASpaceshipAdvanceTwoRoundsThenSpaceshipPositionsAndRo
 ]
 
 { #category : #tests }
-BoardGameTest >> test15WhenASpaceshipAdvanceTwoRoundsThenFails [
+BoardGameTest >> test15WhenASpaceshipAdvanceTwoRoundsThenGameIsOver [
 
 	| spaceships aBoard aBoardGame |
 	
@@ -231,11 +231,34 @@ BoardGameTest >> test15WhenASpaceshipAdvanceTwoRoundsThenFails [
 		              (OrderedCollection with: (LoadedDie of: #( 12 4 20 )))
 		              on: aBoard
 		              with: 3.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
 	self
-		should: [ aBoardGame aSpaceshipPlays: 'Cami' ]
+		should: [ aBoardGame playTurnFor: 'Cami' ]
 		raise: Error
 		withMessage: 'There is a winner, you cant keep moving forward'
+]
+
+{ #category : #tests }
+BoardGameTest >> test16WhenABoardGameIsPlayedThenThereIsNotAWinner [
+
+	| spaceships aBoard aBoardGame |
+	
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: 15.
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 2 )))
+		              on: aBoard
+		              with: 3.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
+	self should: [ aBoardGame winner equals: 'Vicky' ]
+		raise: Error
+		withMessage: 'There is not a winner'
 ]

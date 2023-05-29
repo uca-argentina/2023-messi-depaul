@@ -7,9 +7,9 @@ Class {
 		'dice',
 		'spaceshipPositions',
 		'board',
-		'play',
 		'winner',
-		'rounds'
+		'rounds',
+		'isOver'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -28,21 +28,6 @@ BoardGame class >> validateCanExistWith: aSpaceshipCollection andWith: anAmountO
 
 	anAmountOfRounds > 0 ifFalse: [ 
 		Error signal: 'Cannot create board with a negative amount of rounds' ]
-]
-
-{ #category : #action }
-BoardGame >> aSpaceshipPlays: aSpaceship [
-
-	play
-		ifTrue: [ 
-			self validateSpaceshipTurnFor: aSpaceship.
-
-			self relocatesSpaceshipPositionTo: self throwDice.
-
-			self validateWinner: self playingSpaceshipPosition.
-
-			turn := turn \\ spaceships size + 1 ]
-		ifFalse: [ self validateKeepPlaying ]
 ]
 
 { #category : #effects }
@@ -125,19 +110,15 @@ BoardGame >> applyWormHoleEffect [
 	self moves: self playingSpaceshipPosition to: -4
 ]
 
-{ #category : #'instance variable' }
-BoardGame >> dice [
-	^ dice
-]
-
 { #category : #initialization }
 BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds [
 	board := aBoard  .
 	spaceships := spaceshipsCollection .
 	dice := dieCollection .
 	turn:= 1.
-	play := true.
+	isOver := false.
 	rounds:= amountOfRounds.
+	winner := ''.
 	self spaceshipsInitialization.
 	
 ]
@@ -172,6 +153,21 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 	posicion:= spaceshipPositions indexOf: aSpaceshipPosition.
 	spaceshipPositions at: posicion put: aSpaceshipPositionNew.
 
+]
+
+{ #category : #action }
+BoardGame >> playTurnFor: aSpaceship [
+
+	isOver
+		ifFalse: [ 
+			self validateSpaceshipTurnFor: aSpaceship.
+
+			self relocatesSpaceshipPositionTo: self throwDice.
+
+			self validateWinner: self playingSpaceshipPosition.
+
+			turn := turn \\ spaceships size + 1 ]
+		ifTrue: [ self validateKeepPlaying ]
 ]
 
 { #category : #action }
@@ -270,8 +266,8 @@ BoardGame >> validateTurn [
 BoardGame >> validateWinner: aSpaceshipPosition [
 
 	aSpaceshipPosition round > rounds ifTrue: [ 
-		play := false.
-		aSpaceshipPosition winner: rounds.
+		isOver := true.
+		"aSpaceshipPosition winner: rounds."
 		winner:= aSpaceshipPosition spaceship.
 		]
 	ifFalse:[].
@@ -279,5 +275,6 @@ BoardGame >> validateWinner: aSpaceshipPosition [
 
 { #category : #'instance variable' }
 BoardGame >> winner [
-	^ winner
+	(winner)ifEmpty: [ Error signal: 'There is not a winner'. ] ifNotEmpty: [  ].
+		^ winner
 ]

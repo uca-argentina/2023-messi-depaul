@@ -42,16 +42,16 @@ DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
 		              on: aBoard
 		              with: 2.		
 
-	aBoardGame aSpaceshipPlays: 'Vicky'.
-	aBoardGame aSpaceshipPlays: 'Cami'.
-	aBoardGame aSpaceshipPlays: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
+	aBoardGame playTurnFor: 'Vicky'.
 
 self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
 self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 8.
 ]
 
 { #category : #tests }
-DieTest >> test03WhenADieIsCreatedWithNegativeFacesThenFailsCreation [
+DieTest >> test03WhenADieIsCreatedWithNegativeFacesThenCannotCreate [
 self should: [ Die of: 1 ] raise: Error withMessage: 'Cannot create die with 2 or less amount of faces'.
 
 
@@ -77,6 +77,6 @@ self assert: aLoadedDie throw equals: 1.
 ]
 
 { #category : #tests }
-DieTest >> test06WhenALoadedDieWithNegativeSequenceThenFailsCreation [
+DieTest >> test06WhenALoadedDieWithNegativeSequenceThenCannotCreate [
 self should: [ LoadedDie of: #(-1)] raise: Error withMessage: 'Cannot create die with value less than 0'.
 ]
