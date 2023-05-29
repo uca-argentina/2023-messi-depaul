@@ -15,20 +15,25 @@ DieTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErrorMess
 ]
 
 { #category : #tests }
+DieTest >> test01WhenALoadedDieWithNegativeSequenceThenCannotCreate [
+self should: [ LoadedDie of: #(-1)] raise: Error withMessage: 'Cannot create die with value less than 0'.
+]
+
+{ #category : #tests }
 DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
 |spaceships aBoard aBoardGame cellEffects |
 	
 	cellEffects := OrderedCollection new. 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: NoEffect new).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 	
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -74,9 +79,4 @@ self assert: aLoadedDie throw equals: 2.
 self assert: aLoadedDie throw equals: 3.
 self assert: aLoadedDie throw equals: 1.
 
-]
-
-{ #category : #tests }
-DieTest >> test06WhenALoadedDieWithNegativeSequenceThenCannotCreate [
-self should: [ LoadedDie of: #(-1)] raise: Error withMessage: 'Cannot create die with value less than 0'.
 ]

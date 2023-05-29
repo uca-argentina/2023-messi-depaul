@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #tests }
-ProbabilityTest >> test37When1000BoardsAreCreatedThenProbabilityOfAtomicBombBetween1And3 [
+ProbabilityTest >> test01When1000BoardsAreCreatedThenProbabilityOfAtomicBombBetween1And3 [
 
 	| randomCellEffects sum |
 	randomCellEffects := OrderedCollection new.
@@ -19,7 +19,7 @@ ProbabilityTest >> test37When1000BoardsAreCreatedThenProbabilityOfAtomicBombBetw
 ]
 
 { #category : #tests }
-ProbabilityTest >> test38When1000BoardsAreCreatedThenProbabilityOfHyperJumpBetween7And9 [
+ProbabilityTest >> test02When1000BoardsAreCreatedThenProbabilityOfHyperJumpBetween7And9 [
 
 	| randomCellEffects sum |
 	randomCellEffects := OrderedCollection new.
@@ -35,7 +35,7 @@ ProbabilityTest >> test38When1000BoardsAreCreatedThenProbabilityOfHyperJumpBetwe
 ]
 
 { #category : #tests }
-ProbabilityTest >> test39When1000BoardsAreCreatedThenProbabilityOfMoonWalkBetween9And11 [
+ProbabilityTest >> test03When1000BoardsAreCreatedThenProbabilityOfMoonWalkBetween9And11 [
 
 	| randomCellEffects sum |
 	randomCellEffects := OrderedCollection new.
@@ -49,7 +49,7 @@ ProbabilityTest >> test39When1000BoardsAreCreatedThenProbabilityOfMoonWalkBetwee
 ]
 
 { #category : #tests }
-ProbabilityTest >> test40When1000BoardsAreCreatedThenProbabilityOfNoEffectBetween39And41 [
+ProbabilityTest >> test04When1000BoardsAreCreatedThenProbabilityOfNoEffectBetween39And41 [
 
 	| randomCellEffects sum |
 	randomCellEffects := OrderedCollection new.
@@ -63,7 +63,7 @@ ProbabilityTest >> test40When1000BoardsAreCreatedThenProbabilityOfNoEffectBetwee
 ]
 
 { #category : #tests }
-ProbabilityTest >> test41When1000BoardsAreCreatedThenProbabilityOfSpeedUpBetween19And21 [
+ProbabilityTest >> test05When1000BoardsAreCreatedThenProbabilityOfSpeedUpBetween19And21 [
 
 	| randomCellEffects sum |
 	randomCellEffects := OrderedCollection new.
@@ -77,7 +77,7 @@ ProbabilityTest >> test41When1000BoardsAreCreatedThenProbabilityOfSpeedUpBetween
 ]
 
 { #category : #tests }
-ProbabilityTest >> test42When1000BoardsAreCreatedThenProbabilityOfWormHoleBetween19And21 [
+ProbabilityTest >> test06When1000BoardsAreCreatedThenProbabilityOfWormHoleBetween19And21 [
 
 	| randomCellEffects sum |
 	randomCellEffects := OrderedCollection new.

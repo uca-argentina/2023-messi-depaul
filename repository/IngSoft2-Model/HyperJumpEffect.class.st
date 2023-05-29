@@ -9,8 +9,9 @@ Class {
 }
 
 { #category : #initialization }
-HyperJumpEffect class >> with: aSequenceOfParsecs [ 
-	^(self new) initializeWith: aSequenceOfParsecs.
+HyperJumpEffect class >> with: aSequenceOfParsecs [
+
+	^ self new initializeWith: aSequenceOfParsecs
 ]
 
 { #category : #action }
@@ -25,6 +26,7 @@ HyperJumpEffect >> implementOn: aBoardGame [
 
 { #category : #'instance creation' }
 HyperJumpEffect >> initializeWith: aSequenceOfParsecs [
-	parsecsValues:= aSequenceOfParsecs .
-	parsecIndex:= 1.
+
+	parsecsValues := aSequenceOfParsecs.
+	parsecIndex := 1
 ]

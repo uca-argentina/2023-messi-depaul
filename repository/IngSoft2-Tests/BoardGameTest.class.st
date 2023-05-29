@@ -12,16 +12,16 @@ BoardGameTest >> setUp [
 
 	super setUp.
 	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: NoEffect new).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 ]
 
 { #category : #tests }
@@ -35,7 +35,22 @@ BoardGameTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErr
 ]
 
 { #category : #tests }
-BoardGameTest >> test07WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePosition [
+BoardGameTest >> test01WhenCreationOfBoardGameWithRepetedSpaceshipsThenCannotCreate [
+	|spaceships|
+	spaceships := OrderedCollection with: 'Cami' with: 'Vicky' with: 'Cami'.	
+	self
+		should: [ 
+			BoardGame
+				playedBy: spaceships
+				rolling: (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+				on: (Board of: cellEffects withLenght: 15)
+				with: 2 ]
+		raise: Error
+		withMessage: 'Cannot create board with repeted spaceships'
+]
+
+{ #category : #tests }
+BoardGameTest >> test02WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePosition [
 
 	| aBoardGame aBoard aLoadedDie spaceships |
 	spaceships := OrderedCollection new.
@@ -53,12 +68,10 @@ BoardGameTest >> test07WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePositi
 	
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2
-	
-	"PlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds"
 ]
 
 { #category : #tests }
-BoardGameTest >> test08WhenASpaceshipWinsThenGameOver [
+BoardGameTest >> test03WhenASpaceshipWinsThenGameOver [
 
 	| spaceships aBoard aBoardGame |
 	
@@ -88,7 +101,7 @@ BoardGameTest >> test08WhenASpaceshipWinsThenGameOver [
 ]
 
 { #category : #tests }
-BoardGameTest >> test09WhenTwoSpaceshipPlayThenSpaceship1Wins [
+BoardGameTest >> test04WhenTwoSpaceshipPlayThenSpaceship1Wins [
 
 	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
@@ -116,7 +129,7 @@ BoardGameTest >> test09WhenTwoSpaceshipPlayThenSpaceship1Wins [
 ]
 
 { #category : #tests }
-BoardGameTest >> test10WhenAllSpaceshipsPositionsThenAnOrderedCollection [
+BoardGameTest >> test05WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 
 	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
@@ -138,7 +151,7 @@ BoardGameTest >> test10WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 ]
 
 { #category : #tests }
-BoardGameTest >> test11WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
+BoardGameTest >> test06WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 
 	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
@@ -159,7 +172,7 @@ BoardGameTest >> test11WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 ]
 
 { #category : #tests }
-BoardGameTest >> test12WhenItsNotASpaceshipsTruenThenCannotPlay [
+BoardGameTest >> test07WhenItsNotASpaceshipsTruenThenCannotPlay [
 
 	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
@@ -179,7 +192,7 @@ BoardGameTest >> test12WhenItsNotASpaceshipsTruenThenCannotPlay [
 ]
 
 { #category : #tests }
-BoardGameTest >> test13WhenABoardGameWithNoSpaceshipsThenFailsCreation [
+BoardGameTest >> test08WhenABoardGameWithNoSpaceshipsThenFailsCreation [
 
 	self
 		should: [ 
@@ -193,7 +206,7 @@ BoardGameTest >> test13WhenABoardGameWithNoSpaceshipsThenFailsCreation [
 ]
 
 { #category : #tests }
-BoardGameTest >> test14WhenASpaceshipAdvanceTwoRoundsThenCurrentPositionAndRound [
+BoardGameTest >> test09WhenASpaceshipAdvanceTwoRoundsThenCurrentPositionAndRound [
 
 	| spaceships aBoard aBoardGame |
 	
@@ -217,7 +230,7 @@ BoardGameTest >> test14WhenASpaceshipAdvanceTwoRoundsThenCurrentPositionAndRound
 ]
 
 { #category : #tests }
-BoardGameTest >> test15WhenASpaceshipAdvanceTwoRoundsThenGameIsOver [
+BoardGameTest >> test10WhenASpaceshipAdvanceTwoRoundsThenGameIsOver [
 
 	| spaceships aBoard aBoardGame |
 	
@@ -241,7 +254,7 @@ BoardGameTest >> test15WhenASpaceshipAdvanceTwoRoundsThenGameIsOver [
 ]
 
 { #category : #tests }
-BoardGameTest >> test16WhenABoardGameIsPlayedThenThereIsNotAWinner [
+BoardGameTest >> test11WhenABoardGameIsPlayedThenThereIsNotAWinner [
 
 	| spaceships aBoard aBoardGame |
 	

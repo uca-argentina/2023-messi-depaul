@@ -1,5 +1,5 @@
 Class {
-	#name : #CellEfect,
+	#name : #Cell,
 	#superclass : #Object,
 	#instVars : [
 		'number',
@@ -13,22 +13,26 @@ Class {
 }
 
 { #category : #initialization }
-CellEfect class >> on: aCellNumber of: anEffect [
-	^(self new) initializeOf: aCellNumber and: anEffect.
+Cell class >> on: aCellNumber of: anEffect [
+
+	^ self new initializeOf: aCellNumber and: anEffect
 ]
 
 { #category : #'instance variable' }
-CellEfect >> effect [
+Cell >> effect [
+
 	^ effect
 ]
 
 { #category : #'instance creation' }
-CellEfect >> initializeOf: aCellNumber and: anEffect [
+Cell >> initializeOf: aCellNumber and: anEffect [
+
 	number := aCellNumber.
-	effect := anEffect.
+	effect := anEffect
 ]
 
 { #category : #'instance variable' }
-CellEfect >> number [
+Cell >> number [
+
 	^ number
 ]

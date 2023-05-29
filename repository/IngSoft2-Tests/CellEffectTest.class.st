@@ -5,14 +5,14 @@ Class {
 }
 
 { #category : #tests }
-CellEffectTest >> test16WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
+CellEffectTest >> test01WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: SpeedUpEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: SpeedUpEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -33,14 +33,14 @@ CellEffectTest >> test16WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 ]
 
 { #category : #tests }
-CellEffectTest >> test17WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
+CellEffectTest >> test02WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: SpeedUpEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: SpeedUpEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -60,20 +60,20 @@ CellEffectTest >> test17WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
 ]
 
 { #category : #tests }
-CellEffectTest >> test18WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
+CellEffectTest >> test03WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: SpeedUpEffect new).
-	cellEffects add: (CellEfect on: 3 of: SpeedUpEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: SpeedUpEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: SpeedUpEffect new).
+	cellEffects add: (Cell on: 3 of: SpeedUpEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: NoEffect new).
+	cellEffects add: (Cell on: 7 of: SpeedUpEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
@@ -100,21 +100,21 @@ CellEffectTest >> test18WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
 ]
 
 { #category : #tests }
-CellEffectTest >> test19WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositions [
+CellEffectTest >> test04WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositions [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: WormHoleEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: WormHoleEffect new).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -134,13 +134,13 @@ CellEffectTest >> test19WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositi
 ]
 
 { #category : #tests }
-CellEffectTest >> test20WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoesBackTwoRounds [
+CellEffectTest >> test05WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoesBackTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: WormHoleEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: WormHoleEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -161,21 +161,21 @@ CellEffectTest >> test20WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoes
 ]
 
 { #category : #tests }
-CellEffectTest >> test21WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLessThanFourThenGoesToStart [
+CellEffectTest >> test06WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLessThanFourThenGoesToStart [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: WormHoleEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: NoEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: WormHoleEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: NoEffect new).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -196,21 +196,21 @@ CellEffectTest >> test21WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLess
 ]
 
 { #category : #tests }
-CellEffectTest >> test22WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart [
+CellEffectTest >> test07WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: AtomicBombEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: AtomicBombEffect new).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -230,21 +230,21 @@ CellEffectTest >> test22WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart
 ]
 
 { #category : #tests }
-CellEffectTest >> test23WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToStart [
+CellEffectTest >> test08WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToStart [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: AtomicBombEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: AtomicBombEffect new).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -275,16 +275,16 @@ CellEffectTest >> test23WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToSt
 ]
 
 { #category : #tests }
-CellEffectTest >> test24WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsAndRoundDoesNotChange [
+CellEffectTest >> test09WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsAndRoundDoesNotChange [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: AtomicBombEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: AtomicBombEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -307,22 +307,22 @@ CellEffectTest >> test24WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsAndRoun
 ]
 
 { #category : #tests }
-CellEffectTest >> test25WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePositions [
+CellEffectTest >> test10WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePositions [
 
 	| spaceships aBoard aBoardGame cellEffects aMoonWalkEffect |
 	cellEffects := OrderedCollection new.
 	aMoonWalkEffect := MoonWalkEffect with: 5.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: aMoonWalkEffect).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: aMoonWalkEffect).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 
 
 	spaceships := OrderedCollection new.
@@ -350,21 +350,21 @@ CellEffectTest >> test25WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePo
 ]
 
 { #category : #tests }
-CellEffectTest >> test26WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEffectThenEffectNotApplied [
+CellEffectTest >> test11WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEffectThenEffectNotApplied [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: SpeedUpEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: WormHoleEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: SpeedUpEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: WormHoleEffect new).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -384,21 +384,21 @@ CellEffectTest >> test26WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEff
 ]
 
 { #category : #tests }
-CellEffectTest >> test27WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
+CellEffectTest >> test12WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: SpeedUpEffect new).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
-	cellEffects add: (CellEfect on: 6 of: WormHoleEffect new).
-	cellEffects add: (CellEfect on: 7 of: NoEffect new).
-	cellEffects add: (CellEfect on: 8 of: NoEffect new).
-	cellEffects add: (CellEfect on: 9 of: NoEffect new).
-	cellEffects add: (CellEfect on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: SpeedUpEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 6 of: WormHoleEffect new).
+	cellEffects add: (Cell on: 7 of: NoEffect new).
+	cellEffects add: (Cell on: 8 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: NoEffect new).
+	cellEffects add: (Cell on: 10 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -423,16 +423,16 @@ CellEffectTest >> test27WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
 ]
 
 { #category : #tests }
-CellEffectTest >> test28ASpaceshipLandsOnHyperJumpThenMovesOneCell [
+CellEffectTest >> test13ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: 5).
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: aHyperJumpEffect).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
@@ -451,16 +451,16 @@ CellEffectTest >> test28ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 ]
 
 { #category : #tests }
-CellEffectTest >> test29ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
+CellEffectTest >> test14ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: 5).
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: aHyperJumpEffect).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
@@ -479,16 +479,16 @@ CellEffectTest >> test29ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 ]
 
 { #category : #tests }
-CellEffectTest >> test30ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
+CellEffectTest >> test15ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: 3).
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: aHyperJumpEffect).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
@@ -506,17 +506,17 @@ CellEffectTest >> test30ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 ]
 
 { #category : #tests }
-CellEffectTest >> test31WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPositions [
+CellEffectTest >> test16WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPositions [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell
 			 on: 2
 			 of: (HyperJumpEffect with: (OrderedCollection with: 6 with: 5))).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
@@ -543,17 +543,17 @@ CellEffectTest >> test31WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPosi
 ]
 
 { #category : #tests }
-CellEffectTest >> test32WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMovesBackwards [
+CellEffectTest >> test17WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMovesBackwards [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with:
 		                    (OrderedCollection with: -4).
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: aHyperJumpEffect).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: aHyperJumpEffect).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
@@ -572,17 +572,17 @@ CellEffectTest >> test32WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMov
 ]
 
 { #category : #tests }
-CellEffectTest >> test33WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToInitialPosition [
+CellEffectTest >> test18WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToInitialPosition [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with:
 		                    (OrderedCollection with: -5).
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: aHyperJumpEffect).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
@@ -601,17 +601,17 @@ CellEffectTest >> test33WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToIniti
 ]
 
 { #category : #tests }
-CellEffectTest >> test34WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
+CellEffectTest >> test19WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with:
 		                    (OrderedCollection with: -30).
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: aHyperJumpEffect).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -634,17 +634,17 @@ CellEffectTest >> test34WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 ]
 
 { #category : #tests }
-CellEffectTest >> test35WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThenGoesBack2Rounds [
+CellEffectTest >> test20WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThenGoesBack2Rounds [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with:
 		                    (OrderedCollection with: -30).
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: aHyperJumpEffect).
-	cellEffects add: (CellEfect on: 3 of: NoEffect new).
-	cellEffects add: (CellEfect on: 4 of: NoEffect new).
-	cellEffects add: (CellEfect on: 5 of: NoEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
+	cellEffects add: (Cell on: 3 of: NoEffect new).
+	cellEffects add: (Cell on: 4 of: NoEffect new).
+	cellEffects add: (Cell on: 5 of: NoEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
@@ -667,14 +667,14 @@ CellEffectTest >> test35WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThe
 ]
 
 { #category : #tests }
-CellEffectTest >> test3WhenThreeSpaceshipPlaysAndACellSpeedUpThenSpaceshipMovesWithEffect [
+CellEffectTest >> test21WhenThreeSpaceshipPlaysAndACellSpeedUpThenSpaceshipMovesWithEffect [
 
 	| spaceships aBoard aBoardGame cellEffects |
 	cellEffects := OrderedCollection new.
 
-	cellEffects add: (CellEfect on: 1 of: NoEffect new).
-	cellEffects add: (CellEfect on: 2 of: NoEffect new).
-	cellEffects add: (CellEfect on: 3 of: SpeedUpEffect new).
+	cellEffects add: (Cell on: 1 of: NoEffect new).
+	cellEffects add: (Cell on: 2 of: NoEffect new).
+	cellEffects add: (Cell on: 3 of: SpeedUpEffect new).
 
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.

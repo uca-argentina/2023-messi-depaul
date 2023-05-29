@@ -8,8 +8,9 @@ Class {
 }
 
 { #category : #initialization }
-MoonWalkEffect class >> with: aNumber [ 
-	^(self new) initializeWith: aNumber.
+MoonWalkEffect class >> with: aNumber [
+
+	^ self new initializeWith: aNumber
 ]
 
 { #category : #action }
@@ -19,6 +20,7 @@ MoonWalkEffect >> implementOn: aBoardGame [
 ]
 
 { #category : #'instance creation' }
-MoonWalkEffect >> initializeWith: aNumber [ 
-	number := aNumber.
+MoonWalkEffect >> initializeWith: aNumber [
+
+	number := aNumber
 ]
