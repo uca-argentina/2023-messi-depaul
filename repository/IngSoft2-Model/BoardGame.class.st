@@ -36,7 +36,7 @@ BoardGame class >> validateCanExistWith: aSpaceshipCollection andWith: anAmountO
 
 
 	aSpaceshipCollection asSet size < aSpaceshipCollection size ifTrue: [ 
-		Error signal: 'Cannot create board with repeted spaceships' ]
+		Error signal: 'Cannot create board with repeated spaceships' ]
 ]
 
 { #category : #effects }
@@ -300,12 +300,6 @@ BoardGame >> validateSpaceshipTurnFor: aSpaceship [
 
 	(spaceships at: turn) = aSpaceship
 		ifFalse: [ Error signal: 'Its not your turn' ].
-]
-
-{ #category : #validation }
-BoardGame >> validateTurn [
-
-	Error signal: 'Its not your turn'
 ]
 
 { #category : #validation }

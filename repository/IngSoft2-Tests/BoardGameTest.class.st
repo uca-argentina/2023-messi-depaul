@@ -35,7 +35,7 @@ BoardGameTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErr
 ]
 
 { #category : #tests }
-BoardGameTest >> test01WhenCreationOfBoardGameWithRepetedSpaceshipsThenCannotCreate [
+BoardGameTest >> test01WhenCreationOfBoardGameWithRepeatedSpaceshipsThenCannotCreate [
 	|spaceships|
 	spaceships := OrderedCollection with: 'Cami' with: 'Vicky' with: 'Cami'.	
 	self
@@ -46,7 +46,7 @@ BoardGameTest >> test01WhenCreationOfBoardGameWithRepetedSpaceshipsThenCannotCre
 				on: (Board of: cellEffects withLenght: 15)
 				with: 2 ]
 		raise: Error
-		withMessage: 'Cannot create board with repeted spaceships'
+		withMessage: 'Cannot create board with repeated spaceships'
 ]
 
 { #category : #tests }
