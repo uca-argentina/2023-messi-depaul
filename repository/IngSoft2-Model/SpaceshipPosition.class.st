@@ -4,62 +4,39 @@ Class {
 	#instVars : [
 		'spaceship',
 		'position',
-		'round',
-		'parsec'
+		'round'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
-SpaceshipPosition class >> of: aSpaceship with: aPositionNumber [
-	^(self new) initializeWith: aSpaceship and: aPositionNumber.
-]
-
-{ #category : #action }
-SpaceshipPosition >> changeParsec: aNum [ 
-	parsec := aNum.
-]
-
-{ #category : #action }
-SpaceshipPosition >> changePosition: newPosition [
-	position:= newPosition.
-]
-
-{ #category : #action }
-SpaceshipPosition >> changeRound: aNum [
-	round:= round + aNum.
-]
-
 { #category : #initialization }
-SpaceshipPosition >> initializeWith: aSpaceship and: aPositionNumber [ 
-	spaceship := aSpaceship.
-	position := aPositionNumber.
-	round:= 1.
-	parsec:= 1.
+SpaceshipPosition class >> named: spaceshipName on: aPosition at: aRound [
+
+	^ self new initializeNamed: spaceshipName on: aPosition at: aRound
 ]
 
-{ #category : #'instance variable' }
-SpaceshipPosition >> parsec [
-	^ parsec
+{ #category : #'instance creation' }
+SpaceshipPosition >> initializeNamed: spaceshipName on: aPosition at: aRound [
+
+	spaceship := spaceshipName.
+	position := aPosition.
+	round := aRound
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 SpaceshipPosition >> position [
+
 	^ position
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 SpaceshipPosition >> round [
-	^round.
+
+	^ round
 ]
 
 { #category : #'instance variables' }
 SpaceshipPosition >> spaceship [
-	^spaceship
-]
 
-{ #category : #action }
-SpaceshipPosition >> winner: aRound [
-	position:= 1.
-	round := aRound + 1.
+	^ spaceship
 ]

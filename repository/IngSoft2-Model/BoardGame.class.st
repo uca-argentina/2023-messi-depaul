@@ -7,84 +7,220 @@ Class {
 		'dice',
 		'spaceshipPositions',
 		'board',
-		'play',
-		'winner'
+		'winner',
+		'rounds',
+		'isOver'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #initialize }
-BoardGame class >> of: aBoard with: spaceships andWith: dice [
-	self validateCanExistWith: spaceships.
-	^(self new) initializesOf: aBoard with: spaceships andWith: dice.
+BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds [
+
+	self validateCanExistWith: spaceships andWith: rounds.
+	^ self new
+		  initializePlayedBy: spaceships
+		  rolling: dice
+		  on: aBoard
+		  with: rounds
 ]
 
 { #category : #'instance creation' }
-BoardGame class >> validateCanExistWith: aSpaceshipCollection [
-	
-	(aSpaceshipCollection isEmpty) ifTrue: [Error signal: 'Cannot create board with no spaceships'].
+BoardGame class >> validateCanExistWith: aSpaceshipCollection andWith: anAmountOfRounds [
+
+	aSpaceshipCollection isEmpty ifTrue: [ 
+		Error signal: 'Cannot create board with no spaceships' ].
+
+	anAmountOfRounds > 0 ifFalse: [ 
+		Error signal: 'Cannot create board with a negative amount of rounds' ].
+
+
+	aSpaceshipCollection asSet size < aSpaceshipCollection size ifTrue: [ 
+		Error signal: 'Cannot create board with repeated spaceships' ]
 ]
 
-{ #category : #action }
-BoardGame >> aSpaceshipPlays: aName [
+{ #category : #effects }
+BoardGame >> amountOfCellsOfNegativeParsecs: parsecs [
 
-	| aSpaceshipPosition aNumber |
-	play
-		ifTrue: [ 
-			self aSpaceshipTurn = aName
-				ifTrue: [ 
-					aNumber := self throwDice.
-					aSpaceshipPosition := spaceshipPositions detect: [ 
-						                      :spaceshipPosition | 
-						                      spaceshipPosition spaceship == aName ].
+	| parsecsPerCell amountOfCells amountOfParsecs |
+	parsecsPerCell := board parsecs // board anAmountOfCells.
+	amountOfCells := 0.
+	amountOfParsecs := parsecs.
 
-					aSpaceshipPosition changePosition:
-						aSpaceshipPosition position + aNumber.
-						
-					board adaptPosition: aSpaceshipPosition.
-					
-					self detectEffectOf: aSpaceshipPosition With: aName.
-					
-					self validateWinner: aSpaceshipPosition ]
-				ifFalse: [ self validateTurn ] ]
-		ifFalse: [ self validateKeepPlaying ]
+	[ amountOfParsecs < 0 ] whileTrue: [ 
+		amountOfCells := amountOfCells - 1.
+		amountOfParsecs := amountOfParsecs + parsecsPerCell ].
+
+	^ amountOfCells
 ]
 
-{ #category : #action }
-BoardGame >> aSpaceshipTurn [
+{ #category : #effects }
+BoardGame >> amountOfCellsOfPositiveParsecs: parsecs [
 
-	| aSpaceship |
-	aSpaceship := spaceships at: turn.
-	turn := turn \\ spaceships size + 1.
-	^ aSpaceship
+	| parsecsPerCell amountOfCells amountOfParsecs |
+	parsecsPerCell := board parsecs // board anAmountOfCells.
+	amountOfCells := 0.
+	amountOfParsecs := parsecs.
+
+	[ amountOfParsecs >= parsecsPerCell ] whileTrue: [ 
+		amountOfCells := amountOfCells + 1.
+		amountOfParsecs := amountOfParsecs - parsecsPerCell ].
+
+	^ amountOfCells
 ]
 
-{ #category : #action }
-BoardGame >> detectEffectOf: aSpaceshipPosition With: aName [
+{ #category : #effects }
+BoardGame >> applyAtomicBombEffect [
+
+	spaceshipPositions do: [ :spaceship | 
+		self moves: spaceship to: spaceship position negated + 1 ]
+]
+
+{ #category : #effects }
+BoardGame >> applyEffect [
 
 	| aCellEffect |
-	(board cellsEffect anySatisfy: [ :cell | cell number = aSpaceshipPosition position ]) 
-	ifTrue: [ 
-		aCellEffect := board cellsEffect detect: [ :cell | 
-			               cell number = aSpaceshipPosition position ].
-		aCellEffect effect implementTo: spaceshipPositions of: aName.
-		board adaptAllPositions: spaceshipPositions ]
-	ifFalse:[].
+	aCellEffect := board cellsEffect detect: [ :cell | 
+		               cell number = self playingSpaceshipPosition position ].
+
+	aCellEffect effect implementOn: self
 ]
 
-{ #category : #'instance variables' }
-BoardGame >> dice [
-	^ dice
+{ #category : #effects }
+BoardGame >> applyHyperJumpEffect: parsecs [
+
+	| amountOfCells |
+	amountOfCells := parsecs > 0
+		                 ifTrue: [ 
+		                 self amountOfCellsOfPositiveParsecs: parsecs ]
+		                 ifFalse: [ 
+		                 self amountOfCellsOfNegativeParsecs: parsecs ].
+
+	self moves: self playingSpaceshipPosition to: amountOfCells
+]
+
+{ #category : #effects }
+BoardGame >> applyMoonWalkEffect: cellsBackward [
+
+	spaceshipPositions do: [ :spaceshipPosition | 
+		spaceshipPosition spaceship
+		~= self playingSpaceshipPosition spaceship ifTrue: [ 
+			self moves: spaceshipPosition to: cellsBackward negated ] ]
+]
+
+{ #category : #effects }
+BoardGame >> applySpeedUpEffect [
+
+	self moves: self playingSpaceshipPosition to: 4.
+]
+
+{ #category : #effects }
+BoardGame >> applyWormHoleEffect [
+
+	self moves: self playingSpaceshipPosition to: -4
 ]
 
 { #category : #initialization }
-BoardGame >> initializesOf: aBoard with: spaceshipsCollection andWith: diceCollection [ 
-	board := aBoard  .
-	spaceships := spaceshipsCollection .
-	dice := diceCollection .
-	turn:= 1.
-	self spaceshipsInitialization.
-	play := true.
+BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds [
+
+	board := aBoard.
+	spaceships := spaceshipsCollection.
+	dice := dieCollection.
+	turn := 1.
+	isOver := false.
+	rounds := amountOfRounds.
+	winner := ''.
+	self spaceshipsInitialization
+]
+
+{ #category : #action }
+BoardGame >> moveBackwards: aSpaceshipPosition to: amountOfCellsToMove [
+
+	| amountOfRounds moveAmount |
+	moveAmount := amountOfCellsToMove.
+	amountOfRounds := aSpaceshipPosition round.
+
+	[ moveAmount <= 0 ] whileTrue: [ 
+		amountOfRounds = 1
+			ifTrue: [ moveAmount := 1 ]
+			ifFalse: [ 
+				amountOfRounds := amountOfRounds - 1.
+				moveAmount := moveAmount + board anAmountOfCells ] ].
+	moveAmount = 0 ifTrue: [ moveAmount := 1 ].
+
+	^ SpaceshipPosition
+		  named: aSpaceshipPosition spaceship
+		  on: moveAmount
+		  at: amountOfRounds
+]
+
+{ #category : #action }
+BoardGame >> moveForward: aSpaceshipPosition to: amountOfCellsToMove [
+
+	| amountOfRounds moveAmount |
+	moveAmount := amountOfCellsToMove.
+	amountOfRounds := aSpaceshipPosition round.
+
+	[ moveAmount > board anAmountOfCells ] whileTrue: [ 
+		amountOfRounds := amountOfRounds + 1.
+		moveAmount := moveAmount - board anAmountOfCells ].
+	moveAmount = 0 ifTrue: [ moveAmount := 1 ].
+
+	^ SpaceshipPosition
+		  named: aSpaceshipPosition spaceship
+		  on: moveAmount
+		  at: amountOfRounds
+]
+
+{ #category : #action }
+BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
+
+	| moveAmount aSpaceshipPositionNew |
+	moveAmount := aSpaceshipPosition position + amountOfCellsToMove.
+
+	aSpaceshipPositionNew := SpaceshipPosition
+		                         named: aSpaceshipPosition spaceship
+		                         on: moveAmount
+		                         at: aSpaceshipPosition round.
+
+
+	moveAmount > board anAmountOfCells ifTrue: [ 
+		aSpaceshipPositionNew := self
+			                         moveForward: aSpaceshipPosition
+			                         to: moveAmount ].
+
+	moveAmount <= 0 ifTrue: [ 
+		aSpaceshipPositionNew := self
+			                         moveBackwards: aSpaceshipPosition
+			                         to: moveAmount ].
+
+	spaceshipPositions
+		at: (spaceshipPositions indexOf: aSpaceshipPosition)
+		put: aSpaceshipPositionNew
+]
+
+{ #category : #action }
+BoardGame >> playTurnFor: aSpaceship [
+
+	isOver
+		ifFalse: [ 
+			self validateSpaceshipTurnFor: aSpaceship.
+
+			self relocatesSpaceshipPositionTo: self throwDice.
+
+			self validateWinner: self playingSpaceshipPosition.
+
+			turn := turn \\ spaceships size + 1 ]
+		ifTrue: [ self validateKeepPlaying ]
+]
+
+{ #category : #action }
+BoardGame >> playingSpaceshipPosition [
+
+	| aSpaceshipPosition |
+	aSpaceshipPosition := spaceshipPositions detect: [ :spaceshipPosition | 
+		                      spaceshipPosition spaceship == (spaceships at: turn) ].
+	^ aSpaceshipPosition
 ]
 
 { #category : #action }
@@ -111,16 +247,28 @@ BoardGame >> ranking [
 ]
 
 { #category : #action }
+BoardGame >> relocatesSpaceshipPositionTo: aNumber [
+
+	self moves: self playingSpaceshipPosition to: aNumber.
+
+	self applyEffect
+]
+
+{ #category : #action }
 BoardGame >> spaceshipPosition: aName [
-	^ ((spaceshipPositions detect: [:spaceshipPosition | spaceshipPosition spaceship == aName ]) position).
+
+	^ (spaceshipPositions detect: [ :spaceshipPosition | 
+		   spaceshipPosition spaceship == aName ]) position
 ]
 
 { #category : #action }
-BoardGame >> spaceshipRound: aName [ 
-	^ ((spaceshipPositions detect: [:spaceshipPosition | spaceshipPosition spaceship == aName ]) round).
+BoardGame >> spaceshipRound: aName [
+
+	^ (spaceshipPositions detect: [ :spaceshipPosition | 
+		   spaceshipPosition spaceship == aName ]) round
 ]
 
-{ #category : #action }
+{ #category : #initialization }
 BoardGame >> spaceshipsInitialization [
 
 	| size |
@@ -128,7 +276,7 @@ BoardGame >> spaceshipsInitialization [
 	spaceshipPositions := OrderedCollection new.
 	[ spaceships size > size ] whileTrue: [ 
 		spaceshipPositions add:
-			(SpaceshipPosition of: (spaceships at: size + 1) with: 1).
+			(SpaceshipPosition named: (spaceships at: size + 1) on: 1 at: 1).
 		size := size + 1 ]
 ]
 
@@ -141,29 +289,34 @@ BoardGame >> throwDice [
 	^ result
 ]
 
-{ #category : #action }
+{ #category : #validation }
 BoardGame >> validateKeepPlaying [
 
 	Error signal: 'There is a winner, you cant keep moving forward'
 ]
 
 { #category : #validation }
-BoardGame >> validateTurn [
-	Error signal: 'Its not your turn'.
+BoardGame >> validateSpaceshipTurnFor: aSpaceship [
+
+	(spaceships at: turn) = aSpaceship
+		ifFalse: [ Error signal: 'Its not your turn' ].
 ]
 
 { #category : #validation }
 BoardGame >> validateWinner: aSpaceshipPosition [
 
-	aSpaceshipPosition round > board rounds ifTrue: [ 
-		play := false.
-		aSpaceshipPosition winner: board rounds.
-		winner:= aSpaceshipPosition spaceship.
-		]
-	ifFalse:[].
+	aSpaceshipPosition round > rounds
+		ifTrue: [ 
+			isOver := true.
+			winner := aSpaceshipPosition spaceship ]
+		ifFalse: [  ]
 ]
 
 { #category : #'instance variable' }
 BoardGame >> winner [
+
+	winner
+		ifEmpty: [ Error signal: 'There is not a winner' ]
+		ifNotEmpty: [  ].
 	^ winner
 ]

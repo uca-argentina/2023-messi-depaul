@@ -9,26 +9,24 @@ Class {
 }
 
 { #category : #initialization }
-HyperJumpEffect class >> with: aSequenceOfParsecs [ 
-	^(self new) initializeWith: aSequenceOfParsecs.
+HyperJumpEffect class >> with: aSequenceOfParsecs [
+
+	^ self new initializeWith: aSequenceOfParsecs
 ]
 
 { #category : #action }
-HyperJumpEffect >> implementTo: spaceshipsPositions of: aName [
+HyperJumpEffect >> implementOn: aBoardGame [
 
-	| aSpaceshipPosition value |
+	| value |
 	value := parsecsValues at: parsecIndex.
 	parsecIndex := parsecIndex \\ parsecsValues size + 1.
 
-	aSpaceshipPosition := spaceshipsPositions detect: [ 
-		                      :spaceshipPosition | 
-		                      spaceshipPosition spaceship == aName ].
-
-	aSpaceshipPosition changeParsec: value.
+	aBoardGame applyHyperJumpEffect: value
 ]
 
 { #category : #'instance creation' }
 HyperJumpEffect >> initializeWith: aSequenceOfParsecs [
-	parsecsValues:= aSequenceOfParsecs .
-	parsecIndex:= 1.
+
+	parsecsValues := aSequenceOfParsecs.
+	parsecIndex := 1
 ]

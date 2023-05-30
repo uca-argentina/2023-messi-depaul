@@ -5,11 +5,7 @@ Class {
 }
 
 { #category : #action }
-SpeedUpEffect >> implementTo: spaceshipsPositions of: aName [
+SpeedUpEffect >> implementOn: aBoardGame [
 
-	| aSpaceshipPosition |
-	aSpaceshipPosition := spaceshipsPositions detect: [ 
-		                      :spaceshipPosition | 
-		                      spaceshipPosition spaceship == aName ].
-	aSpaceshipPosition changePosition: aSpaceshipPosition position + 4
+	aBoardGame applySpeedUpEffect
 ]

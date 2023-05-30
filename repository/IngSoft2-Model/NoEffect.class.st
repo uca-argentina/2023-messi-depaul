@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #action }
-NoEffect >> implementTo: spaceshipPositions of: aName [
+NoEffect >> implementOn: aBoardGame [
 	
 ]

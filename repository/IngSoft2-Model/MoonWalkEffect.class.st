@@ -8,22 +8,19 @@ Class {
 }
 
 { #category : #initialization }
-MoonWalkEffect class >> with: aNumber [ 
-	^(self new) initializeWith: aNumber.
+MoonWalkEffect class >> with: aNumber [
+
+	^ self new initializeWith: aNumber
 ]
 
 { #category : #action }
-MoonWalkEffect >> implementTo: spaceshipsPositions of: aName [
-		
-	1 to:spaceshipsPositions size do: [:position | 
-		|spaceshipPosition| 
-		spaceshipPosition:= spaceshipsPositions at: position.
-		(spaceshipPosition spaceship ~= aName)ifTrue: [ 
-			spaceshipPosition changePosition:
-				spaceshipPosition position - number ]ifFalse:[] ].
+MoonWalkEffect >> implementOn: aBoardGame [
+
+	aBoardGame applyMoonWalkEffect: number
 ]
 
 { #category : #'instance creation' }
-MoonWalkEffect >> initializeWith: aNumber [ 
-	number := aNumber.
+MoonWalkEffect >> initializeWith: aNumber [
+
+	number := aNumber
 ]
