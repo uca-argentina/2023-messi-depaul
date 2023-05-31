@@ -7,5 +7,5 @@ Class {
 { #category : #action }
 SpeedUpEffect >> implementOn: aBoardGame [
 
-	aBoardGame applySpeedUpEffect
+	aBoardGame applyMovingEffect: 4.
 ]

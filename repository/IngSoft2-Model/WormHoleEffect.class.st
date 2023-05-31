@@ -7,5 +7,5 @@ Class {
 { #category : #action }
 WormHoleEffect >> implementOn: aBoardGame [
 
-	aBoardGame applyWormHoleEffect
+	aBoardGame applyMovingEffect: -4.
 ]

@@ -28,8 +28,8 @@ CellEffectTest >> test01WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 
 	aBoardGame playTurnFor: 'Vicky'.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2
+	self assert: (aBoardGame spaceshipPosition: 'Vicky')cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky')round equals: 2
 ]
 
 { #category : #tests }
@@ -55,8 +55,8 @@ CellEffectTest >> test02WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
 		              with: 4.	
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 3
 ]
 
 { #category : #tests }
@@ -87,16 +87,16 @@ CellEffectTest >> test03WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
 		              with: 4.	
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 6.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
 
 	aBoardGame playTurnFor: 'Cami'.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 7.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 7.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 2
 ]
 
 { #category : #tests }
@@ -129,8 +129,8 @@ CellEffectTest >> test04WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositi
 
 	aBoardGame playTurnFor: 'Vicky'.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -156,8 +156,8 @@ CellEffectTest >> test05WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoes
 
 	aBoardGame playTurnFor: 'Vicky'.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -191,8 +191,8 @@ CellEffectTest >> test06WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLess
 
 	aBoardGame playTurnFor: 'Vicky'.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -225,8 +225,8 @@ CellEffectTest >> test07WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart
 
 	aBoardGame playTurnFor: 'Vicky'.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -259,19 +259,19 @@ CellEffectTest >> test08WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToSt
 		              with: 2.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
 
 	aBoardGame playTurnFor: 'Cami'.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 2.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 2.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
 
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1
 ]
 
 { #category : #tests }
@@ -298,12 +298,12 @@ CellEffectTest >> test09WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsAndRoun
 		              with: 4.	
 	
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 3.
 	
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 3.
 ]
 
 { #category : #tests }
@@ -338,15 +338,15 @@ CellEffectTest >> test10WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePo
 		              with: 2.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 8.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 8.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
 
 	aBoardGame playTurnFor: 'Cami'.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 6.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 6.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -379,8 +379,8 @@ CellEffectTest >> test11WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEff
 
 	aBoardGame playTurnFor: 'Vicky'.
 
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -446,8 +446,8 @@ CellEffectTest >> test13ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 		              with: 2.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -474,8 +474,8 @@ CellEffectTest >> test14ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 		              with: 2.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -501,8 +501,8 @@ CellEffectTest >> test15ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 		              with: 2.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -530,16 +530,16 @@ CellEffectTest >> test16WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPosi
 		              with: 2.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 4.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
 
 	aBoardGame playTurnFor: 'Cami'.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 3.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 4.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 2
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 2
 ]
 
 { #category : #tests }
@@ -567,8 +567,8 @@ CellEffectTest >> test17WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMov
 		              with: 2.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -596,8 +596,8 @@ CellEffectTest >> test18WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToIniti
 		              with: 2.	
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -625,12 +625,12 @@ CellEffectTest >> test19WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 		              with: 4.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 3.
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -658,12 +658,12 @@ CellEffectTest >> test20WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThe
 		              with: 4.		
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 3.
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1
 ]
 
 { #category : #tests }
@@ -690,14 +690,14 @@ CellEffectTest >> test21WhenThreeSpaceshipPlaysAndACellSpeedUpThenSpaceshipMoves
 		              with: 4.	
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 3.
 	
 	aBoardGame playTurnFor: 'Cami'.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 3.
 	
 	aBoardGame playTurnFor: 'Delfi'.
-	self assert: (aBoardGame spaceshipPosition: 'Delfi') equals: 1.
-	self assert: (aBoardGame spaceshipRound: 'Delfi') equals: 3
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') round equals: 3
 ]

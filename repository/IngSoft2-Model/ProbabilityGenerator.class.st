@@ -1,5 +1,5 @@
 Class {
-	#name : #ProbabilityCellEffect,
+	#name : #ProbabilityGenerator,
 	#superclass : #Object,
 	#instVars : [
 		'noEffects',
@@ -14,25 +14,25 @@ Class {
 }
 
 { #category : #initialize }
-ProbabilityCellEffect class >> setWithCellEffects: aNumber [
+ProbabilityGenerator class >> setWithCellEffects: aNumber [
 
 	^ self new initializeWithCellEffects: aNumber
 ]
 
 { #category : #'instance variables' }
-ProbabilityCellEffect >> atomicBombs [
+ProbabilityGenerator >> atomicBombs [
 
 	^ atomicBombs
 ]
 
 { #category : #'instance variables' }
-ProbabilityCellEffect >> hyperJumps [
+ProbabilityGenerator >> hyperJumps [
 
 	^ hyperJumps
 ]
 
 { #category : #'instance creation' }
-ProbabilityCellEffect >> initializeCells [
+ProbabilityGenerator >> initializeCells [
 
 	1 to: amountOfCells do: [ :index | 
 		| aNumber |
@@ -52,7 +52,7 @@ ProbabilityCellEffect >> initializeCells [
 ]
 
 { #category : #'instance creation' }
-ProbabilityCellEffect >> initializeWithCellEffects: aNumber [
+ProbabilityGenerator >> initializeWithCellEffects: aNumber [
 
 	amountOfCells := aNumber.
 	noEffects := 0.
@@ -65,25 +65,25 @@ ProbabilityCellEffect >> initializeWithCellEffects: aNumber [
 ]
 
 { #category : #'instance variables' }
-ProbabilityCellEffect >> moonWalks [
+ProbabilityGenerator >> moonWalks [
 
 	^ moonWalks
 ]
 
 { #category : #'instance variables' }
-ProbabilityCellEffect >> noEffects [
+ProbabilityGenerator >> noEffects [
 
 	^ noEffects
 ]
 
 { #category : #'instance variables' }
-ProbabilityCellEffect >> speedUps [
+ProbabilityGenerator >> speedUps [
 
 	^ speedUps
 ]
 
 { #category : #'instance variables' }
-ProbabilityCellEffect >> wormHoles [
+ProbabilityGenerator >> wormHoles [
 
 	^ wormHoles
 ]

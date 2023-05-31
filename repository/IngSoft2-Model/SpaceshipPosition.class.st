@@ -3,36 +3,28 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'spaceship',
-		'position',
-		'round'
+		'position'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #initialization }
-SpaceshipPosition class >> named: spaceshipName on: aPosition at: aRound [
+SpaceshipPosition class >> named: spaceshipName on: aPosition [
 
-	^ self new initializeNamed: spaceshipName on: aPosition at: aRound
+	^ self new initializeNamed: spaceshipName on: aPosition
 ]
 
 { #category : #'instance creation' }
-SpaceshipPosition >> initializeNamed: spaceshipName on: aPosition at: aRound [
+SpaceshipPosition >> initializeNamed: spaceshipName on: aPosition [
 
 	spaceship := spaceshipName.
 	position := aPosition.
-	round := aRound
 ]
 
 { #category : #'instance variables' }
 SpaceshipPosition >> position [
 
 	^ position
-]
-
-{ #category : #'instance variables' }
-SpaceshipPosition >> round [
-
-	^ round
 ]
 
 { #category : #'instance variables' }

@@ -67,7 +67,7 @@ BoardGameTest >> test02WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePositi
 		              with: 2.
 	
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 2
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2
 ]
 
 { #category : #tests }
@@ -167,8 +167,8 @@ BoardGameTest >> test06WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 5.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 3
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 5.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 3
 ]
 
 { #category : #tests }
@@ -223,10 +223,10 @@ BoardGameTest >> test09WhenASpaceshipAdvanceTwoRoundsThenCurrentPositionAndRound
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 4.
-	self assert: (aBoardGame spaceshipRound: 'Vicky') equals: 3.
-	self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 5.
-	self assert: (aBoardGame spaceshipRound: 'Cami') equals: 1
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 5.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1
 ]
 
 { #category : #tests }

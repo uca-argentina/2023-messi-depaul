@@ -51,8 +51,8 @@ DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
 
-self assert: (aBoardGame spaceshipPosition: 'Vicky') equals: 3.
-self assert: (aBoardGame spaceshipPosition: 'Cami') equals: 8.
+self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
+self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 8.
 ]
 
 { #category : #tests }
