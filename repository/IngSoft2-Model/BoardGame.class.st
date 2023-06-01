@@ -73,7 +73,7 @@ BoardGame >> amountOfCellsOfPositiveParsecs: parsecs [
 BoardGame >> applyAtomicBombEffect [
 
 	spaceshipPositions do: [ :spaceship | 
-		self moves: spaceship to: spaceship position negated + 1 ]
+		self moves: spaceship to: (spaceship position cellNumber negated) + 1 ]
 ]
 
 { #category : #effects }
@@ -81,7 +81,7 @@ BoardGame >> applyEffect [
 
 	| aCellEffect |
 	aCellEffect := board cellsEffect detect: [ :cell | 
-		               cell number = self playingSpaceshipPosition position ].
+		               cell number = self playingSpaceshipPosition position cellNumber  ].
 
 	aCellEffect effect implementOn: self
 ]
@@ -109,15 +109,8 @@ BoardGame >> applyMoonWalkEffect: cellsBackward [
 ]
 
 { #category : #effects }
-BoardGame >> applySpeedUpEffect [
-
-	self moves: self playingSpaceshipPosition to: 4.
-]
-
-{ #category : #effects }
-BoardGame >> applyWormHoleEffect [
-
-	self moves: self playingSpaceshipPosition to: -4
+BoardGame >> applyMovingEffect: aNumber [ 
+	self moves: self playingSpaceshipPosition to: aNumber.
 ]
 
 { #category : #initialization }
@@ -138,7 +131,7 @@ BoardGame >> moveBackwards: aSpaceshipPosition to: amountOfCellsToMove [
 
 	| amountOfRounds moveAmount |
 	moveAmount := amountOfCellsToMove.
-	amountOfRounds := aSpaceshipPosition round.
+	amountOfRounds := aSpaceshipPosition position round.
 
 	[ moveAmount <= 0 ] whileTrue: [ 
 		amountOfRounds = 1
@@ -148,10 +141,7 @@ BoardGame >> moveBackwards: aSpaceshipPosition to: amountOfCellsToMove [
 				moveAmount := moveAmount + board anAmountOfCells ] ].
 	moveAmount = 0 ifTrue: [ moveAmount := 1 ].
 
-	^ SpaceshipPosition
-		  named: aSpaceshipPosition spaceship
-		  on: moveAmount
-		  at: amountOfRounds
+	^ Position on: moveAmount at: amountOfRounds
 ]
 
 { #category : #action }
@@ -159,15 +149,14 @@ BoardGame >> moveForward: aSpaceshipPosition to: amountOfCellsToMove [
 
 	| amountOfRounds moveAmount |
 	moveAmount := amountOfCellsToMove.
-	amountOfRounds := aSpaceshipPosition round.
+	amountOfRounds := aSpaceshipPosition position round.
 
 	[ moveAmount > board anAmountOfCells ] whileTrue: [ 
 		amountOfRounds := amountOfRounds + 1.
 		moveAmount := moveAmount - board anAmountOfCells ].
 	moveAmount = 0 ifTrue: [ moveAmount := 1 ].
 
-	^ SpaceshipPosition
-		  named: aSpaceshipPosition spaceship
+	^ Position
 		  on: moveAmount
 		  at: amountOfRounds
 ]
@@ -175,24 +164,22 @@ BoardGame >> moveForward: aSpaceshipPosition to: amountOfCellsToMove [
 { #category : #action }
 BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 
-	| moveAmount aSpaceshipPositionNew |
-	moveAmount := aSpaceshipPosition position + amountOfCellsToMove.
+	| moveAmount aSpaceshipPositionNew aPosition |
+	moveAmount := aSpaceshipPosition position cellNumber
+	              + amountOfCellsToMove.
+	aPosition := Position
+		             on: moveAmount
+		             at: aSpaceshipPosition position round.
+
+	moveAmount > board anAmountOfCells ifTrue: [ 
+		aPosition := self moveForward: aSpaceshipPosition to: moveAmount ].
+
+	moveAmount <= 0 ifTrue: [ 
+		aPosition := self moveBackwards: aSpaceshipPosition to: moveAmount ].
 
 	aSpaceshipPositionNew := SpaceshipPosition
 		                         named: aSpaceshipPosition spaceship
-		                         on: moveAmount
-		                         at: aSpaceshipPosition round.
-
-
-	moveAmount > board anAmountOfCells ifTrue: [ 
-		aSpaceshipPositionNew := self
-			                         moveForward: aSpaceshipPosition
-			                         to: moveAmount ].
-
-	moveAmount <= 0 ifTrue: [ 
-		aSpaceshipPositionNew := self
-			                         moveBackwards: aSpaceshipPosition
-			                         to: moveAmount ].
+		                         on: aPosition.
 
 	spaceshipPositions
 		at: (spaceshipPositions indexOf: aSpaceshipPosition)
@@ -226,7 +213,7 @@ BoardGame >> playingSpaceshipPosition [
 { #category : #action }
 BoardGame >> positions [
 
-	^ spaceshipPositions collect: [ :spaceship | spaceship position ].
+	^ spaceshipPositions collect: [ :spaceship | spaceship position cellNumber].
 ]
 
 { #category : #action }
@@ -236,10 +223,10 @@ BoardGame >> ranking [
 	namesRanking := spaceshipPositions sort: [ 
 		                :spaceshipPosition1 
 		                :spaceshipPosition2 | 
-		                spaceshipPosition2 round < spaceshipPosition1 round 
+		                (spaceshipPosition2 position round) < (spaceshipPosition1 position round)
 			                or:
-			                spaceshipPosition2 position
-			                < spaceshipPosition1 position ].
+			                (spaceshipPosition2 position cellNumber)
+			                < (spaceshipPosition1 position cellNumber)].
 	namesRanking size >= 3 ifTrue: [ 
 		namesRanking := namesRanking first: 3 ].
 	^ namesRanking collect: [ :spaceshipPosition | 
@@ -261,13 +248,6 @@ BoardGame >> spaceshipPosition: aName [
 		   spaceshipPosition spaceship == aName ]) position
 ]
 
-{ #category : #action }
-BoardGame >> spaceshipRound: aName [
-
-	^ (spaceshipPositions detect: [ :spaceshipPosition | 
-		   spaceshipPosition spaceship == aName ]) round
-]
-
 { #category : #initialization }
 BoardGame >> spaceshipsInitialization [
 
@@ -276,7 +256,7 @@ BoardGame >> spaceshipsInitialization [
 	spaceshipPositions := OrderedCollection new.
 	[ spaceships size > size ] whileTrue: [ 
 		spaceshipPositions add:
-			(SpaceshipPosition named: (spaceships at: size + 1) on: 1 at: 1).
+			(SpaceshipPosition named: (spaceships at: size + 1) on: (Position on: 1 at: 1)).
 		size := size + 1 ]
 ]
 
@@ -305,7 +285,7 @@ BoardGame >> validateSpaceshipTurnFor: aSpaceship [
 { #category : #validation }
 BoardGame >> validateWinner: aSpaceshipPosition [
 
-	aSpaceshipPosition round > rounds
+	(aSpaceshipPosition position round) > rounds
 		ifTrue: [ 
 			isOver := true.
 			winner := aSpaceshipPosition spaceship ]
