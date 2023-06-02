@@ -9,7 +9,10 @@ Class {
 		'board',
 		'winner',
 		'rounds',
-		'isOver'
+		'isOver',
+		'deckOfCards',
+		'spaceshipCards',
+		'activeCards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -23,6 +26,18 @@ BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds [
 		  rolling: dice
 		  on: aBoard
 		  with: rounds
+]
+
+{ #category : #initialize }
+BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds utilizing: aDeckOfCards [
+
+	self validateCanExistWith: spaceships andWith: rounds.
+	^ self new
+		  initializePlayedBy: spaceships
+		  rolling: dice
+		  on: aBoard
+		  with: rounds
+		  utilizing: aDeckOfCards
 ]
 
 { #category : #'instance creation' }
@@ -114,6 +129,20 @@ BoardGame >> applyMovingEffect: aNumber [
 ]
 
 { #category : #initialization }
+BoardGame >> dealCards [
+
+	| size amountOfCards|
+	size := 0.
+	amountOfCards:= 0.
+	spaceshipCards := OrderedCollection new.
+	
+	[ spaceships size > size ] whileTrue: [ 
+		spaceshipCards add:
+			(SpaceshipCard named: (spaceships at: size + 1) with: (deckOfCards at: 1 )).
+		size := size + 1 ]
+]
+
+{ #category : #initialization }
 BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds [
 
 	board := aBoard.
@@ -124,6 +153,22 @@ BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on:
 	rounds := amountOfRounds.
 	winner := ''.
 	self spaceshipsInitialization
+]
+
+{ #category : #initialization }
+BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds utilizing: aDeckOfCards [
+
+	board := aBoard.
+	spaceships := spaceshipsCollection.
+	dice := dieCollection.
+	turn := 1.
+	isOver := false.
+	rounds := amountOfRounds.
+	winner := ''.
+	deckOfCards:= aDeckOfCards .
+	activeCards := OrderedCollection new.
+	self spaceshipsInitialization.
+	self dealCards.
 ]
 
 { #category : #action }
@@ -186,14 +231,30 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 		put: aSpaceshipPositionNew
 ]
 
+{ #category : #cards }
+BoardGame >> playActiveCardsFor: aSpaceship [
+
+	| amount |
+	amount := 0.
+
+	activeCards do: [ :activeCard | 
+		activeCard spaceship = aSpaceship ifTrue: [ 
+			amount := amount + activeCard card affectTotalAmount ] ].
+
+	^ amount
+]
+
 { #category : #action }
 BoardGame >> playTurnFor: aSpaceship [
 
 	isOver
 		ifFalse: [ 
+			| anAmount |
 			self validateSpaceshipTurnFor: aSpaceship.
 
-			self relocatesSpaceshipPositionTo: self throwDice.
+			anAmount := (self playActiveCardsFor: aSpaceship) + (self throwDice) .
+			
+			self relocatesSpaceshipPositionTo: anAmount.
 
 			self validateWinner: self playingSpaceshipPosition.
 
@@ -241,6 +302,16 @@ BoardGame >> relocatesSpaceshipPositionTo: aNumber [
 	self applyEffect
 ]
 
+{ #category : #cards }
+BoardGame >> spaceshipCardOf: aCard from: aSpaceship [
+
+	| aSpaceshipCard |
+	aSpaceshipCard := spaceshipCards detect: [ :spaceshipCard | 
+		                  spaceshipCard spaceship = aSpaceship and:
+			                  spaceshipCard card name = aCard ].
+	^ aSpaceshipCard
+]
+
 { #category : #action }
 BoardGame >> spaceshipPosition: aName [
 
@@ -267,6 +338,19 @@ BoardGame >> throwDice [
 	result := 0.
 	dice do: [ :each | result := result + each throw ].
 	^ result
+]
+
+{ #category : #cards }
+BoardGame >> throwSpeedCardFrom: aSpaceship to: anotherSpaceship [
+
+	| aSpaceshipCard |
+	aSpaceshipCard := self spaceshipCardOf: 'speed' from: aSpaceship.
+
+	activeCards add:
+		(SpaceshipCard named: anotherSpaceship with: aSpaceshipCard card).
+
+	spaceshipCards remove: aSpaceshipCard
+
 ]
 
 { #category : #validation }
