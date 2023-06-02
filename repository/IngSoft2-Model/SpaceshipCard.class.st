@@ -19,12 +19,12 @@ SpaceshipCard >> card [
 ]
 
 { #category : #'instance creation' }
-SpaceshipCard >> initializeNamed: aSpaceship with: aCard [ 
-	spaceships:= OrderedCollection with: aSpaceship .
+SpaceshipCard >> initializeNamed: aSpaceshipCollection with: aCard [ 
+	spaceships:= aSpaceshipCollection.
 	card:= aCard.
 ]
 
 { #category : #'instance variable' }
-SpaceshipCard >> spaceships [
+SpaceshipCard >> spaceship [
 	^ spaceships
 ]

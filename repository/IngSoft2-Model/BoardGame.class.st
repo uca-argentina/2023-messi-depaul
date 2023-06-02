@@ -12,7 +12,8 @@ Class {
 		'isOver',
 		'deckOfCards',
 		'spaceshipCards',
-		'permanentCards'
+		'permanentCards',
+		'indexCards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -118,8 +119,8 @@ BoardGame >> applyHyperJumpEffect: parsecs [
 BoardGame >> applyMoonWalkEffect: cellsBackward [
 
 	spaceshipPositions do: [ :spaceshipPosition | 
-		spaceshipPosition spaceships
-		~= self playingSpaceshipPosition spaceships ifTrue: [ 
+		spaceshipPosition spaceship
+		~= self playingSpaceshipPosition spaceship ifTrue: [ 
 			self moves: spaceshipPosition to: cellsBackward negated ] ]
 ]
 
@@ -131,14 +132,20 @@ BoardGame >> applyMovingEffect: aNumber [
 { #category : #initialization }
 BoardGame >> dealCards [
 
-	| size amountOfCards|
+	| size amountOfCards |
 	size := 0.
-	amountOfCards:= 0.
+	amountOfCards := 0.
 	spaceshipCards := OrderedCollection new.
-	
+
 	[ spaceships size > size ] whileTrue: [ 
-		spaceshipCards add:
-			(SpaceshipCard named: (spaceships at: size + 1) with: (deckOfCards at: 1 )).
+		spaceshipCards add: (SpaceshipCard
+				 named: (OrderedCollection with: (spaceships at: size + 1))
+				 with: (deckOfCards at: indexCards)).
+		indexCards := indexCards \\ deckOfCards size + 1.
+		spaceshipCards add: (SpaceshipCard
+				 named:  (OrderedCollection with: (spaceships at: size + 1))
+				 with: (deckOfCards at: indexCards)).
+		indexCards := indexCards \\ deckOfCards size + 1.
 		size := size + 1 ]
 ]
 
@@ -167,6 +174,7 @@ BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on:
 	winner := ''.
 	deckOfCards:= aDeckOfCards .
 	permanentCards  := OrderedCollection new.
+	indexCards:= 1.
 	self spaceshipsInitialization.
 	self dealCards.
 ]
@@ -223,7 +231,7 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 		aPosition := self moveBackwards: aSpaceshipPosition to: moveAmount ].
 
 	aSpaceshipPositionNew := SpaceshipPosition
-		                         named: aSpaceshipPosition spaceships
+		                         named: aSpaceshipPosition spaceship
 		                         on: aPosition.
 
 	spaceshipPositions
@@ -237,11 +245,10 @@ BoardGame >> playActiveCardsForPlayingSpaceship [
 	| anAmount |
 	anAmount := 0.
 
-	permanentCards  do: [ :permanentCard | 
-		(permanentCard spaceships includes:
-			 self playingSpaceshipPosition spaceships) ifTrue: [ 
+	permanentCards do: [ :permanentCard | 
+		(permanentCard spaceship includes:
+			 self playingSpaceshipPosition spaceship) ifTrue: [ 
 			anAmount := anAmount + (permanentCard card implementOn: self) ] ].
-
 	^ anAmount
 ]
 
@@ -265,7 +272,7 @@ BoardGame >> playingSpaceshipPosition [
 
 	| aSpaceshipPosition |
 	aSpaceshipPosition := spaceshipPositions detect: [ :spaceshipPosition | 
-		                      spaceshipPosition spaceships == (spaceships at: turn) ].
+		                      spaceshipPosition spaceship == (spaceships at: turn) ].
 	^ aSpaceshipPosition
 ]
 
@@ -289,7 +296,7 @@ BoardGame >> ranking [
 	namesRanking size >= 3 ifTrue: [ 
 		namesRanking := namesRanking first: 3 ].
 	^ namesRanking collect: [ :spaceshipPosition | 
-		  spaceshipPosition spaceships ]
+		  spaceshipPosition spaceship ]
 ]
 
 { #category : #action }
@@ -304,9 +311,16 @@ BoardGame >> relocatesSpaceshipPositionTo: aNumber [
 BoardGame >> spaceshipCardOf: aCard from: aSpaceship [
 
 	| aSpaceshipCard |
-	aSpaceshipCard := spaceshipCards detect: [ :spaceshipCard | 
-		                  (spaceshipCard spaceships includes: aSpaceship) and:
-			                  spaceshipCard card name = aCard ].
+	
+	self validateSpaceshipTurnFor: aSpaceship.
+	
+	aSpaceshipCard := spaceshipCards
+		                  detect: [ :spaceshipCard | 
+			                  (spaceshipCard spaceship includes: aSpaceship) 
+				                  and: [ spaceshipCard card name = aCard ] ]
+		                  ifNone: [ 
+		                  Error signal: 'You do not have that card' ].
+
 	^ aSpaceshipCard
 ]
 
@@ -314,7 +328,7 @@ BoardGame >> spaceshipCardOf: aCard from: aSpaceship [
 BoardGame >> spaceshipPosition: aName [
 
 	^ (spaceshipPositions detect: [ :spaceshipPosition | 
-		   spaceshipPosition spaceships == aName ]) position
+		   spaceshipPosition spaceship == aName ]) position
 ]
 
 { #category : #initialization }
@@ -329,6 +343,17 @@ BoardGame >> spaceshipsInitialization [
 		size := size + 1 ]
 ]
 
+{ #category : #cards }
+BoardGame >> throwAcelerationCardFrom: aSpaceship [
+	| aSpaceshipCard |
+	aSpaceshipCard := self spaceshipCardOf: 'aceleration' from: aSpaceship.
+
+	permanentCards add:
+		(SpaceshipCard named: spaceships with: aSpaceshipCard card).
+
+	spaceshipCards remove: aSpaceshipCard
+]
+
 { #category : #action }
 BoardGame >> throwDice [
 
@@ -339,16 +364,32 @@ BoardGame >> throwDice [
 ]
 
 { #category : #cards }
+BoardGame >> throwOverloadCardFrom: aSpaceship to: anotherSpaceship [
+
+	| aSpaceshipCard |
+	self validateSpaceshipExists: anotherSpaceship.
+
+	aSpaceshipCard := self spaceshipCardOf: 'overload' from: aSpaceship.
+
+	permanentCards add: (SpaceshipCard
+			 named: (OrderedCollection with: anotherSpaceship)
+			 with: aSpaceshipCard card).
+
+	spaceshipCards remove: aSpaceshipCard
+]
+
+{ #category : #cards }
 BoardGame >> throwSpeedCardFrom: aSpaceship to: anotherSpaceship [
 
 	| aSpaceshipCard |
+	self validateSpaceshipExists: anotherSpaceship.
 	aSpaceshipCard := self spaceshipCardOf: 'speed' from: aSpaceship.
 
-	permanentCards add:
-		(SpaceshipCard named: anotherSpaceship with: aSpaceshipCard card).
+	permanentCards add: (SpaceshipCard
+			 named: (OrderedCollection with: anotherSpaceship)
+			 with: aSpaceshipCard card).
 
 	spaceshipCards remove: aSpaceshipCard
-
 ]
 
 { #category : #cards }
@@ -364,6 +405,13 @@ BoardGame >> validateKeepPlaying [
 ]
 
 { #category : #validation }
+BoardGame >> validateSpaceshipExists: aSpaceship [
+
+	(spaceships includes: aSpaceship)
+		ifFalse: [ Error signal: 'That spaceship doesn´t exists' ].
+]
+
+{ #category : #validation }
 BoardGame >> validateSpaceshipTurnFor: aSpaceship [
 
 	(spaceships at: turn) = aSpaceship
@@ -376,7 +424,7 @@ BoardGame >> validateWinner: aSpaceshipPosition [
 	(aSpaceshipPosition position round) > rounds
 		ifTrue: [ 
 			isOver := true.
-			winner := aSpaceshipPosition spaceships ]
+			winner := aSpaceshipPosition spaceship ]
 		ifFalse: [  ]
 ]
 
