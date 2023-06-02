@@ -29,6 +29,7 @@ CardTest >> test01 [
 	| spaceships aBoard aBoardGame aSpeedCard aDeckOfCards|
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: 15.
 	aSpeedCard := SpeedCard new.
 	aDeckOfCards:= OrderedCollection new.
@@ -43,10 +44,11 @@ CardTest >> test01 [
 		              utilizing: aDeckOfCards.
 
 
-	aBoardGame throwSpeedCardFrom: 'Vicky' to: 'Vicky'.
+	aBoardGame throwSpeedCardFrom: 'Vicky' to: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame playTurnFor: 'Cami'.
 
 	self
-		assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber
-		equals: 5
+		assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber
+		equals: 6.
 ]

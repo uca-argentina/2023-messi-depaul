@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #action }
-SpeedCard >> affectTotalAmount [
+SpeedCard >> implementOn: aBoardGame [
 
-	^1
+	^ 1
 ]
 
 { #category : #'instance variable' }

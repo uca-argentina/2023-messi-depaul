@@ -2,7 +2,7 @@ Class {
 	#name : #SpaceshipCard,
 	#superclass : #Object,
 	#instVars : [
-		'spaceship',
+		'spaceships',
 		'card'
 	],
 	#category : #'IngSoft2-Model'
@@ -20,11 +20,11 @@ SpaceshipCard >> card [
 
 { #category : #'instance creation' }
 SpaceshipCard >> initializeNamed: aSpaceship with: aCard [ 
-	spaceship:= aSpaceship .
+	spaceships:= OrderedCollection with: aSpaceship .
 	card:= aCard.
 ]
 
 { #category : #'instance variable' }
-SpaceshipCard >> spaceship [
-	^ spaceship
+SpaceshipCard >> spaceships [
+	^ spaceships
 ]
