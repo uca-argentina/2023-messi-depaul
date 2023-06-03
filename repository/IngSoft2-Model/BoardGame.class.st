@@ -312,8 +312,6 @@ BoardGame >> spaceshipCardOf: aCard from: aSpaceship [
 
 	| aSpaceshipCard |
 	
-	self validateSpaceshipTurnFor: aSpaceship.
-	
 	aSpaceshipCard := spaceshipCards
 		                  detect: [ :spaceshipCard | 
 			                  (spaceshipCard spaceship includes: aSpaceship) 
@@ -344,14 +342,25 @@ BoardGame >> spaceshipsInitialization [
 ]
 
 { #category : #cards }
-BoardGame >> throwAcelerationCardFrom: aSpaceship [
+BoardGame >> throwAccelerationCardFrom: aSpaceship [
 	| aSpaceshipCard |
-	aSpaceshipCard := self spaceshipCardOf: 'aceleration' from: aSpaceship.
+	
+	self validateSpaceshipTurnFor: aSpaceship.
+	
+	aSpaceshipCard := self spaceshipCardOf: 'acceleration' from: aSpaceship.
 
 	permanentCards add:
 		(SpaceshipCard named: spaceships with: aSpaceshipCard card).
 
 	spaceshipCards remove: aSpaceshipCard
+]
+
+{ #category : #card }
+BoardGame >> throwCancellationCardFrom: aSpaceship to: aCard [
+	| aSpaceshipCard |
+	aSpaceshipCard := self spaceshipCardOf: 'cancellation' from: aSpaceship.
+	permanentCards remove: ((permanentCards detect: [: permanentCard | ((permanentCard card name = aCard card name) and: (permanentCard spaceship = aCard spaceship)) ])).
+	spaceshipCards remove: aSpaceshipCard.
 ]
 
 { #category : #action }
@@ -367,6 +376,7 @@ BoardGame >> throwDice [
 BoardGame >> throwOverloadCardFrom: aSpaceship to: anotherSpaceship [
 
 	| aSpaceshipCard |
+	self validateSpaceshipTurnFor: aSpaceship.
 	self validateSpaceshipExists: anotherSpaceship.
 
 	aSpaceshipCard := self spaceshipCardOf: 'overload' from: aSpaceship.
@@ -382,6 +392,7 @@ BoardGame >> throwOverloadCardFrom: aSpaceship to: anotherSpaceship [
 BoardGame >> throwSpeedCardFrom: aSpaceship to: anotherSpaceship [
 
 	| aSpaceshipCard |
+	self validateSpaceshipTurnFor: aSpaceship.
 	self validateSpaceshipExists: anotherSpaceship.
 	aSpaceshipCard := self spaceshipCardOf: 'speed' from: aSpaceship.
 

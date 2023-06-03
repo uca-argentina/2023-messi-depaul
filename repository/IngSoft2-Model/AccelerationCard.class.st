@@ -1,16 +1,15 @@
 Class {
-	#name : #SpeedCard,
+	#name : #AccelerationCard,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-SpeedCard >> implementOn: aBoardGame [
-
-	^ 1
+AccelerationCard >> implementOn: aBoardGame [ 
+	^1
 ]
 
 { #category : #'instance variable' }
-SpeedCard >> name [
-	^'speed'.
+AccelerationCard >> name [
+	^'acceleration'
 ]
