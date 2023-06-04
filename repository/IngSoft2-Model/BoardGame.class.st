@@ -19,17 +19,6 @@ Class {
 }
 
 { #category : #initialize }
-BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds [
-
-	self validateCanExistWith: spaceships andWith: rounds.
-	^ self new
-		  initializePlayedBy: spaceships
-		  rolling: dice
-		  on: aBoard
-		  with: rounds
-]
-
-{ #category : #initialize }
 BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds utilizing: aDeckOfCards [
 
 	self validateCanExistWith: spaceships andWith: rounds.
@@ -129,6 +118,14 @@ BoardGame >> applyMovingEffect: aNumber [
 	self moves: self playingSpaceshipPosition to: aNumber.
 ]
 
+{ #category : #action }
+BoardGame >> dealACard [
+	spaceshipCards add: (SpaceshipCard
+				 named:  (OrderedCollection with: ((self playingSpaceshipPosition) spaceship))
+				 with: (deckOfCards at: indexCards)).
+		indexCards := indexCards \\ deckOfCards size + 1.
+]
+
 { #category : #initialization }
 BoardGame >> dealCards [
 
@@ -147,19 +144,6 @@ BoardGame >> dealCards [
 				 with: (deckOfCards at: indexCards)).
 		indexCards := indexCards \\ deckOfCards size + 1.
 		size := size + 1 ]
-]
-
-{ #category : #initialization }
-BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds [
-
-	board := aBoard.
-	spaceships := spaceshipsCollection.
-	dice := dieCollection.
-	turn := 1.
-	isOver := false.
-	rounds := amountOfRounds.
-	winner := ''.
-	self spaceshipsInitialization
 ]
 
 { #category : #initialization }
@@ -355,12 +339,17 @@ BoardGame >> throwAccelerationCardFrom: aSpaceship [
 	spaceshipCards remove: aSpaceshipCard
 ]
 
-{ #category : #card }
-BoardGame >> throwCancellationCardFrom: aSpaceship to: aCard [
-	| aSpaceshipCard |
-	aSpaceshipCard := self spaceshipCardOf: 'cancellation' from: aSpaceship.
-	permanentCards remove: ((permanentCards detect: [: permanentCard | ((permanentCard card name = aCard card name) and: (permanentCard spaceship = aCard spaceship)) ])).
-	spaceshipCards remove: aSpaceshipCard.
+{ #category : #cards }
+BoardGame >> throwCancellationCardFrom: aSpaceship to: aSpaceshipCard [
+
+	| aSpaceshipCardOnHand |
+	aSpaceshipCardOnHand := self
+		                  spaceshipCardOf: 'cancellation'
+		                  from: aSpaceship.
+	permanentCards remove: (permanentCards detect: [ :permanentCard | 
+			 permanentCard card name = aSpaceshipCard card name and:
+				 permanentCard spaceship = aSpaceshipCard spaceship ]ifNone:[Error signal: 'That card does not exist']).
+	spaceshipCards remove: aSpaceshipCardOnHand
 ]
 
 { #category : #action }
@@ -386,6 +375,11 @@ BoardGame >> throwOverloadCardFrom: aSpaceship to: anotherSpaceship [
 			 with: aSpaceshipCard card).
 
 	spaceshipCards remove: aSpaceshipCard
+]
+
+{ #category : #cards }
+BoardGame >> throwRedoCardFrom: aString to: aString2 [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #cards }
