@@ -43,7 +43,7 @@ CardTest >> test01WhenASpaceshipPlaysASpeedCardThenStaysOnTheGame [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aSpeedCard := SpeedCard new.
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aSpeedCard.
@@ -80,7 +80,7 @@ CardTest >> test02WhenTwoSpeedCardsAffectASpaceshipThenSpaceshipMovesAffected [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aSpeedCard := SpeedCard new.
 	aDeckOfCards := OrderedCollection new.
@@ -119,7 +119,7 @@ CardTest >> test03WhenSpaceshipTriesToThrowSpeedCardThenCannotThrowIt [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aSpeedCard := SpeedCard new.
 	aDeckOfCards := OrderedCollection new.
@@ -150,7 +150,7 @@ CardTest >> test04WhenASpaceshipPlaysOverloadCardThenAffectedSpaceshipIsMovesTwo
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aOverloadCard := OverloadCard new.
 	aDeckOfCards := OrderedCollection new.
@@ -181,7 +181,7 @@ CardTest >> test05WhenSpaceshipPlaysAccelerationCardThenAllSpaceshipIncrementsOn
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aAcelerationCard := AccelerationCard new.
 	aDeckOfCards := OrderedCollection new.
@@ -215,7 +215,7 @@ CardTest >> test06WhenSpaceshipTriesToPlayPermanentCardAndItsNotHisTurnThenCanno
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
@@ -243,7 +243,7 @@ CardTest >> test07WhenSpaceshipPlaysDifferentPermanentCardsThenSpaceshipsMovesAr
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
@@ -285,7 +285,7 @@ CardTest >> test08WhenSpaceshipTriesToPlayPermanentCardAndItsNotHisTurnThenCanno
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
@@ -313,7 +313,7 @@ CardTest >> test09WhenASpaceshipPlaysACancellationCardThenAffectedSpaceshipMoves
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
@@ -349,7 +349,7 @@ CardTest >> test10WhenASpaceshipCancelsAccelerationCardThenAllSpaceshipsAreAffec
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
@@ -386,7 +386,7 @@ CardTest >> test11WhenASpaceshipLandsOnACardEffectCellThenAnotherCardIsDealed [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
@@ -420,7 +420,7 @@ CardTest >> test12WhenASpaceshipPlaysACancellationCardButThereAreNotPermanentCar
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	
 	aDeckOfCards := OrderedCollection new.
 
@@ -458,7 +458,7 @@ CardTest >> test13WhenASpaceshipPlaysCancellationCardThenCardDoesNotExists [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
@@ -497,7 +497,7 @@ CardTest >> test14 [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.

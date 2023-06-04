@@ -48,7 +48,7 @@ BoardGame class >> validateCanExistWith: aSpaceshipCollection andWith: anAmountO
 BoardGame >> amountOfCellsOfNegativeParsecs: parsecs [
 
 	| parsecsPerCell amountOfCells amountOfParsecs |
-	parsecsPerCell := board parsecs // board anAmountOfCells.
+	parsecsPerCell := board parsecs number // board anAmountOfCells.
 	amountOfCells := 0.
 	amountOfParsecs := parsecs.
 
@@ -63,7 +63,7 @@ BoardGame >> amountOfCellsOfNegativeParsecs: parsecs [
 BoardGame >> amountOfCellsOfPositiveParsecs: parsecs [
 
 	| parsecsPerCell amountOfCells amountOfParsecs |
-	parsecsPerCell := board parsecs // board anAmountOfCells.
+	parsecsPerCell := (board parsecs number) // board anAmountOfCells.
 	amountOfCells := 0.
 	amountOfParsecs := parsecs.
 

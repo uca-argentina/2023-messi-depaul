@@ -45,7 +45,7 @@ DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
 	aDeckOfCards add: AccelerationCard new.
 	aDeckOfCards add: CancellationCard new.
 	
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:

@@ -10,12 +10,12 @@ Class {
 }
 
 { #category : #initialization }
-Board class >> of: aCollectionOfCellsEffects withLenght: anAmountOfParsecs [
+Board class >> of: aCollectionOfCellsEffects withLenght: aMeasure [
 
 	self validateCanExistWith: aCollectionOfCellsEffects.
 	^ self new
 		  initializeOf: aCollectionOfCellsEffects
-		  withLenght: anAmountOfParsecs
+		  withLenght: aMeasure.
 ]
 
 { #category : #initialization }
@@ -38,10 +38,10 @@ Board >> cellsEffect [
 ]
 
 { #category : #'instance creation' }
-Board >> initializeOf: aCollectionOfCellsEffects withLenght: anAmountOfParsecs [
+Board >> initializeOf: aCollectionOfCellsEffects withLenght: aMeasure [
 
 	cellsEffects := aCollectionOfCellsEffects.
-	parsecs := anAmountOfParsecs.
+	parsecs := aMeasure parsecs.
 	amountOfCells := cellsEffects size
 ]
 
