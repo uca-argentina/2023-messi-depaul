@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #action }
+OverloadCard >> byTurn [
+	^true.
+]
+
+{ #category : #action }
 OverloadCard >> implementOn: aBoardGame [
 
 	^ -2
@@ -13,4 +18,10 @@ OverloadCard >> implementOn: aBoardGame [
 { #category : #'instance variable' }
 OverloadCard >> name [
 	^'overload'
+]
+
+{ #category : #action }
+OverloadCard >> playOn: aBoardGame to: aSpaceship [
+
+	aBoardGame throwPermanentCardTo: aSpaceship
 ]

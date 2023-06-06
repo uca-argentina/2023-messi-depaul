@@ -13,7 +13,9 @@ Class {
 		'deckOfCards',
 		'spaceshipCards',
 		'permanentCards',
-		'indexCards'
+		'indexCards',
+		'lastCardPlayed',
+		'playingCard'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -118,7 +120,7 @@ BoardGame >> applyMovingEffect: aNumber [
 	self moves: self playingSpaceshipPosition to: aNumber.
 ]
 
-{ #category : #action }
+{ #category : #cards }
 BoardGame >> dealACard [
 	spaceshipCards add: (SpaceshipCard
 				 named:  (OrderedCollection with: ((self playingSpaceshipPosition) spaceship))
@@ -224,7 +226,20 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 ]
 
 { #category : #cards }
-BoardGame >> playActiveCardsForPlayingSpaceship [
+BoardGame >> playCard [
+	playingCard playOn: self
+]
+
+{ #category : #cards }
+BoardGame >> playCardTo: aSpaceship [
+	self validateSpaceshipExists: aSpaceship.
+	playingCard playOn: self to: aSpaceship.
+	
+	
+]
+
+{ #category : #cards }
+BoardGame >> playPermanentCardsForPlayingSpaceship [
 
 	| anAmount |
 	anAmount := 0.
@@ -234,6 +249,14 @@ BoardGame >> playActiveCardsForPlayingSpaceship [
 			 self playingSpaceshipPosition spaceship) ifTrue: [ 
 			anAmount := anAmount + (permanentCard card implementOn: self) ] ].
 	^ anAmount
+]
+
+{ #category : #cards }
+BoardGame >> playSelectedCard: aSpaceshipCard [
+
+	self validateSpaceshipExists: (aSpaceshipCard spaceship at: 1).
+
+	playingCard playOn: self to: aSpaceshipCard
 ]
 
 { #category : #action }
@@ -302,6 +325,7 @@ BoardGame >> spaceshipCardOf: aCard from: aSpaceship [
 				                  and: [ spaceshipCard card name = aCard ] ]
 		                  ifNone: [ 
 		                  Error signal: 'You do not have that card' ].
+	(spaceshipCards at: 1) card.
 
 	^ aSpaceshipCard
 ]
@@ -326,30 +350,35 @@ BoardGame >> spaceshipsInitialization [
 ]
 
 { #category : #cards }
-BoardGame >> throwAccelerationCardFrom: aSpaceship [
+BoardGame >> throw: aCard from: aSpaceship [
+
 	| aSpaceshipCard |
+	aSpaceshipCard := self spaceshipCardOf: aCard from: aSpaceship.
+	playingCard := aSpaceshipCard card.
+	spaceshipCards remove: aSpaceshipCard.
 	
-	self validateSpaceshipTurnFor: aSpaceship.
-	
-	aSpaceshipCard := self spaceshipCardOf: 'acceleration' from: aSpaceship.
+	aCard = 'redo' ifTrue: [ 
+		(lastCardPlayed isNil)ifTrue: [Error signal: 'A card hasn´t been played yet' ].
+		aSpaceshipCard := SpaceshipCard
+			                  named: aSpaceship
+			                  with: lastCardPlayed.
+		playingCard := lastCardPlayed ].
 
-	permanentCards add:
-		(SpaceshipCard named: spaceships with: aSpaceshipCard card).
-
-	spaceshipCards remove: aSpaceshipCard
+	aSpaceshipCard card byTurn ifTrue: [ 
+		self validateSpaceshipTurnFor: aSpaceship ]
 ]
 
 { #category : #cards }
-BoardGame >> throwCancellationCardFrom: aSpaceship to: aSpaceshipCard [
+BoardGame >> throwCancellationCardTo: aSpaceshipCard [
 
-	| aSpaceshipCardOnHand |
-	aSpaceshipCardOnHand := self
-		                  spaceshipCardOf: 'cancellation'
-		                  from: aSpaceship.
-	permanentCards remove: (permanentCards detect: [ :permanentCard | 
-			 permanentCard card name = aSpaceshipCard card name and:
-				 permanentCard spaceship = aSpaceshipCard spaceship ]ifNone:[Error signal: 'That card does not exist']).
-	spaceshipCards remove: aSpaceshipCardOnHand
+	permanentCards remove: (permanentCards
+			 detect: [ :permanentCard | 
+				 permanentCard card name = aSpaceshipCard card name and:
+					 permanentCard spaceship = aSpaceshipCard spaceship ]
+			 ifNone: [ Error signal: 'That card does not exist' ]).
+
+
+	lastCardPlayed := playingCard
 ]
 
 { #category : #action }
@@ -362,45 +391,28 @@ BoardGame >> throwDice [
 ]
 
 { #category : #cards }
-BoardGame >> throwOverloadCardFrom: aSpaceship to: anotherSpaceship [
+BoardGame >> throwPermanentCard [
 
-	| aSpaceshipCard |
-	self validateSpaceshipTurnFor: aSpaceship.
-	self validateSpaceshipExists: anotherSpaceship.
+	permanentCards add:
+		(SpaceshipCard named: spaceships with: playingCard).
 
-	aSpaceshipCard := self spaceshipCardOf: 'overload' from: aSpaceship.
-
-	permanentCards add: (SpaceshipCard
-			 named: (OrderedCollection with: anotherSpaceship)
-			 with: aSpaceshipCard card).
-
-	spaceshipCards remove: aSpaceshipCard
+	lastCardPlayed := playingCard
 ]
 
 { #category : #cards }
-BoardGame >> throwRedoCardFrom: aString to: aString2 [ 
-	self shouldBeImplemented.
-]
-
-{ #category : #cards }
-BoardGame >> throwSpeedCardFrom: aSpaceship to: anotherSpaceship [
-
-	| aSpaceshipCard |
-	self validateSpaceshipTurnFor: aSpaceship.
-	self validateSpaceshipExists: anotherSpaceship.
-	aSpaceshipCard := self spaceshipCardOf: 'speed' from: aSpaceship.
+BoardGame >> throwPermanentCardTo: aSpaceship [
 
 	permanentCards add: (SpaceshipCard
-			 named: (OrderedCollection with: anotherSpaceship)
-			 with: aSpaceshipCard card).
+			 named: (OrderedCollection with: aSpaceship)
+			 with: playingCard).
 
-	spaceshipCards remove: aSpaceshipCard
+	lastCardPlayed := playingCard .
 ]
 
 { #category : #cards }
 BoardGame >> totalAmount [
 
-	^ (self throwDice) + (self playActiveCardsForPlayingSpaceship)
+	^ (self throwDice) + (self playPermanentCardsForPlayingSpaceship)
 ]
 
 { #category : #validation }

@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #action }
+SpeedCard >> byTurn [
+
+	^ true
+]
+
+{ #category : #action }
 SpeedCard >> implementOn: aBoardGame [
 
 	^ 1
@@ -13,4 +19,9 @@ SpeedCard >> implementOn: aBoardGame [
 { #category : #'instance variable' }
 SpeedCard >> name [
 	^'speed'.
+]
+
+{ #category : #action }
+SpeedCard >> playOn: aBoardGame to: aSpaceship [ 
+	aBoardGame throwPermanentCardTo: aSpaceship 
 ]

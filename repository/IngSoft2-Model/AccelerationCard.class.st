@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #action }
+AccelerationCard >> byTurn [
+
+	^ true
+]
+
+{ #category : #action }
 AccelerationCard >> implementOn: aBoardGame [ 
 	^1
 ]
@@ -12,4 +18,9 @@ AccelerationCard >> implementOn: aBoardGame [
 { #category : #'instance variable' }
 AccelerationCard >> name [
 	^'acceleration'
+]
+
+{ #category : #action }
+AccelerationCard >> playOn: aBoardGame [ 
+	aBoardGame throwPermanentCard 
 ]
