@@ -8,7 +8,8 @@ Class {
 		'moonWalks',
 		'atomicBombs',
 		'hyperJumps',
-		'amountOfCells'
+		'amountOfCells',
+		'cards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -26,6 +27,11 @@ CellGenerator >> atomicBombs [
 ]
 
 { #category : #'instance variables' }
+CellGenerator >> cards [
+	^cards
+]
+
+{ #category : #'instance variables' }
 CellGenerator >> hyperJumps [
 
 	^ hyperJumps
@@ -37,8 +43,10 @@ CellGenerator >> initializeCells [
 	1 to: amountOfCells do: [ :index | 
 		| aNumber |
 		aNumber := 100 atRandom.
-		(aNumber > 0 and: aNumber <= 40) ifTrue: [ 
+		(aNumber > 0 and: aNumber <= 30) ifTrue: [ 
 			noEffects := noEffects + 1 ].
+		(aNumber > 30 and: aNumber <= 40) ifTrue: [ 
+			cards := cards + 1 ].
 		(aNumber > 40 and: aNumber <= 60) ifTrue: [ 
 			wormHoles := wormHoles + 1 ].
 		(aNumber > 60 and: aNumber <= 80) ifTrue: [ 
@@ -61,6 +69,7 @@ CellGenerator >> initializeWithCellEffects: aNumber [
 	moonWalks := 0.
 	atomicBombs := 0.
 	hyperJumps := 0.
+	cards := 0.
 	self initializeCells
 ]
 

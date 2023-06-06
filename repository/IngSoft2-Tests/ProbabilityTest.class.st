@@ -49,7 +49,7 @@ ProbabilityTest >> test03When1000BoardsAreCreatedThenProbabilityGeneratorOfMoonW
 ]
 
 { #category : #tests }
-ProbabilityTest >> test04When1000BoardsAreCreatedThenProbabilityGeneratorOfNoEffectBetween39And41 [
+ProbabilityTest >> test04When1000BoardsAreCreatedThenProbabilityGeneratorOfNoEffectBetween29And31 [
 
 	| randomCellEffects sum |
 	randomCellEffects := OrderedCollection new.
@@ -59,7 +59,7 @@ ProbabilityTest >> test04When1000BoardsAreCreatedThenProbabilityGeneratorOfNoEff
 			(CellGenerator setWithCellEffects: 100) ].
 	1 to: randomCellEffects size do: [ :index | 
 	sum := sum + (randomCellEffects at: index) noEffects ].	
-	self assert: ((sum // 1000) between: 39 and: 41)
+	self assert: ((sum // 1000) between: 29 and: 31)
 ]
 
 { #category : #tests }
@@ -173,4 +173,18 @@ ProbabilityTest >> test12WhenADeckOf1000CardsIsCreatedThenCardGeneratorProbabili
 	1 to: randomCards size do: [ :index | 
 	sum := sum + (randomCards at: index) repeats].
 	self assert: (sum // 1000 between: 15 and: 17)
+]
+
+{ #category : #tests }
+ProbabilityTest >> test13When1000BoardsAreCreatedThenProbabilityGeneratorOfCardsBetween9And11 [
+
+	| randomCellEffects sum |
+	randomCellEffects := OrderedCollection new.
+	sum := 0.
+	1 to: 1000 do: [ :index | 
+		randomCellEffects add:
+			(CellGenerator setWithCellEffects: 100) ].
+	1 to: randomCellEffects size do: [ :index | 
+	sum := sum + (randomCellEffects at: index) cards ].	
+	self assert: ((sum // 1000) between: 9 and: 11)
 ]
