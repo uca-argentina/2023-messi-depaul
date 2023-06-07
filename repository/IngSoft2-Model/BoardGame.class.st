@@ -15,7 +15,9 @@ Class {
 		'permanentCards',
 		'indexCards',
 		'lastCardPlayed',
-		'playingCard'
+		'playingCard',
+		'lastCellEffect',
+		'playingSpaceshipPosition'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -88,8 +90,8 @@ BoardGame >> applyEffect [
 
 	| aCellEffect |
 	aCellEffect := board cellsEffect detect: [ :cell | 
-		               cell number = self playingSpaceshipPosition position cellNumber  ].
-
+		               cell number = playingSpaceshipPosition  position cellNumber  ].
+	lastCellEffect := aCellEffect effect.
 	aCellEffect effect implementOn: self
 ]
 
@@ -103,27 +105,32 @@ BoardGame >> applyHyperJumpEffect: parsecs [
 		                 ifFalse: [ 
 		                 self amountOfCellsOfNegativeParsecs: parsecs ].
 
-	self moves: self playingSpaceshipPosition to: amountOfCells
+	self moves: playingSpaceshipPosition  to: amountOfCells
 ]
 
 { #category : #effects }
 BoardGame >> applyMoonWalkEffect: cellsBackward [
 
-	spaceshipPositions do: [ :spaceshipPosition | 
-		spaceshipPosition spaceship
-		~= self playingSpaceshipPosition spaceship ifTrue: [ 
-			self moves: spaceshipPosition to: cellsBackward negated ] ]
+	"spaceshipPositions do: [ : spaceshipPosition | 
+		((playingSpaceshipPosition spaceship) ~= (spaceshipPosition spaceship)) ifTrue: [ 
+			self moves: spaceshipPosition to: cellsBackward negated ]]."
+
+	(spaceshipPositions select: [ :spaceshipPosition | 
+			playingSpaceshipPosition spaceship ~= spaceshipPosition spaceship ])
+		do: [ :spaceshipPosition | 
+			self moves: spaceshipPosition to: cellsBackward negated ].
+
 ]
 
 { #category : #effects }
 BoardGame >> applyMovingEffect: aNumber [ 
-	self moves: self playingSpaceshipPosition to: aNumber.
+	self moves: playingSpaceshipPosition to: aNumber.
 ]
 
 { #category : #cards }
 BoardGame >> dealACard [
 	spaceshipCards add: (SpaceshipCard
-				 named:  (OrderedCollection with: ((self playingSpaceshipPosition) spaceship))
+				 named:  (OrderedCollection with: ((playingSpaceshipPosition) spaceship))
 				 with: (deckOfCards at: indexCards)).
 		indexCards := indexCards \\ deckOfCards size + 1.
 ]
@@ -219,6 +226,7 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 	aSpaceshipPositionNew := SpaceshipPosition
 		                         named: aSpaceshipPosition spaceship
 		                         on: aPosition.
+	playingSpaceshipPosition := aSpaceshipPositionNew.	
 
 	spaceshipPositions
 		at: (spaceshipPositions indexOf: aSpaceshipPosition)
@@ -246,7 +254,7 @@ BoardGame >> playPermanentCardsForPlayingSpaceship [
 
 	permanentCards do: [ :permanentCard | 
 		(permanentCard spaceship includes:
-			 self playingSpaceshipPosition spaceship) ifTrue: [ 
+			 playingSpaceshipPosition spaceship) ifTrue: [ 
 			anAmount := anAmount + (permanentCard card implementOn: self) ] ].
 	^ anAmount
 ]
@@ -264,23 +272,15 @@ BoardGame >> playTurnFor: aSpaceship [
 
 	isOver
 		ifFalse: [ 
+			self validatePlayingSpaceshipPosition.
 			self validateSpaceshipTurnFor: aSpaceship.
 						
 			self relocatesSpaceshipPositionTo: self totalAmount.
 
-			self validateWinner: self playingSpaceshipPosition.
+			self validateWinner: playingSpaceshipPosition .
 
 			turn := turn \\ spaceships size + 1 ]
 		ifTrue: [ self validateKeepPlaying ]
-]
-
-{ #category : #action }
-BoardGame >> playingSpaceshipPosition [
-
-	| aSpaceshipPosition |
-	aSpaceshipPosition := spaceshipPositions detect: [ :spaceshipPosition | 
-		                      spaceshipPosition spaceship == (spaceships at: turn) ].
-	^ aSpaceshipPosition
 ]
 
 { #category : #action }
@@ -309,7 +309,7 @@ BoardGame >> ranking [
 { #category : #action }
 BoardGame >> relocatesSpaceshipPositionTo: aNumber [
 
-	self moves: self playingSpaceshipPosition to: aNumber.
+	self moves: playingSpaceshipPosition  to: aNumber.
 
 	self applyEffect
 ]
@@ -364,8 +364,10 @@ BoardGame >> throw: aCard from: aSpaceship [
 			                  with: lastCardPlayed.
 		playingCard := lastCardPlayed ].
 
-	aSpaceshipCard card byTurn ifTrue: [ 
-		self validateSpaceshipTurnFor: aSpaceship ]
+"	aSpaceshipCard card byTurn ifTrue: [ 
+		self validateSpaceshipTurnFor: aSpaceship ]"
+		"validatePlayFor: aSpaceshipCard card."
+		(aSpaceshipCard card) canBePlayedIn: self.
 ]
 
 { #category : #cards }
@@ -410,6 +412,21 @@ BoardGame >> throwPermanentCardTo: aSpaceship [
 ]
 
 { #category : #cards }
+BoardGame >> throwRepeatCard [
+	lastCellEffect implementOn: self.
+]
+
+{ #category : #cards }
+BoardGame >> throwRepeatCardTo: aSpaceship [
+	
+	playingSpaceshipPosition := (spaceshipPositions detect: [ :spaceshipPosition | 
+		   spaceshipPosition spaceship == aSpaceship ]).
+	
+	lastCellEffect implementOn: self.
+	
+]
+
+{ #category : #cards }
 BoardGame >> totalAmount [
 
 	^ (self throwDice) + (self playPermanentCardsForPlayingSpaceship)
@@ -419,6 +436,14 @@ BoardGame >> totalAmount [
 BoardGame >> validateKeepPlaying [
 
 	Error signal: 'There is a winner, you cant keep moving forward'
+]
+
+{ #category : #action }
+BoardGame >> validatePlayingSpaceshipPosition [
+
+	playingSpaceshipPosition:= spaceshipPositions detect: [ :spaceshipPosition | 
+		                      spaceshipPosition spaceship == (spaceships at: turn) ].
+ 	
 ]
 
 { #category : #validation }

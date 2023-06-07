@@ -11,6 +11,12 @@ AccelerationCard >> byTurn [
 ]
 
 { #category : #action }
+AccelerationCard >> canBePlayedIn: boardGame [
+
+	boardGame validatePermanentPlay.
+]
+
+{ #category : #action }
 AccelerationCard >> implementOn: aBoardGame [ 
 	^1
 ]

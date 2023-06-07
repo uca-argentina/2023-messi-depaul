@@ -9,3 +9,8 @@ SpeedUpEffect >> implementOn: aBoardGame [
 
 	aBoardGame applyMovingEffect: 4.
 ]
+
+{ #category : #accessing }
+SpeedUpEffect >> number [
+	^4.
+]

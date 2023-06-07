@@ -19,8 +19,8 @@ CardTest >> setUp [
 	cellEffects add: (Cell on: 6 of: NoEffect new).
 	cellEffects add: (Cell on: 7 of: NoEffect new).
 	cellEffects add: (Cell on: 8 of: NoEffect new).
-	cellEffects add: (Cell on: 9 of: NoEffect new).
-	cellEffects add: (Cell on: 10 of: NoEffect new).
+	cellEffects add: (Cell on: 9 of: AtomicBombEffect new).
+	cellEffects add: (Cell on: 10 of: SpeedUpEffect new).
 ]
 
 { #category : #tests }
@@ -451,7 +451,7 @@ CardTest >> test11WhenASpaceshipLandsOnACardEffectCellThenAnotherCardIsDealed [
 	aBoardGame playCard.
 	aBoardGame playTurnFor: 'Vicky'.
 	
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 9.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
 ]
 
 { #category : #tests }
@@ -754,33 +754,130 @@ CardTest >> test18WhenASpaceshipsThrowsARedoAndLastCardACancellationThenSpaceshi
 ]
 
 { #category : #tests }
-CardTest >> test19 [
+CardTest >> test19WhenASpaceshipThrowsRepeatCardAndLastCellEffectSpeedUpThenASpaceshipIsAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards|
+	| spaceships aBoard aBoardGame aDeckOfCards aRepeatCard |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
+	spaceships add: 'Delfi'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
+	aRepeatCard := RepeatCard new.
 	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: CancellationCard new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: RedoCard new.
-	
+	aDeckOfCards add: aRepeatCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
-		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              (OrderedCollection with: (LoadedDie of: #( 9 2 3 )))
 		              on: aBoard
 		              with: 3
 		              utilizing: aDeckOfCards.
 
+	aBoardGame playTurnFor: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
 	
-	self
-		should: [ 
-			aBoardGame throw: 'redo' from: 'Cami' ]
-		raise: Error
-		withMessage: 'A card hasn´t been played yet'
+	aBoardGame throw: 'repeat' from: 'Delfi'.
+	aBoardGame playCardTo: 'Delfi'.
+	
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 5.
+	
+
+
+]
+
+{ #category : #tests }
+CardTest >> test20WhenAspaceshipThrowsRepeatCardAndLastCellEffectAtomicBombThenAllSpaceshipsReturnToInitialPosition [
+
+	| spaceships aBoard aBoardGame aDeckOfCards aRepeatCard |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	spaceships add: 'Delfi'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+
+	aRepeatCard := RepeatCard new.
+	aDeckOfCards := OrderedCollection new.
+	aDeckOfCards add: aRepeatCard.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 8 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+
+	aBoardGame playTurnFor: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	
+	aBoardGame throw: 'repeat' from: 'Delfi'.
+	aBoardGame playCard.
+	
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 1.
+	
+
+
+]
+
+{ #category : #tests }
+CardTest >> test21 [
+
+| spaceships aBoard aBoardGame cellEffectsCollection aMoonWalkEffect aDeckOfCards aRepeatCard |
+	cellEffectsCollection := OrderedCollection new.
+	aMoonWalkEffect := MoonWalkEffect with: 5.
+
+	cellEffectsCollection add: (Cell on: 1 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 2 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 3 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 4 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 5 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 6 of: aMoonWalkEffect).
+	cellEffectsCollection add: (Cell on: 7 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 8 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 9 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 10 of: NoEffect new).
+
+
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	spaceships add: 'Delfi'.
+	
+	aRepeatCard := RepeatCard new.
+	aDeckOfCards := OrderedCollection new.
+	aDeckOfCards add: aRepeatCard.
+		
+	aBoard := Board of: cellEffectsCollection withLenght: (Parsec withValue: 15).
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 7 5 3 )))
+		              on: aBoard
+		              with: 2 utilizing: aDeckOfCards.
+
+	aBoardGame playTurnFor: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 8.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
+
+	aBoardGame playTurnFor: 'Cami'.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 6.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
+	
+	aBoardGame throw: 'repeat' from: 'Delfi'.
+	aBoardGame playCardTo: 'Vicky'.
+	
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
+
+	
 ]
