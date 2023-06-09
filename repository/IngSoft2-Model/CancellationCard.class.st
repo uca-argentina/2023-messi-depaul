@@ -5,9 +5,8 @@ Class {
 }
 
 { #category : #action }
-CancellationCard >> byTurn [
-
-	^ false
+CancellationCard >> canBePlayedIn: aBoardGame for: aSpaceship [ 
+	
 ]
 
 { #category : #'instance variable' }

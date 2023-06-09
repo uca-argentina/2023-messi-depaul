@@ -5,8 +5,9 @@ Class {
 }
 
 { #category : #action }
-OverloadCard >> byTurn [
-	^true.
+OverloadCard >> canBePlayedIn: aBoardGame for: aSpaceship [
+
+	aBoardGame validatePermanentPlayFor: aSpaceship
 ]
 
 { #category : #action }

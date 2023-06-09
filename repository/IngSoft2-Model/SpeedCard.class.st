@@ -5,9 +5,8 @@ Class {
 }
 
 { #category : #action }
-SpeedCard >> byTurn [
-
-	^ true
+SpeedCard >> canBePlayedIn: aBoardGame for: aSpaceship [ 
+	aBoardGame validatePermanentPlayFor: aSpaceship
 ]
 
 { #category : #action }

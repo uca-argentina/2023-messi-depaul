@@ -5,15 +5,9 @@ Class {
 }
 
 { #category : #action }
-AccelerationCard >> byTurn [
+AccelerationCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 
-	^ true
-]
-
-{ #category : #action }
-AccelerationCard >> canBePlayedIn: boardGame [
-
-	boardGame validatePermanentPlay.
+	aBoardGame validatePermanentPlayFor: aSpaceship
 ]
 
 { #category : #action }
@@ -29,4 +23,10 @@ AccelerationCard >> name [
 { #category : #action }
 AccelerationCard >> playOn: aBoardGame [ 
 	aBoardGame throwPermanentCard 
+]
+
+{ #category : #action }
+AccelerationCard >> playOn: aBoardGame to: aSpaceship [
+
+	Error signal: 'You cannot choose a player for acceleration card.'
 ]

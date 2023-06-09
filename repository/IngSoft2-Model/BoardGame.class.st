@@ -350,24 +350,36 @@ BoardGame >> spaceshipsInitialization [
 ]
 
 { #category : #cards }
-BoardGame >> throw: aCard from: aSpaceship [
+BoardGame >> take: aCard from: aSpaceship [
 
 	| aSpaceshipCard |
-	aSpaceshipCard := self spaceshipCardOf: aCard from: aSpaceship.
+	aSpaceshipCard := self spaceshipCardOf: aCard name from: aSpaceship.
 	playingCard := aSpaceshipCard card.
 	spaceshipCards remove: aSpaceshipCard.
-	
-	aCard = 'redo' ifTrue: [ 
-		(lastCardPlayed isNil)ifTrue: [Error signal: 'A card hasn´t been played yet' ].
-		aSpaceshipCard := SpaceshipCard
-			                  named: aSpaceship
-			                  with: lastCardPlayed.
-		playingCard := lastCardPlayed ].
+	aSpaceshipCard card canBePlayedIn: self for: aSpaceship
+]
 
-"	aSpaceshipCard card byTurn ifTrue: [ 
-		self validateSpaceshipTurnFor: aSpaceship ]"
-		"validatePlayFor: aSpaceshipCard card."
-		(aSpaceshipCard card) canBePlayedIn: self.
+{ #category : #cards }
+BoardGame >> throw: aCard from: aSpaceship [ 
+	
+	self take: aCard from: aSpaceship.
+	self playCard. 
+]
+
+{ #category : #cards }
+BoardGame >> throw: aCard from: aSpaceship choosing: aSpaceshipCard [
+
+	self take: aCard from: aSpaceship.
+	self playSelectedCard: aSpaceshipCard
+]
+
+{ #category : #cards }
+BoardGame >> throw: aCard from: aSpaceship to: anotherSpaceship [
+
+	self take: aCard from: aSpaceship.
+	self playCardTo: anotherSpaceship.
+	
+	
 ]
 
 { #category : #cards }
@@ -438,12 +450,27 @@ BoardGame >> validateKeepPlaying [
 	Error signal: 'There is a winner, you cant keep moving forward'
 ]
 
+{ #category : #validation }
+BoardGame >> validatePermanentPlayFor: aSpaceship [
+
+	(spaceships at: turn) = aSpaceship ifFalse: [ 
+		Error signal: 'Its not your turn' ]
+]
+
 { #category : #action }
 BoardGame >> validatePlayingSpaceshipPosition [
 
 	playingSpaceshipPosition:= spaceshipPositions detect: [ :spaceshipPosition | 
 		                      spaceshipPosition spaceship == (spaceships at: turn) ].
  	
+]
+
+{ #category : #validation }
+BoardGame >> validateRedoCard [
+
+	lastCardPlayed isNil ifTrue: [ 
+		Error signal: 'A card hasn´t been played yet' ].
+	playingCard := lastCardPlayed
 ]
 
 { #category : #validation }

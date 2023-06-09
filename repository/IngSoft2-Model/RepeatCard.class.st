@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #action }
-RepeatCard >> byTurn [
-	^false.
+RepeatCard >> canBePlayedIn: aBoardGame for: aSpaceship [ 
+
 ]
 
 { #category : #'instance variable' }
