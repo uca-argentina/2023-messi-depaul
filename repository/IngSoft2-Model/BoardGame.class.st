@@ -128,6 +128,19 @@ BoardGame >> applyMovingEffect: aNumber [
 ]
 
 { #category : #cards }
+BoardGame >> cancellationCardTo: aSpaceshipCard [
+
+	permanentCards remove: (permanentCards
+			 detect: [ :permanentCard | 
+				 permanentCard card name = aSpaceshipCard card name and:
+					 permanentCard spaceship = aSpaceshipCard spaceship ]
+			 ifNone: [ Error signal: 'That card does not exist' ]).
+
+
+	lastCardPlayed := playingCard
+]
+
+{ #category : #cards }
 BoardGame >> dealACard [
 	spaceshipCards add: (SpaceshipCard
 				 named:  (OrderedCollection with: ((playingSpaceshipPosition) spaceship))
@@ -168,6 +181,8 @@ BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on:
 	deckOfCards:= aDeckOfCards .
 	permanentCards  := OrderedCollection new.
 	indexCards:= 1.
+	lastCardPlayed := ''.
+	lastCellEffect := NoEffect new.
 	self spaceshipsInitialization.
 	self dealCards.
 ]
@@ -213,9 +228,10 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 	| moveAmount aSpaceshipPositionNew aPosition |
 	moveAmount := aSpaceshipPosition position cellNumber
 	              + amountOfCellsToMove.
-	aPosition := Position
+
+	(moveAmount > 0 and: board anAmountOfCells >= moveAmount)ifTrue:[aPosition := Position
 		             on: moveAmount
-		             at: aSpaceshipPosition position round.
+		             at: aSpaceshipPosition position round.].
 
 	moveAmount > board anAmountOfCells ifTrue: [ 
 		aPosition := self moveForward: aSpaceshipPosition to: moveAmount ].
@@ -226,11 +242,30 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 	aSpaceshipPositionNew := SpaceshipPosition
 		                         named: aSpaceshipPosition spaceship
 		                         on: aPosition.
-	playingSpaceshipPosition := aSpaceshipPositionNew.	
+	playingSpaceshipPosition := aSpaceshipPositionNew.
 
 	spaceshipPositions
 		at: (spaceshipPositions indexOf: aSpaceshipPosition)
 		put: aSpaceshipPositionNew
+]
+
+{ #category : #cards }
+BoardGame >> permanentCard [
+
+	permanentCards add:
+		(SpaceshipCard named: spaceships with: playingCard).
+
+	lastCardPlayed := playingCard
+]
+
+{ #category : #cards }
+BoardGame >> permanentCardTo: aSpaceship [
+
+	permanentCards add: (SpaceshipCard
+			 named: (OrderedCollection with: aSpaceship)
+			 with: playingCard).
+
+	lastCardPlayed := playingCard .
 ]
 
 { #category : #cards }
@@ -315,6 +350,21 @@ BoardGame >> relocatesSpaceshipPositionTo: aNumber [
 ]
 
 { #category : #cards }
+BoardGame >> repeatCard [
+	lastCellEffect implementOn: self.
+]
+
+{ #category : #cards }
+BoardGame >> repeatCardTo: aSpaceship [
+	
+	playingSpaceshipPosition := (spaceshipPositions detect: [ :spaceshipPosition | 
+		   spaceshipPosition spaceship == aSpaceship ]).
+	
+	lastCellEffect implementOn: self.
+	
+]
+
+{ #category : #cards }
 BoardGame >> spaceshipCardOf: aCard from: aSpaceship [
 
 	| aSpaceshipCard |
@@ -382,19 +432,6 @@ BoardGame >> throw: aCard from: aSpaceship to: anotherSpaceship [
 	
 ]
 
-{ #category : #cards }
-BoardGame >> throwCancellationCardTo: aSpaceshipCard [
-
-	permanentCards remove: (permanentCards
-			 detect: [ :permanentCard | 
-				 permanentCard card name = aSpaceshipCard card name and:
-					 permanentCard spaceship = aSpaceshipCard spaceship ]
-			 ifNone: [ Error signal: 'That card does not exist' ]).
-
-
-	lastCardPlayed := playingCard
-]
-
 { #category : #action }
 BoardGame >> throwDice [
 
@@ -402,40 +439,6 @@ BoardGame >> throwDice [
 	result := 0.
 	dice do: [ :each | result := result + each throw ].
 	^ result
-]
-
-{ #category : #cards }
-BoardGame >> throwPermanentCard [
-
-	permanentCards add:
-		(SpaceshipCard named: spaceships with: playingCard).
-
-	lastCardPlayed := playingCard
-]
-
-{ #category : #cards }
-BoardGame >> throwPermanentCardTo: aSpaceship [
-
-	permanentCards add: (SpaceshipCard
-			 named: (OrderedCollection with: aSpaceship)
-			 with: playingCard).
-
-	lastCardPlayed := playingCard .
-]
-
-{ #category : #cards }
-BoardGame >> throwRepeatCard [
-	lastCellEffect implementOn: self.
-]
-
-{ #category : #cards }
-BoardGame >> throwRepeatCardTo: aSpaceship [
-	
-	playingSpaceshipPosition := (spaceshipPositions detect: [ :spaceshipPosition | 
-		   spaceshipPosition spaceship == aSpaceship ]).
-	
-	lastCellEffect implementOn: self.
-	
 ]
 
 { #category : #cards }
@@ -468,7 +471,7 @@ BoardGame >> validatePlayingSpaceshipPosition [
 { #category : #validation }
 BoardGame >> validateRedoCard [
 
-	lastCardPlayed isNil ifTrue: [ 
+	(lastCardPlayed = '')ifTrue: [ 
 		Error signal: 'A card hasn´t been played yet' ].
 	playingCard := lastCardPlayed
 ]

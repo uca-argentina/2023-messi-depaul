@@ -22,7 +22,7 @@ AccelerationCard >> name [
 
 { #category : #action }
 AccelerationCard >> playOn: aBoardGame [ 
-	aBoardGame throwPermanentCard 
+	aBoardGame permanentCard 
 ]
 
 { #category : #action }

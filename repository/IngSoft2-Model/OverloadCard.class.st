@@ -24,5 +24,5 @@ OverloadCard >> name [
 { #category : #action }
 OverloadCard >> playOn: aBoardGame to: aSpaceship [
 
-	aBoardGame throwPermanentCardTo: aSpaceship
+	aBoardGame permanentCardTo: aSpaceship
 ]

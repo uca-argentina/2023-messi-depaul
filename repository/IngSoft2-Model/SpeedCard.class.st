@@ -22,5 +22,5 @@ SpeedCard >> name [
 
 { #category : #action }
 SpeedCard >> playOn: aBoardGame to: aSpaceship [ 
-	aBoardGame throwPermanentCardTo: aSpaceship 
+	aBoardGame permanentCardTo: aSpaceship 
 ]

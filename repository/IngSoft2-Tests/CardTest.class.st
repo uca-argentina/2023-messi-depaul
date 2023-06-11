@@ -2,7 +2,14 @@ Class {
 	#name : #CardTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'cellEffects'
+		'cellEffects',
+		'anOverloadCard',
+		'aSpeedCard',
+		'anAccelerationCard',
+		'aCancellationCard',
+		'aRepeatCard',
+		'aRedoCard',
+		'aDeckOfCards'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -21,6 +28,16 @@ CardTest >> setUp [
 	cellEffects add: (Cell on: 8 of: NoEffect new).
 	cellEffects add: (Cell on: 9 of: AtomicBombEffect new).
 	cellEffects add: (Cell on: 10 of: SpeedUpEffect new).
+	
+	aDeckOfCards := OrderedCollection new.
+	
+	anOverloadCard := OverloadCard new.
+	aSpeedCard := SpeedCard new.
+	anAccelerationCard := AccelerationCard new.
+	aCancellationCard := CancellationCard new.
+	aRepeatCard := RepeatCard new.
+	aRedoCard := RedoCard new.
+	
 ]
 
 { #category : #tests }
@@ -39,13 +56,11 @@ CardTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErrorMes
 { #category : #tests }
 CardTest >> test01WhenASpaceshipPlaysASpeedCardThenStaysOnTheGame [
 
-	| spaceships aBoard aBoardGame aSpeedCard aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
-	aSpeedCard := SpeedCard new.
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aSpeedCard.
 
 	aBoardGame := BoardGame
@@ -77,14 +92,12 @@ CardTest >> test01WhenASpaceshipPlaysASpeedCardThenStaysOnTheGame [
 { #category : #tests }
 CardTest >> test02WhenTwoSpeedCardsAffectASpaceshipThenSpaceshipMovesAffected [
 
-	| spaceships aBoard aBoardGame aSpeedCard aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aSpeedCard := SpeedCard new.
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aSpeedCard.
 
 	aBoardGame := BoardGame
@@ -116,14 +129,12 @@ CardTest >> test02WhenTwoSpeedCardsAffectASpaceshipThenSpaceshipMovesAffected [
 { #category : #tests }
 CardTest >> test03WhenSpaceshipTriesToThrowSpeedCardThenCannotThrowIt [
 
-	| spaceships aBoard aBoardGame aSpeedCard aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
-
-	aSpeedCard := SpeedCard new.
-	aDeckOfCards := OrderedCollection new.
+	
 	aDeckOfCards add: aSpeedCard.
 
 	aBoardGame := BoardGame
@@ -146,15 +157,13 @@ CardTest >> test03WhenSpaceshipTriesToThrowSpeedCardThenCannotThrowIt [
 { #category : #tests }
 CardTest >> test04WhenASpaceshipPlaysOverloadCardThenAffectedSpaceshipIsMovesTwoLessThanTotalDiceThrown [
 
-	| spaceships aBoard aBoardGame aOverloadCard aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aOverloadCard := OverloadCard new.
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: aOverloadCard.
+	aDeckOfCards add: anOverloadCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -164,7 +173,7 @@ CardTest >> test04WhenASpaceshipPlaysOverloadCardThenAffectedSpaceshipIsMovesTwo
 		              with: 3
 		              utilizing: aDeckOfCards.
 		
-	aBoardGame throw: aOverloadCard from: 'Vicky' to: 'Cami'.
+	aBoardGame throw: anOverloadCard from: 'Vicky' to: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 
@@ -176,15 +185,13 @@ CardTest >> test04WhenASpaceshipPlaysOverloadCardThenAffectedSpaceshipIsMovesTwo
 { #category : #tests }
 CardTest >> test05WhenSpaceshipPlaysAccelerationCardThenAllSpaceshipIncrementsOneMove [
 
-	| spaceships aBoard aBoardGame aAcelerationCard aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aAcelerationCard := AccelerationCard new.
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: aAcelerationCard.
+	aDeckOfCards add: anAccelerationCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -194,7 +201,7 @@ CardTest >> test05WhenSpaceshipPlaysAccelerationCardThenAllSpaceshipIncrementsOn
 		              with: 3
 		              utilizing: aDeckOfCards.
 
-	aBoardGame throw: aAcelerationCard from: 'Vicky'.
+	aBoardGame throw: anAccelerationCard from: 'Vicky'.
 	
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -210,13 +217,12 @@ CardTest >> test05WhenSpaceshipPlaysAccelerationCardThenAllSpaceshipIncrementsOn
 { #category : #tests }
 CardTest >> test06WhenSpaceshipTriesToPlayPermanentCardAndItsNotHisTurnThenCannotThrowIt [
 
-	| spaceships aBoard aBoardGame aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
 	aDeckOfCards add: OverloadCard new.
 	aDeckOfCards add: AccelerationCard new.
@@ -230,7 +236,7 @@ CardTest >> test06WhenSpaceshipTriesToPlayPermanentCardAndItsNotHisTurnThenCanno
 		              utilizing: aDeckOfCards.
 
 	self
-		should: [ aBoardGame throw: SpeedCard new from: 'Cami' to: 'Cami'.]
+		should: [ aBoardGame throw: aSpeedCard from: 'Cami' to: 'Cami'.]
 		raise: Error
 		withMessage: 'Its not your turn'
 ]
@@ -238,19 +244,15 @@ CardTest >> test06WhenSpaceshipTriesToPlayPermanentCardAndItsNotHisTurnThenCanno
 { #category : #tests }
 CardTest >> test07WhenSpaceshipPlaysDifferentPermanentCardsThenSpaceshipsMovesAreAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aOverloadCard aSpeedCard aAccelerationCard |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
-	aOverloadCard := OverloadCard new.
-	aSpeedCard := SpeedCard new.
-	aAccelerationCard := AccelerationCard new.
 
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aSpeedCard.
-	aDeckOfCards add: aOverloadCard.
-	aDeckOfCards add: aAccelerationCard.
+	aDeckOfCards add: anOverloadCard .
+	aDeckOfCards add: anAccelerationCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -260,10 +262,10 @@ CardTest >> test07WhenSpaceshipPlaysDifferentPermanentCardsThenSpaceshipsMovesAr
 		              with: 3
 		              utilizing: aDeckOfCards.
 	
-	aBoardGame throw: aOverloadCard from: 'Vicky' to: 'Cami'.
+	aBoardGame throw: anOverloadCard from: 'Vicky' to: 'Cami'.
 	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
 	aBoardGame playTurnFor: 'Vicky'.
-	aBoardGame throw: aAccelerationCard from: 'Cami'.
+	aBoardGame throw: anAccelerationCard from: 'Cami'.
 	aBoardGame playTurnFor: 'Cami'.
 
 	self
@@ -282,13 +284,12 @@ CardTest >> test07WhenSpaceshipPlaysDifferentPermanentCardsThenSpaceshipsMovesAr
 { #category : #tests }
 CardTest >> test08WhenSpaceshipTriesToPlayPermanentCardAndItsNotHisTurnThenCannotThrowIt [
 
-	| spaceships aBoard aBoardGame aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
 
 	aBoardGame := BoardGame
@@ -301,7 +302,7 @@ CardTest >> test08WhenSpaceshipTriesToPlayPermanentCardAndItsNotHisTurnThenCanno
 
 	self
 		should: [ 
-			aBoardGame throw: SpeedCard new from: 'Vicky' to: 'Delfina' ]
+			aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Delfina' ]
 		raise: Error
 		withMessage: 'That spaceship doesn´t exists'
 ]
@@ -309,20 +310,15 @@ CardTest >> test08WhenSpaceshipTriesToPlayPermanentCardAndItsNotHisTurnThenCanno
 { #category : #tests }
 CardTest >> test09WhenASpaceshipPlaysACancellationCardThenAffectedSpaceshipMovesWithoutCardEffect [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aSpaceshipCard aOverloadCard aSpeedCard aAccelerationCard aCancellationCard |
+	| spaceships aBoard aBoardGame aSpaceshipCard |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
-	aOverloadCard := OverloadCard new.
-	aSpeedCard := SpeedCard new.
-	aAccelerationCard := AccelerationCard new.
-	aCancellationCard := CancellationCard new.
 
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aSpeedCard.
-	aDeckOfCards add: aOverloadCard.
-	aDeckOfCards add: aAccelerationCard.
+	aDeckOfCards add: anOverloadCard.
+	aDeckOfCards add: anAccelerationCard.
 	aDeckOfCards add: aCancellationCard.
 
 	aSpaceshipCard := SpaceshipCard named: (OrderedCollection with: 'Vicky') with: aSpeedCard. 
@@ -338,10 +334,10 @@ CardTest >> test09WhenASpaceshipPlaysACancellationCardThenAffectedSpaceshipMoves
 	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
 	aBoardGame playTurnFor: 'Vicky'.
 	
-	aBoardGame throw: aAccelerationCard  from: 'Cami'.
+	aBoardGame throw: anAccelerationCard  from: 'Cami'.
 	aBoardGame playTurnFor: 'Cami'.
 	
-	aBoardGame throw: aCancellationCard  from: 'Cami' choosing: aSpaceshipCard. 
+	aBoardGame throw: aCancellationCard from: 'Cami' choosing: aSpaceshipCard. 
 	
 	aBoardGame playTurnFor: 'Vicky'.
 	
@@ -352,28 +348,22 @@ CardTest >> test09WhenASpaceshipPlaysACancellationCardThenAffectedSpaceshipMoves
 { #category : #tests }
 CardTest >> test10WhenASpaceshipCancelsAccelerationCardThenAllSpaceshipsAreAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aSpaceshipCard aOverloadCard aSpeedCard aAccelerationCard aCancellationCard |
+	| spaceships aBoard aBoardGame aSpaceshipCard |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aOverloadCard := OverloadCard new.
-	aSpeedCard := SpeedCard new.
-	aAccelerationCard := AccelerationCard new.
-	aCancellationCard := CancellationCard new.
-
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aSpeedCard.
-	aDeckOfCards add: aOverloadCard.
-	aDeckOfCards add: aAccelerationCard.
+	aDeckOfCards add: anOverloadCard.
+	aDeckOfCards add: anAccelerationCard.
 	aDeckOfCards add: aCancellationCard.
 	aDeckOfCards add: aCancellationCard.
 
 
 	aSpaceshipCard := SpaceshipCard
 		                  named: spaceships
-		                  with: aAccelerationCard.
+		                  with: anAccelerationCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -383,11 +373,11 @@ CardTest >> test10WhenASpaceshipCancelsAccelerationCardThenAllSpaceshipsAreAffec
 		              with: 3
 		              utilizing: aDeckOfCards.
 
-	aBoardGame throw: aOverloadCard from: 'Vicky' to: 'Cami'.
+	aBoardGame throw: anOverloadCard from: 'Vicky' to: 'Cami'.
 	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
 	aBoardGame playTurnFor: 'Vicky'.
 
-	aBoardGame throw: aAccelerationCard from: 'Cami'.
+	aBoardGame throw: anAccelerationCard from: 'Cami'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame
 		throw: aCancellationCard
@@ -403,20 +393,19 @@ CardTest >> test10WhenASpaceshipCancelsAccelerationCardThenAllSpaceshipsAreAffec
 { #category : #tests }
 CardTest >> test11WhenASpaceshipLandsOnACardEffectCellThenAnotherCardIsDealed [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aSpaceshipCard |
+	| spaceships aBoard aBoardGame aSpaceshipCard |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: OverloadCard new.
-	aDeckOfCards add: AccelerationCard new.
-	aDeckOfCards add: CancellationCard new.
-	aDeckOfCards add: AccelerationCard new.
+	aDeckOfCards add: aSpeedCard.
+	aDeckOfCards add: anOverloadCard.
+	aDeckOfCards add: anAccelerationCard.
+	aDeckOfCards add: aCancellationCard.
+	aDeckOfCards add: anAccelerationCard.
 	
-	aSpaceshipCard := SpaceshipCard named: spaceships with: AccelerationCard new.
+	aSpaceshipCard := SpaceshipCard named: spaceships with: anAccelerationCard.
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -428,7 +417,7 @@ CardTest >> test11WhenASpaceshipLandsOnACardEffectCellThenAnotherCardIsDealed [
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 
-	aBoardGame throw: AccelerationCard new from: 'Vicky'. 
+	aBoardGame throw: anAccelerationCard from: 'Vicky'. 
 	aBoardGame playTurnFor: 'Vicky'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -437,23 +426,21 @@ CardTest >> test11WhenASpaceshipLandsOnACardEffectCellThenAnotherCardIsDealed [
 { #category : #tests }
 CardTest >> test12WhenASpaceshipPlaysACancellationCardButThereAreNotPermanentCardOnGameThenCannotPlayCard [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aSpaceshipCard |
+	| spaceships aBoard aBoardGame aSpaceshipCard |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
-
-	aDeckOfCards add: CancellationCard new.
-	aDeckOfCards add: CancellationCard new.
-	aDeckOfCards add: CancellationCard new.
-	aDeckOfCards add: CancellationCard new.
-	aDeckOfCards add: CancellationCard new.
+	aDeckOfCards add: aCancellationCard.
+	aDeckOfCards add: aCancellationCard.
+	aDeckOfCards add: aCancellationCard.
+	aDeckOfCards add: aCancellationCard.
+	aDeckOfCards add: aCancellationCard.
 
 	aSpaceshipCard := SpaceshipCard
 		                  named: (OrderedCollection with: 'Vicky')
-		                  with: OverloadCard new.
+		                  with: anOverloadCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -468,7 +455,7 @@ CardTest >> test12WhenASpaceshipPlaysACancellationCardButThereAreNotPermanentCar
 
 
 	self
-		should: [ aBoardGame throw: CancellationCard new from: 'Vicky' choosing: aSpaceshipCard.   ]
+		should: [ aBoardGame throw: aCancellationCard from: 'Vicky' choosing: aSpaceshipCard.   ]
 		raise: Error
 		withMessage: 'That card does not exist'
 ]
@@ -476,21 +463,20 @@ CardTest >> test12WhenASpaceshipPlaysACancellationCardButThereAreNotPermanentCar
 { #category : #tests }
 CardTest >> test13WhenASpaceshipPlaysCancellationCardThenCardDoesNotExists [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aSpaceshipCard |
+	| spaceships aBoard aBoardGame aSpaceshipCard |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: OverloadCard new.
-	aDeckOfCards add: AccelerationCard new.
-	aDeckOfCards add: CancellationCard new.
+	aDeckOfCards add: aSpeedCard.
+	aDeckOfCards add: anOverloadCard.
+	aDeckOfCards add: anAccelerationCard.
+	aDeckOfCards add: aCancellationCard.
 
 	aSpaceshipCard := SpaceshipCard
 		                  named: (OrderedCollection with: 'Vicky')
-		                  with: OverloadCard new.
+		                  with: anOverloadCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -500,14 +486,14 @@ CardTest >> test13WhenASpaceshipPlaysCancellationCardThenCardDoesNotExists [
 		              with: 3
 		              utilizing: aDeckOfCards.
 	
-	aBoardGame throw: OverloadCard  new from: 'Vicky' to: 'Cami'.
-	aBoardGame throw: SpeedCard new from: 'Vicky' to: 'Vicky'.
+	aBoardGame throw: anOverloadCard from: 'Vicky' to: 'Cami'.
+	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
 
 	aBoardGame playTurnFor: 'Vicky'.
-	aBoardGame throw: AccelerationCard new from: 'Cami'. 	
+	aBoardGame throw: anAccelerationCard from: 'Cami'. 	
 
 	self
-		should: [ aBoardGame throw: CancellationCard new from: 'Cami' choosing:aSpaceshipCard ]
+		should: [ aBoardGame throw: aCancellationCard from: 'Cami' choosing:aSpaceshipCard ]
 		raise: Error
 		withMessage: 'That card does not exist'
 ]
@@ -515,15 +501,14 @@ CardTest >> test13WhenASpaceshipPlaysCancellationCardThenCardDoesNotExists [
 { #category : #tests }
 CardTest >> test14WhenASpaceshipsThrowsARedoAndLastCardASpeedThenSpaceshipsAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: RedoCard new.
+	aDeckOfCards add: aSpeedCard.
+	aDeckOfCards add: aRedoCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -534,8 +519,8 @@ CardTest >> test14WhenASpaceshipsThrowsARedoAndLastCardASpeedThenSpaceshipsAffec
 		              utilizing: aDeckOfCards.
 
 
-	aBoardGame throw: SpeedCard new from: 'Vicky' to: 'Cami'.
-	aBoardGame throw: RedoCard new from: 'Vicky' to: 'Vicky'.
+	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Cami'.
+	aBoardGame throw: aRedoCard from: 'Vicky' to: 'Vicky'.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -552,15 +537,14 @@ CardTest >> test14WhenASpaceshipsThrowsARedoAndLastCardASpeedThenSpaceshipsAffec
 { #category : #tests }
 CardTest >> test15WhenASpaceshipsThrowsARedoAndLastCardAOverloadThenSpaceshipsAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: OverloadCard new.
-	aDeckOfCards add: RedoCard new.
+	aDeckOfCards add: anOverloadCard.
+	aDeckOfCards add: aRedoCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -572,8 +556,8 @@ CardTest >> test15WhenASpaceshipsThrowsARedoAndLastCardAOverloadThenSpaceshipsAf
 
 
 	
-	aBoardGame throw: OverloadCard new from: 'Vicky' to: 'Cami'.
-	aBoardGame throw: RedoCard new from: 'Vicky' to: 'Vicky'.
+	aBoardGame throw: anOverloadCard from: 'Vicky' to: 'Cami'.
+	aBoardGame throw: aRedoCard from: 'Vicky' to: 'Vicky'.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -589,13 +573,12 @@ CardTest >> test15WhenASpaceshipsThrowsARedoAndLastCardAOverloadThenSpaceshipsAf
 { #category : #tests }
 CardTest >> test16WhenASpaceshipsThrowsTwoRedoAndLastCardASpeedThenSpaceshipsAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: SpeedCard new.
 	aDeckOfCards add: RedoCard new.
 
@@ -628,15 +611,14 @@ CardTest >> test16WhenASpaceshipsThrowsTwoRedoAndLastCardASpeedThenSpaceshipsAff
 { #category : #tests }
 CardTest >> test17WhenASpaceshipsThrowsARedoAndLastCardAAccelerationThenSpaceshipsAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: AccelerationCard new.
-	aDeckOfCards add: RedoCard new.
+	aDeckOfCards add: anAccelerationCard.
+	aDeckOfCards add: aRedoCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -648,8 +630,8 @@ CardTest >> test17WhenASpaceshipsThrowsARedoAndLastCardAAccelerationThenSpaceshi
 
 
 
-	aBoardGame throw: AccelerationCard new from: 'Vicky'.
-	aBoardGame throw: RedoCard new from: 'Vicky'.
+	aBoardGame throw: anAccelerationCard from: 'Vicky'.
+	aBoardGame throw: aRedoCard from: 'Vicky'.
 
 	aBoardGame playTurnFor: 'Vicky'.
 
@@ -666,20 +648,19 @@ CardTest >> test17WhenASpaceshipsThrowsARedoAndLastCardAAccelerationThenSpaceshi
 { #category : #tests }
 CardTest >> test18WhenASpaceshipsThrowsARedoAndLastCardACancellationThenSpaceshipsAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aSpaceshipCard aSpaceshipCard2|
+	| spaceships aBoard aBoardGame aSpaceshipCard aSpaceshipCard2|
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: CancellationCard new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: RedoCard new.
+	aDeckOfCards add: aSpeedCard.
+	aDeckOfCards add: aCancellationCard.
+	aDeckOfCards add: aSpeedCard.
+	aDeckOfCards add: aRedoCard.
 	
-	aSpaceshipCard := SpaceshipCard named: (OrderedCollection with: 'Vicky') with: SpeedCard new. 
-	aSpaceshipCard2 := SpaceshipCard named: (OrderedCollection with: 'Vicky') with: SpeedCard new. 
+	aSpaceshipCard := SpaceshipCard named: (OrderedCollection with: 'Vicky') with: aSpeedCard. 
+	aSpaceshipCard2 := SpaceshipCard named: (OrderedCollection with: 'Vicky') with: aSpeedCard. 
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -690,13 +671,13 @@ CardTest >> test18WhenASpaceshipsThrowsARedoAndLastCardACancellationThenSpaceshi
 		              utilizing: aDeckOfCards.
 
 
-	aBoardGame throw: SpeedCard new from: 'Vicky' to: 'Vicky'.			
+	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.			
 	aBoardGame playTurnFor: 'Vicky'.
 	
-	aBoardGame throw: SpeedCard new from: 'Cami' to: 'Vicky'.	
-	aBoardGame throw: CancellationCard new from: 'Vicky' choosing: aSpaceshipCard.
+	aBoardGame throw: aSpeedCard from: 'Cami' to: 'Vicky'.	
+	aBoardGame throw: aCancellationCard from: 'Vicky' choosing: aSpaceshipCard.
 	
-	aBoardGame throw: RedoCard new from: 'Cami' choosing: aSpaceshipCard2.
+	aBoardGame throw: aRedoCard from: 'Cami' choosing: aSpaceshipCard2.
 
 	aBoardGame playTurnFor: 'Cami'.
 
@@ -711,15 +692,13 @@ CardTest >> test18WhenASpaceshipsThrowsARedoAndLastCardACancellationThenSpaceshi
 { #category : #tests }
 CardTest >> test19WhenASpaceshipThrowsRepeatCardAndLastCellEffectSpeedUpThenASpaceshipIsAffected [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aRepeatCard |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	spaceships add: 'Delfi'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aRepeatCard := RepeatCard new.
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aRepeatCard.
 
 	aBoardGame := BoardGame
@@ -733,7 +712,7 @@ CardTest >> test19WhenASpaceshipThrowsRepeatCardAndLastCellEffectSpeedUpThenASpa
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
 	
-	aBoardGame throw: RepeatCard new from: 'Delfi' to: 'Delfi'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Delfi'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 5.
@@ -745,15 +724,13 @@ CardTest >> test19WhenASpaceshipThrowsRepeatCardAndLastCellEffectSpeedUpThenASpa
 { #category : #tests }
 CardTest >> test20WhenAspaceshipThrowsRepeatCardAndLastCellEffectAtomicBombThenAllSpaceshipsReturnToInitialPosition [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aRepeatCard |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	spaceships add: 'Delfi'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
-	aRepeatCard := RepeatCard new.
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aRepeatCard.
 
 	aBoardGame := BoardGame
@@ -767,7 +744,7 @@ CardTest >> test20WhenAspaceshipThrowsRepeatCardAndLastCellEffectAtomicBombThenA
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
 	
-	aBoardGame throw: RepeatCard new from: 'Delfi'.
+	aBoardGame throw: aRepeatCard from: 'Delfi'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 1.
@@ -777,9 +754,9 @@ CardTest >> test20WhenAspaceshipThrowsRepeatCardAndLastCellEffectAtomicBombThenA
 ]
 
 { #category : #tests }
-CardTest >> test21 [
+CardTest >> test21WhenASpaceshipThrowsRepeatCardAndLastCellEffectMoonWalkThenSomeSpaceshipsGoBackwards [
 
-| spaceships aBoard aBoardGame cellEffectsCollection aMoonWalkEffect aDeckOfCards aRepeatCard |
+| spaceships aBoard aBoardGame cellEffectsCollection aMoonWalkEffect |
 	cellEffectsCollection := OrderedCollection new.
 	aMoonWalkEffect := MoonWalkEffect with: 5.
 
@@ -800,8 +777,6 @@ CardTest >> test21 [
 	spaceships add: 'Cami'.
 	spaceships add: 'Delfi'.
 	
-	aRepeatCard := RepeatCard new.
-	aDeckOfCards := OrderedCollection new.
 	aDeckOfCards add: aRepeatCard.
 		
 	aBoard := Board of: cellEffectsCollection withLenght: (Parsec withValue: 15).
@@ -823,7 +798,7 @@ CardTest >> test21 [
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
 	
-	aBoardGame throw: RepeatCard new from: 'Delfi' to: 'Vicky'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
@@ -835,17 +810,15 @@ CardTest >> test21 [
 ]
 
 { #category : #tests }
-CardTest >> test22 [
+CardTest >> test22WhenASpaceshipThrowsAnAccelerationCardToAnotherSpaceshipThenCannotThrowCard [
 
-	| spaceships aBoard aBoardGame aDeckOfCards aAccelerationCard |
+	| spaceships aBoard aBoardGame |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
-	aAccelerationCard := AccelerationCard new.
 
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: aAccelerationCard.
+	aDeckOfCards add: anAccelerationCard.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -857,7 +830,164 @@ CardTest >> test22 [
 	
 	aBoardGame playTurnFor: 'Vicky'.
 	
-	self should: [aBoardGame throw: aAccelerationCard from: 'Cami'to:'Cami'. ]
+	self should: [aBoardGame throw: anAccelerationCard from: 'Cami'to:'Cami'. ]
 		raise: Error
 		withMessage: 'You cannot choose a player for acceleration card.'
+]
+
+{ #category : #tests }
+CardTest >> test23WhenASpaceshipThrowsRepeatCardAndLastCellEffectWormHoleThenASpaceshipGoesBackwards [
+
+| spaceships aBoard aBoardGame cellEffectsCollection |
+	cellEffectsCollection := OrderedCollection new.
+	
+	cellEffectsCollection add: (Cell on: 1 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 2 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 3 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 4 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 5 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 6 of: WormHoleEffect new).
+	cellEffectsCollection add: (Cell on: 7 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 8 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 9 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 10 of: NoEffect new).
+
+
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	spaceships add: 'Delfi'.
+	
+	aDeckOfCards add: aRepeatCard.
+		
+	aBoard := Board of: cellEffectsCollection withLenght: (Parsec withValue: 15).
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 9 5 3 )))
+		              on: aBoard
+		              with: 2 utilizing: aDeckOfCards.
+	aBoardGame playTurnFor: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 10.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
+
+	aBoardGame playTurnFor: 'Cami'.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 2.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
+	
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
+	
+
+	
+]
+
+{ #category : #tests }
+CardTest >> test24WhenASpaceshipThrowsRepeatCardAndDiceWerentThrownThenNoEffect [
+
+| spaceships aBoard aBoardGame cellEffectsCollection |
+	cellEffectsCollection := OrderedCollection new.
+	
+	cellEffectsCollection add: (Cell on: 1 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 2 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 3 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 4 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 5 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 6 of: WormHoleEffect new).
+	cellEffectsCollection add: (Cell on: 7 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 8 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 9 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 10 of: NoEffect new).
+
+
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	spaceships add: 'Delfi'.
+	
+	aDeckOfCards add: aRepeatCard.
+		
+	aBoard := Board of: cellEffectsCollection withLenght: (Parsec withValue: 15).
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 9 5 3 )))
+		              on: aBoard
+		              with: 2 utilizing: aDeckOfCards.
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
+	aBoardGame playTurnFor: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 10.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
+
+	aBoardGame playTurnFor: 'Cami'.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 2.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
+	
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
+
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
+	
+
+	
+]
+
+{ #category : #tests }
+CardTest >> test25WhenASpaceshipThrowsARepeatCardNotIndicatingSpaceshipAndLastCellEffectAMoonWalkThenAppliesToSpaceshipPlaying [
+
+| spaceships aBoard aBoardGame cellEffectsCollection aMoonWalkEffect |
+	cellEffectsCollection := OrderedCollection new.
+	aMoonWalkEffect := MoonWalkEffect with: 5.
+	
+	cellEffectsCollection add: (Cell on: 1 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 2 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 3 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 4 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 5 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 6 of: aMoonWalkEffect).
+	cellEffectsCollection add: (Cell on: 7 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 8 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 9 of: NoEffect new).
+	cellEffectsCollection add: (Cell on: 10 of: NoEffect new).
+
+
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	spaceships add: 'Delfi'.
+	
+	aDeckOfCards add: aRepeatCard.
+		
+	aBoard := Board of: cellEffectsCollection withLenght: (Parsec withValue: 15).
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 9 5 5 )))
+		              on: aBoard
+		              with: 2 utilizing: aDeckOfCards.
+	aBoardGame playTurnFor: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 10.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
+
+	aBoardGame playTurnFor: 'Cami'.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 6.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
+	
+	aBoardGame playTurnFor: 'Delfi'.
+	
+	aBoardGame throw: aRepeatCard from: 'Delfi'. 
+	
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
+	
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
+	
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') round equals: 1.
+	
+
+	
 ]

@@ -16,5 +16,5 @@ CancellationCard >> name [
 
 { #category : #action }
 CancellationCard >> playOn: aBoardGame to: aSpaceshipCard [ 
-	aBoardGame throwCancellationCardTo: aSpaceshipCard 
+	aBoardGame cancellationCardTo: aSpaceshipCard 
 ]

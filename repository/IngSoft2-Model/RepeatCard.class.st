@@ -16,10 +16,10 @@ RepeatCard >> name [
 
 { #category : #action }
 RepeatCard >> playOn: aBoardGame [ 
-	aBoardGame throwRepeatCard.
+	aBoardGame repeatCard.
 ]
 
 { #category : #action }
 RepeatCard >> playOn: aBoardGame to: aSpaceship [ 
-	aBoardGame throwRepeatCardTo: aSpaceship.
+	aBoardGame repeatCardTo: aSpaceship.
 ]
