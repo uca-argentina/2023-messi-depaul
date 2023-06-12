@@ -308,7 +308,7 @@ BoardGame >> playSelectedCard: aSpaceshipCard [
 
 	self validateSpaceshipExists: (aSpaceshipCard spaceship at: 1).
 
-	playingCard playOn: self to: aSpaceshipCard
+	playingCard playOn: self toSelected: aSpaceshipCard
 ]
 
 { #category : #action }
@@ -318,9 +318,7 @@ BoardGame >> playTurnFor: aSpaceship [
 		ifFalse: [ 
 			self validatePlayingSpaceshipPosition.
 			self validateSpaceshipTurnFor: aSpaceship.
-
 			self relocatesSpaceshipPositionTo: self totalAmount.
-
 			self validateWinner: playingSpaceshipPosition.
 
 			turn := turn \\ spaceships size + 1 ]

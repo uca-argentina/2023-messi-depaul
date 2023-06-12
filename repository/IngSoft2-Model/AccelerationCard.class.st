@@ -30,3 +30,9 @@ AccelerationCard >> playOn: aBoardGame to: aSpaceship [
 
 	Error signal: 'You cannot choose a player for acceleration card.'
 ]
+
+{ #category : #action }
+AccelerationCard >> playOn: aBoardGame toSelected: aSpaceshipCard [ 
+	
+	Error signal: 'You cannot choose a player for acceleration card.'
+]

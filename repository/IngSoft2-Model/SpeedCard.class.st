@@ -21,6 +21,18 @@ SpeedCard >> name [
 ]
 
 { #category : #action }
+SpeedCard >> playOn: aBoardGame [
+
+	Error signal: 'To play card, choose a player'
+]
+
+{ #category : #action }
 SpeedCard >> playOn: aBoardGame to: aSpaceship [ 
 	aBoardGame permanentCardTo: aSpaceship 
+]
+
+{ #category : #action }
+SpeedCard >> playOn: aBoardGame toSelected: aSpaceshipCard [ 
+	
+	Error signal: 'To play card, choose a player'.
 ]

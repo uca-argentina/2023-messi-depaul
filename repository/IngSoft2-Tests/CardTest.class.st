@@ -991,3 +991,225 @@ CardTest >> test25WhenASpaceshipThrowsARepeatCardNotIndicatingSpaceshipAndLastCe
 
 	
 ]
+
+{ #category : #tests }
+CardTest >> test26WhenASpaceshipThrowsSpeedCardNotChoosingAPlayerThenCanNotThrowCard [
+	| spaceships aBoard aBoardGame|
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aDeckOfCards add: aSpeedCard.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+		
+	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
+	 
+	self should: [ 	aBoardGame throw: aSpeedCard from: 'Vicky'.  ] raise: Error  withMessage: 'To play card, choose a player' .	
+]
+
+{ #category : #tests }
+CardTest >> test27WhenASpaceshipThrowsSpeedCardChoosingASpaceshipCardThenCanNotThrowCard [
+
+	| spaceships aBoard aBoardGame aSpaceshipCard|
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aDeckOfCards add: aSpeedCard.
+	aSpaceshipCard := SpaceshipCard named: (OrderedCollection with: 'Vicky') with: aSpeedCard.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+		
+	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
+
+	self should: [ 	aBoardGame throw: aSpeedCard from: 'Vicky' choosing: aSpaceshipCard.  ] raise: Error  withMessage: 'To play card, choose a player' .
+	
+]
+
+{ #category : #tests }
+CardTest >> test28WhenASpaceshipThrowsOverloadCardChoosingASpaceshipCardThenCanNotThrowCard [
+
+	| spaceships aBoard aBoardGame aSpaceshipCard |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aDeckOfCards add: anOverloadCard.
+	aSpaceshipCard := SpaceshipCard
+		                  named: (OrderedCollection with: 'Vicky')
+		                  with: anOverloadCard.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+
+	aBoardGame throw: anOverloadCard from: 'Vicky' to: 'Vicky'.
+
+	self
+		should: [ 
+			aBoardGame
+				throw: anOverloadCard
+				from: 'Vicky'
+				choosing: aSpaceshipCard ]
+		raise: Error
+		withMessage: 'To play card, choose a player'
+]
+
+{ #category : #tests }
+CardTest >> test29WhenASpaceshipThrowsOverloadCardNotChoosingAPlayerThenCanNotThrowCard [
+
+	| spaceships aBoard aBoardGame |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aDeckOfCards add: anOverloadCard.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+
+	aBoardGame throw: anOverloadCard from: 'Vicky' to: 'Vicky'.
+	
+	self
+		should: [ 
+			aBoardGame
+				throw: anOverloadCard
+				from: 'Vicky'.]
+		raise: Error
+		withMessage: 'To play card, choose a player'
+]
+
+{ #category : #tests }
+CardTest >> test30WhenASpaceshipThrowsAccelerationCardChoosingASpaceshipCardThenCanNotThrowCard [
+
+	| spaceships aBoard aBoardGame aSpaceshipCard |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aDeckOfCards add: anAccelerationCard .
+	aSpaceshipCard := SpaceshipCard
+		                  named: (OrderedCollection with: 'Vicky')
+		                  with: anAccelerationCard .
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+
+	aBoardGame throw: anAccelerationCard  from: 'Vicky'.
+	
+	self
+		should: [ 
+			aBoardGame
+				throw: anAccelerationCard 
+				from: 'Vicky' choosing: aSpaceshipCard.]
+		raise: Error
+		withMessage: 'You cannot choose a player for acceleration card.'
+]
+
+{ #category : #tests }
+CardTest >> test31WhenASpaceshipThrowsCancellationCardChoosingAPlayerThenCanNotThrowCard [
+
+	| spaceships aBoard aBoardGame aSpaceshipCard |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aDeckOfCards add: aSpeedCard.
+	aDeckOfCards add: aCancellationCard.
+	aSpaceshipCard := SpaceshipCard
+		                  named: (OrderedCollection with: 'Vicky')
+		                  with: anOverloadCard.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+
+	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
+
+	self
+		should: [ aBoardGame throw: aCancellationCard from: 'Vicky' ]
+		raise: Error
+		withMessage: 'You have to choose a card'
+]
+
+{ #category : #tests }
+CardTest >> test32WhenASpaceshipThrowsCancellationCardNotChoosingSpaceshipCardThenCanNotThrowCard [
+
+	| spaceships aBoard aBoardGame |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aDeckOfCards add: aCancellationCard.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+	self
+		should: [ 
+		aBoardGame throw: aCancellationCard from: 'Vicky' to: 'Vicky' ]
+		raise: Error
+		withMessage: 'You have to choose a card.'
+]
+
+{ #category : #tests }
+CardTest >> test33WhenASpaceshipThrowsRedoCardNotChoosingAPlayerForSpeedCardThenCanNotThrowCard [
+
+	| spaceships aBoard aBoardGame |
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aDeckOfCards add: aSpeedCard.
+	aDeckOfCards add: aRedoCard.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
+		              on: aBoard
+		              with: 3
+		              utilizing: aDeckOfCards.
+
+	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
+
+	self
+		should: [ aBoardGame throw: aRedoCard from: 'Vicky' ]
+		raise: Error
+		withMessage: 'To play card, choose a player'
+]

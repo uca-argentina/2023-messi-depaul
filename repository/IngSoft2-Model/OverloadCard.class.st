@@ -22,7 +22,19 @@ OverloadCard >> name [
 ]
 
 { #category : #action }
+OverloadCard >> playOn: aBoardGame [ 
+	
+	Error signal: 'To play card, choose a player'
+]
+
+{ #category : #action }
 OverloadCard >> playOn: aBoardGame to: aSpaceship [
 
 	aBoardGame permanentCardTo: aSpaceship
+]
+
+{ #category : #action }
+OverloadCard >> playOn: aBoardGame toSelected: aSpaceshipCard [ 
+	
+	Error signal: 'To play card, choose a player' .
 ]

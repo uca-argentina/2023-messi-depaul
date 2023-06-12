@@ -15,6 +15,18 @@ CancellationCard >> name [
 ]
 
 { #category : #action }
-CancellationCard >> playOn: aBoardGame to: aSpaceshipCard [ 
+CancellationCard >> playOn: aBoardGame [ 
+	
+	Error signal: 'You have to choose a card'.
+]
+
+{ #category : #action }
+CancellationCard >> playOn: aBoardGame to: aString [ 
+	
+	Error signal: 'You have to choose a card.'
+]
+
+{ #category : #action }
+CancellationCard >> playOn: aBoardGame toSelected: aSpaceshipCard [ 
 	aBoardGame cancellationCardTo: aSpaceshipCard 
 ]
