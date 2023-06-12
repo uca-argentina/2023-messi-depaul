@@ -2,7 +2,8 @@ Class {
 	#name : #BoardGameTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'cellEffects'
+		'cellEffects',
+		'aDeckOfCards'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -22,6 +23,12 @@ BoardGameTest >> setUp [
 	cellEffects add: (Cell on: 8 of: NoEffect new).
 	cellEffects add: (Cell on: 9 of: NoEffect new).
 	cellEffects add: (Cell on: 10 of: NoEffect new).
+	
+	aDeckOfCards := OrderedCollection new.
+	aDeckOfCards add: SpeedCard new.
+	aDeckOfCards add: OverloadCard new.
+	aDeckOfCards add: AccelerationCard new.
+	aDeckOfCards add: CancellationCard new.
 ]
 
 { #category : #tests }
@@ -43,8 +50,8 @@ BoardGameTest >> test01WhenCreationOfBoardGameWithRepeatedSpaceshipsThenCannotCr
 			BoardGame
 				playedBy: spaceships
 				rolling: (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
-				on: (Board of: cellEffects withLenght: 15)
-				with: 2 ]
+				on: (Board of: cellEffects withLenght: (Parsec withValue: 15))
+				with: 2 utilizing: aDeckOfCards. ]
 		raise: Error
 		withMessage: 'Cannot create board with repeated spaceships'
 ]
@@ -56,7 +63,7 @@ BoardGameTest >> test02WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePositi
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 
 	aLoadedDie := LoadedDie of: #( 1 2 3 ).
 
@@ -64,7 +71,7 @@ BoardGameTest >> test02WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePositi
 		              playedBy: spaceships
 		              rolling: (OrderedCollection with: aLoadedDie)
 		              on: aBoard
-		              with: 2.
+		              with: 2 utilizing: aDeckOfCards.
 	
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2
@@ -79,12 +86,12 @@ BoardGameTest >> test03WhenASpaceshipWinsThenGameOver [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling: (OrderedCollection with: (LoadedDie of: #( 3 )))
 		              on: aBoard
-		              with: 1.
+		              with: 1 utilizing: aDeckOfCards.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -108,13 +115,13 @@ BoardGameTest >> test04WhenTwoSpaceshipPlayThenSpaceship1Wins [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
-		              with: 1.
+		              with: 1 utilizing: aDeckOfCards.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -135,13 +142,13 @@ BoardGameTest >> test05WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
-		              with: 2.
+		              with: 2 utilizing: aDeckOfCards.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
@@ -157,13 +164,13 @@ BoardGameTest >> test06WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
-		              with: 2.
+		              with: 2 utilizing: aDeckOfCards.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
@@ -178,13 +185,13 @@ BoardGameTest >> test07WhenItsNotASpaceshipsTruenThenCannotPlay [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
-		              with: 2.
+		              with: 2 utilizing: aDeckOfCards.
 	self
 		should: [ aBoardGame playTurnFor: 'Cami' ]
 		raise: Error
@@ -199,8 +206,8 @@ BoardGameTest >> test08WhenABoardGameWithNoSpaceshipsThenFailsCreation [
 			BoardGame
 				playedBy: OrderedCollection new
 				rolling: (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
-				on: (Board of: cellEffects withLenght: 15)
-				with: 2 ]
+				on: (Board of: cellEffects withLenght: (Parsec withValue: 15))
+				with: 2 utilizing: aDeckOfCards.]
 		raise: Error
 		withMessage: 'Cannot create board with no spaceships'
 ]
@@ -213,13 +220,13 @@ BoardGameTest >> test09WhenASpaceshipAdvanceTwoRoundsThenCurrentPositionAndRound
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 3 4 20 )))
 		              on: aBoard
-		              with: 3.	
+		              with: 3 utilizing: aDeckOfCards.	
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
@@ -237,13 +244,13 @@ BoardGameTest >> test10WhenASpaceshipAdvanceTwoRoundsThenGameIsOver [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 12 4 20 )))
 		              on: aBoard
-		              with: 3.
+		              with: 3 utilizing: aDeckOfCards.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
@@ -261,13 +268,13 @@ BoardGameTest >> test11WhenABoardGameIsPlayedThenThereIsNotAWinner [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	aBoard := Board of: cellEffects withLenght: 15.
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 )))
 		              on: aBoard
-		              with: 3.
+		              with: 3 utilizing: aDeckOfCards.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.

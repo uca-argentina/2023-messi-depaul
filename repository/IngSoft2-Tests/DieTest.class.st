@@ -21,7 +21,7 @@ self should: [ LoadedDie of: #(-1)] raise: Error withMessage: 'Cannot create die
 
 { #category : #tests }
 DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
-|spaceships aBoard aBoardGame cellEffects |
+|spaceships aBoard aBoardGame cellEffects aDeckOfCards |
 	
 	cellEffects := OrderedCollection new. 
 	cellEffects add: (Cell on: 1 of: NoEffect new).
@@ -39,13 +39,19 @@ DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: 15.
+	aDeckOfCards := OrderedCollection new.
+	aDeckOfCards add: SpeedCard new.
+	aDeckOfCards add: OverloadCard new.
+	aDeckOfCards add: AccelerationCard new.
+	aDeckOfCards add: CancellationCard new.
+	
+	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )) with: (LoadedDie of: #( 4 5 )))
 		              on: aBoard
-		              with: 2.		
+		              with: 2 utilizing: aDeckOfCards.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.

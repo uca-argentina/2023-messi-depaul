@@ -1,10 +1,10 @@
 Class {
-	#name : #NoEffect,
+	#name : #CardEffect,
 	#superclass : #Object,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-NoEffect >> implementOn: aBoardGame [
-	
+CardEffect >> implementOn: aBoardGame [ 
+	aBoardGame dealACard.
 ]
