@@ -32,7 +32,7 @@ Cell >> initializeOf: aCellNumber and: anEffect [
 ]
 
 { #category : #'instance variable' }
-Cell >> number [
+Cell >> quantity [
 
 	^ number
 ]

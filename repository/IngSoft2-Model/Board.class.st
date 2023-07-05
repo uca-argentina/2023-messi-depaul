@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'amountOfCells',
 		'cellsEffects',
-		'parsecs'
+		'parsecs',
+		'parsecsPerCell'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -42,11 +43,18 @@ Board >> initializeOf: aCollectionOfCellsEffects withLenght: aMeasure [
 
 	cellsEffects := aCollectionOfCellsEffects.
 	parsecs := aMeasure parsecs.
-	amountOfCells := cellsEffects size
+	amountOfCells := cellsEffects size.
+	parsecsPerCell := parsecs quantity // amountOfCells.
 ]
 
 { #category : #'instance variables' }
 Board >> parsecs [
 
 	^ parsecs
+]
+
+{ #category : #'instance variables' }
+Board >> parsecsPerCell [
+
+	^ parsecsPerCell 
 ]

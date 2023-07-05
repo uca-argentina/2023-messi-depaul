@@ -2,36 +2,31 @@ Class {
 	#name : #HyperJumpEffect,
 	#superclass : #Object,
 	#instVars : [
-		'parsecsValues',
-		'parsecIndex'
+		'jumps',
+		'jumpsIndex'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #initialization }
-HyperJumpEffect class >> with: aSequenceOfParsecs [
+HyperJumpEffect class >> with: aSequenceOfJumps [
 
-	^ self new initializeWith: aSequenceOfParsecs
-]
-
-{ #category : #action }
-HyperJumpEffect >> convertToParsec: aMeasure [
-	^Parsec withValue: ((aMeasure parsecs) number).
+	^ self new initializeWith: aSequenceOfJumps
 ]
 
 { #category : #action }
 HyperJumpEffect >> implementOn: aBoardGame [
 
 	| value |
-	value := parsecsValues at: parsecIndex.
-	parsecIndex := parsecIndex \\ parsecsValues size + 1.
+	value := jumps at: jumpsIndex .
+	jumpsIndex := jumpsIndex \\ jumps size + 1.
 	
-	aBoardGame applyHyperJumpEffect: ((self convertToParsec: value) number).
+	aBoardGame applyHyperJumpEffect: (value parsecs quantity).
 ]
 
 { #category : #'instance creation' }
-HyperJumpEffect >> initializeWith: aSequenceOfParsecs [
+HyperJumpEffect >> initializeWith: aSequenceOfJumps [
 
-	parsecsValues := aSequenceOfParsecs.
-	parsecIndex := 1
+	jumps := aSequenceOfJumps.
+	jumpsIndex := 1
 ]

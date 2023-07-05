@@ -30,8 +30,8 @@ BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds ut
 		  initializePlayedBy: spaceships
 		  rolling: dice
 		  on: aBoard
-		  with: rounds
-		  utilizing: aDeckOfCards
+		  winningAfter: rounds
+		  dealingCardsFrom: aDeckOfCards
 ]
 
 { #category : #'instance creation' }
@@ -49,36 +49,6 @@ BoardGame class >> validateCanExistWith: aSpaceshipCollection andWith: anAmountO
 ]
 
 { #category : #effects }
-BoardGame >> amountOfCellsOfNegativeParsecs: parsecs [
-
-	| parsecsPerCell amountOfCells amountOfParsecs |
-	parsecsPerCell := board parsecs number // board anAmountOfCells.
-	amountOfCells := 0.
-	amountOfParsecs := parsecs.
-
-	[ amountOfParsecs < 0 ] whileTrue: [ 
-		amountOfCells := amountOfCells - 1.
-		amountOfParsecs := amountOfParsecs + parsecsPerCell ].
-
-	^ amountOfCells
-]
-
-{ #category : #effects }
-BoardGame >> amountOfCellsOfPositiveParsecs: parsecs [
-
-	| parsecsPerCell amountOfCells amountOfParsecs |
-	parsecsPerCell := (board parsecs number) // board anAmountOfCells.
-	amountOfCells := 0.
-	amountOfParsecs := parsecs.
-
-	[ amountOfParsecs >= parsecsPerCell ] whileTrue: [ 
-		amountOfCells := amountOfCells + 1.
-		amountOfParsecs := amountOfParsecs - parsecsPerCell ].
-
-	^ amountOfCells
-]
-
-{ #category : #effects }
 BoardGame >> applyAtomicBombEffect [
 
 	spaceshipPositions do: [ :spaceship | 
@@ -90,7 +60,7 @@ BoardGame >> applyEffect [
 
 	| aCellEffect |
 	aCellEffect := board cellsEffect detect: [ :cell | 
-		               cell number = playingSpaceshipPosition  position cellNumber  ].
+		               cell quantity = playingSpaceshipPosition  position cellNumber  ].
 	lastCellEffect := aCellEffect effect.
 	aCellEffect effect implementOn: self
 ]
@@ -98,14 +68,9 @@ BoardGame >> applyEffect [
 { #category : #effects }
 BoardGame >> applyHyperJumpEffect: parsecs [
 
-	| amountOfCells |
-	amountOfCells := parsecs > 0
-		                 ifTrue: [ 
-		                 self amountOfCellsOfPositiveParsecs: parsecs ]
-		                 ifFalse: [ 
-		                 self amountOfCellsOfNegativeParsecs: parsecs ].
-
-	self moves: playingSpaceshipPosition  to: amountOfCells
+	self
+		moves: playingSpaceshipPosition
+		to: parsecs // board parsecsPerCell
 ]
 
 { #category : #effects }
@@ -171,14 +136,14 @@ BoardGame >> dealCards [
 ]
 
 { #category : #initialization }
-BoardGame >> initializePlayedBy: spaceshipsCollection rolling: dieCollection on: aBoard with: amountOfRounds utilizing: aDeckOfCards [
+BoardGame >> initializePlayedBy: manySpaceships rolling: manyDice on: aBoard winningAfter: anAmountOfRounds dealingCardsFrom: aDeckOfCards [
 
 	board := aBoard.
-	spaceships := spaceshipsCollection.
-	dice := dieCollection.
+	spaceships := manySpaceships.
+	dice := manyDice.
 	turn := 1.
 	isOver := false.
-	rounds := amountOfRounds.
+	rounds := anAmountOfRounds.
 	winner := ''.
 	deckOfCards:= aDeckOfCards .
 	permanentCards  := OrderedCollection new.

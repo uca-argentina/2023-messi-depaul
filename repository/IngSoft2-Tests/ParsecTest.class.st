@@ -26,7 +26,7 @@ ParsecTest >> test01WhenASpaceshipLandsOnHyperJumpwWithParsecsAndLightYearsThenM
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell
 			 on: 2
-			 of: (HyperJumpEffect with: (OrderedCollection with: (LightYear withValue: 18) with: (Parsec withValue: 5)))).
+			 of: (HyperJumpEffect with: (OrderedCollection with: (LightYear of: 18) with: (Parsec of: 5)))).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
 	cellEffects add: (Cell on: 4 of: NoEffect new).
 	cellEffects add: (Cell on: 5 of: NoEffect new).
@@ -34,7 +34,7 @@ ParsecTest >> test01WhenASpaceshipLandsOnHyperJumpwWithParsecsAndLightYearsThenM
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
@@ -63,7 +63,7 @@ ParsecTest >> test02WhenABoardInLightYearsAndSpaceshipLandsOnHyperJumpThenSpacec
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell
 			 on: 2
-			 of: (HyperJumpEffect with: (OrderedCollection with: (LightYear withValue: 18) with: (Parsec withValue: 5)))).
+			 of: (HyperJumpEffect with: (OrderedCollection with: (LightYear of: 18) with: (Parsec of: 5)))).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
 	cellEffects add: (Cell on: 4 of: NoEffect new).
 	cellEffects add: (Cell on: 5 of: NoEffect new).
@@ -71,7 +71,7 @@ ParsecTest >> test02WhenABoardInLightYearsAndSpaceshipLandsOnHyperJumpThenSpacec
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (LightYear withValue: (15*3)).
+	aBoard := Board of: cellEffects withLenght: (LightYear of: (15*3)).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
