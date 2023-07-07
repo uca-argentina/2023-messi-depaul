@@ -17,13 +17,14 @@ Class {
 		'lastCardPlayed',
 		'playingCard',
 		'lastCellEffect',
-		'playingSpaceshipPosition'
+		'playingSpaceshipPosition',
+		'croupier'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #initialize }
-BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds utilizing: aDeckOfCards [
+{ #category : #initialization }
+BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds managedBy: aCroupier [ 
 
 	self validateCanExistWith: spaceships andWith: rounds.
 	^ self new
@@ -31,7 +32,7 @@ BoardGame class >> playedBy: spaceships rolling: dice on: aBoard with: rounds ut
 		  rolling: dice
 		  on: aBoard
 		  winningAfter: rounds
-		  dealingCardsFrom: aDeckOfCards
+		  managedBy: aCroupier.
 ]
 
 { #category : #'instance creation' }
@@ -135,8 +136,8 @@ BoardGame >> dealCards [
 		size := size + 1 ]
 ]
 
-{ #category : #initialization }
-BoardGame >> initializePlayedBy: manySpaceships rolling: manyDice on: aBoard winningAfter: anAmountOfRounds dealingCardsFrom: aDeckOfCards [
+{ #category : #'instance creation' }
+BoardGame >> initializePlayedBy: manySpaceships rolling: manyDice on: aBoard winningAfter: anAmountOfRounds managedBy: aCroupier [ 
 
 	board := aBoard.
 	spaceships := manySpaceships.
@@ -145,13 +146,10 @@ BoardGame >> initializePlayedBy: manySpaceships rolling: manyDice on: aBoard win
 	isOver := false.
 	rounds := anAmountOfRounds.
 	winner := ''.
-	deckOfCards:= aDeckOfCards .
-	permanentCards  := OrderedCollection new.
-	indexCards:= 1.
-	lastCardPlayed := ''.
 	lastCellEffect := NoEffect new.
+	croupier := aCroupier.
+	croupier dealCardsTo: spaceships.
 	self spaceshipsInitialization.
-	self dealCards.
 ]
 
 { #category : #action }
@@ -258,14 +256,15 @@ BoardGame >> playCardTo: aSpaceship [
 { #category : #cards }
 BoardGame >> playPermanentCardsForPlayingSpaceship [
 
-	| anAmount |
+	^ (croupier permanentCardsOf: playingSpaceshipPosition spaceship).
+	"| anAmount |
 	anAmount := 0.
-
+	
 	permanentCards do: [ :permanentCard | 
 		(permanentCard spaceship includes:
 			 playingSpaceshipPosition spaceship) ifTrue: [ 
 			anAmount := anAmount + (permanentCard card implementOn: self) ] ].
-	^ anAmount
+	^ anAmount"
 ]
 
 { #category : #cards }

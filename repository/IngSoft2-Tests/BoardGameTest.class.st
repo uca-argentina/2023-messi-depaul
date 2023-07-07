@@ -59,19 +59,21 @@ BoardGameTest >> test01WhenCreationOfBoardGameWithRepeatedSpaceshipsThenCannotCr
 { #category : #tests }
 BoardGameTest >> test02WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePosition [
 
-	| aBoardGame aBoard aLoadedDie spaceships |
+	| aBoardGame aBoard aLoadedDie spaceships aCroupier |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 
 	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 
 	aLoadedDie := LoadedDie of: #( 1 2 3 ).
+	
+	aCroupier := Croupier new.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling: (OrderedCollection with: aLoadedDie)
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 	
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2
