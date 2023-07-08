@@ -385,7 +385,8 @@ BoardGame >> take: aCard from: aSpaceship [
 { #category : #cards }
 BoardGame >> throw: aCard from: aSpaceship [
 
-	self take: aCard from: aSpaceship.
+	croupier take: aCard from: aSpaceship.
+	"self take: aCard from: aSpaceship."
 	self playCard
 ]
 
@@ -398,8 +399,8 @@ BoardGame >> throw: aCard from: aSpaceship choosing: aSpaceshipCard [
 
 { #category : #cards }
 BoardGame >> throw: aCard from: aSpaceship to: anotherSpaceship [
-
-	self take: aCard from: aSpaceship.
+	croupier take: aCard from: aSpaceship.
+	"self take: aCard from: aSpaceship."
 	self playCardTo: anotherSpaceship
 ]
 

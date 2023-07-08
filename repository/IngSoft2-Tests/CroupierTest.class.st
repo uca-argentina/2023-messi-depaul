@@ -62,10 +62,10 @@ CroupierTest >> test01ACroupier [
 		              rolling: (OrderedCollection with: aLoadedDie)
 		              on: aBoard
 		              with: 2 managedBy: aCroupier.
-	"aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Cami'.
-		
+	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Cami'.
+	
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2"
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2
 	
 	
 

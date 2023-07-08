@@ -5,7 +5,8 @@ Class {
 		'deckOfCards',
 		'playersCards',
 		'indexCards',
-		'playersPermanentCards'
+		'playersPermanentCards',
+		'playingCard'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -61,4 +62,21 @@ Croupier >> permanentCardsOf: aSpaceship [
 		do: [ :playerPermanentCard | 
 		(playerPermanentCard spaceship = aSpaceship)ifTrue: [ 
 		anAmount := anAmount + (playerPermanentCard card implementOn: self) ]]
+]
+
+{ #category : #action }
+Croupier >> take: aCard from: aSpaceship [
+	| aPlayerCards aPlayerCard|
+	aPlayerCards := playersCards detect: [ :playerCards | 
+			                  (playerCards spaceship = aSpaceship) ]
+		                  ifNone: [ 
+		                  Error signal: 'That player does not exist' ].
+	
+	aPlayerCard := aPlayerCards detect: [ :playerCard | 
+			                  (playerCard = aCard) ]
+		                  ifNone: [ 
+		                  Error signal: 'You do not have that card' ].
+	playingCard := aPlayerCard.
+	aPlayerCards remove: aPlayerCard.
+	"aSpaceshipCard card canBePlayedIn: self for: aSpaceship"
 ]
