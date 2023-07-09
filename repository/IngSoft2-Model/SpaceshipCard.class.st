@@ -25,6 +25,6 @@ SpaceshipCard >> initializeNamed: aSpaceshipCollection with: aCard [
 ]
 
 { #category : #'instance variable' }
-SpaceshipCard >> spaceship [
+SpaceshipCard >> spaceships [
 	^ spaceships
 ]

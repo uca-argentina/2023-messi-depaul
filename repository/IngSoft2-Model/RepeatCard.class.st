@@ -1,6 +1,9 @@
 Class {
 	#name : #RepeatCard,
 	#superclass : #Object,
+	#instVars : [
+		'cardId'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -10,16 +13,21 @@ RepeatCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 ]
 
 { #category : #'instance variable' }
-RepeatCard >> name [
-	^ 'repeat'.
+RepeatCard >> id [
+	^cardId 
+]
+
+{ #category : #'instance variable' }
+RepeatCard >> id: number [ 
+	cardId:= number.
 ]
 
 { #category : #action }
-RepeatCard >> playOn: aBoardGame [ 
-	aBoardGame repeatCard.
+RepeatCard >> playOn: aCroupier [ 
+	aCroupier repeatCard.
 ]
 
 { #category : #action }
-RepeatCard >> playOn: aBoardGame to: aSpaceship [ 
-	aBoardGame repeatCardTo: aSpaceship.
+RepeatCard >> playOn: aCroupier to: aCardPlayers [ 
+	aCroupier repeatCardTo: aCardPlayers.
 ]

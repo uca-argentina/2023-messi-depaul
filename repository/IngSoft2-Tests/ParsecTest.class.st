@@ -3,7 +3,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'cellEffects',
-		'aDeckOfCards'
+		'aDeckOfCards',
+		'aCroupier'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -11,11 +12,12 @@ Class {
 { #category : #running }
 ParsecTest >> setUp [
 	super setUp.
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: OverloadCard new.
-	aDeckOfCards add: AccelerationCard new.
-	aDeckOfCards add: CancellationCard new.
+	aDeckOfCards := DeckOfCards with: (OrderedCollection
+			                 with: SpeedCard new
+			                 with: OverloadCard new
+			                 with: AccelerationCard new
+			                 with: CancellationCard new).
+	aCroupier := Croupier handling: aDeckOfCards
 ]
 
 { #category : #tests }
@@ -40,7 +42,7 @@ ParsecTest >> test01WhenASpaceshipLandsOnHyperJumpwWithParsecsAndLightYearsThenM
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
@@ -77,7 +79,7 @@ ParsecTest >> test02WhenABoardInLightYearsAndSpaceshipLandsOnHyperJumpThenSpacec
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.

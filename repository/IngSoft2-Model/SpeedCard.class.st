@@ -1,6 +1,9 @@
 Class {
 	#name : #SpeedCard,
 	#superclass : #Object,
+	#instVars : [
+		'cardId'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -9,15 +12,20 @@ SpeedCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 	aBoardGame validatePermanentPlayFor: aSpaceship
 ]
 
+{ #category : #'instance cration' }
+SpeedCard >> id [
+	^cardId.
+]
+
+{ #category : #initialization }
+SpeedCard >> id: number [ 
+	cardId:= number.
+]
+
 { #category : #action }
 SpeedCard >> implementOn: aBoardGame [
 
 	^ 1
-]
-
-{ #category : #'instance variable' }
-SpeedCard >> name [
-	^'speed'.
 ]
 
 { #category : #action }
@@ -27,8 +35,8 @@ SpeedCard >> playOn: aBoardGame [
 ]
 
 { #category : #action }
-SpeedCard >> playOn: aBoardGame to: aSpaceship [ 
-	aBoardGame permanentCardTo: aSpaceship 
+SpeedCard >> playOn: aCroupier to: aCardPlayers [ 
+	aCroupier recordPermanent: aCardPlayers 
 ]
 
 { #category : #action }

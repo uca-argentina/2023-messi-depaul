@@ -1,6 +1,9 @@
 Class {
 	#name : #RedoCard,
 	#superclass : #Object,
+	#instVars : [
+		'cardId'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -11,7 +14,27 @@ RedoCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 ]
 
 { #category : #'instance variable' }
-RedoCard >> name [
+RedoCard >> id [
+	^cardId 
+]
 
-	^ 'redo'
+{ #category : #action }
+RedoCard >> id: number [ 
+	cardId:= number.
+]
+
+{ #category : #action }
+RedoCard >> playOn: aCroupier to: aCardPlayers [
+
+	| lastCardPlayers |
+	lastCardPlayers := CardPlayers
+		                   of: aCroupier lastCardPlayed
+		                   with: aCardPlayers spaceships.
+
+	aCroupier play: lastCardPlayers
+]
+
+{ #category : #action }
+RedoCard >> playOn: aCroupier toSelected: aCardId [ 
+	aCroupier cancellationCardTo: aCardId
 ]

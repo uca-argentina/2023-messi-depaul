@@ -3,7 +3,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'cellEffects',
-		'aDeckOfCards'
+		'aDeckOfCards',
+		'aCroupier'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -23,12 +24,13 @@ BoardGameTest >> setUp [
 	cellEffects add: (Cell on: 8 of: NoEffect new).
 	cellEffects add: (Cell on: 9 of: NoEffect new).
 	cellEffects add: (Cell on: 10 of: NoEffect new).
-	
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: OverloadCard new.
-	aDeckOfCards add: AccelerationCard new.
-	aDeckOfCards add: CancellationCard new.
+
+	aDeckOfCards := DeckOfCards with: (OrderedCollection
+			                 with: SpeedCard new
+			                 with: OverloadCard new
+			                 with: AccelerationCard new
+			                 with: CancellationCard new).
+	aCroupier := Croupier handling: aDeckOfCards
 ]
 
 { #category : #tests }
@@ -44,14 +46,15 @@ BoardGameTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErr
 { #category : #tests }
 BoardGameTest >> test01WhenCreationOfBoardGameWithRepeatedSpaceshipsThenCannotCreate [
 	|spaceships|
-	spaceships := OrderedCollection with: 'Cami' with: 'Vicky' with: 'Cami'.	
+	spaceships := OrderedCollection with: 'Cami' with: 'Vicky' with: 'Cami'.
+		
 	self
 		should: [ 
 			BoardGame
 				playedBy: spaceships
 				rolling: (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 				on: (Board of: cellEffects withLenght: (Parsec of: 15))
-				with: 2 utilizing: aDeckOfCards. ]
+				with: 2 managedBy: aCroupier. ]
 		raise: Error
 		withMessage: 'Cannot create board with repeated spaceships'
 ]
@@ -59,15 +62,13 @@ BoardGameTest >> test01WhenCreationOfBoardGameWithRepeatedSpaceshipsThenCannotCr
 { #category : #tests }
 BoardGameTest >> test02WhenALoadedDieIsThrownThenASpaceshipMovesForwardOnePosition [
 
-	| aBoardGame aBoard aLoadedDie spaceships aCroupier |
+	| aBoardGame aBoard aLoadedDie spaceships |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 
 	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 
 	aLoadedDie := LoadedDie of: #( 1 2 3 ).
-	
-	aCroupier := Croupier new.
 
 	aBoardGame := BoardGame
 		              playedBy: spaceships
@@ -93,7 +94,7 @@ BoardGameTest >> test03WhenASpaceshipWinsThenGameOver [
 		              playedBy: spaceships
 		              rolling: (OrderedCollection with: (LoadedDie of: #( 3 )))
 		              on: aBoard
-		              with: 1 utilizing: aDeckOfCards.
+		              with: 1 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -123,7 +124,7 @@ BoardGameTest >> test04WhenTwoSpaceshipPlayThenSpaceship1Wins [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
-		              with: 1 utilizing: aDeckOfCards.
+		              with: 1 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -150,7 +151,7 @@ BoardGameTest >> test05WhenAllSpaceshipsPositionsThenAnOrderedCollection [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
@@ -172,7 +173,7 @@ BoardGameTest >> test06WhenTwoSpaceshipsPlaysThenSpaceshipPositions [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
@@ -193,7 +194,7 @@ BoardGameTest >> test07WhenItsNotASpaceshipsTruenThenCannotPlay [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 	self
 		should: [ aBoardGame playTurnFor: 'Cami' ]
 		raise: Error
@@ -209,7 +210,7 @@ BoardGameTest >> test08WhenABoardGameWithNoSpaceshipsThenFailsCreation [
 				playedBy: OrderedCollection new
 				rolling: (OrderedCollection with: (LoadedDie of: #( 1 2 3 )))
 				on: (Board of: cellEffects withLenght: (Parsec of: 15))
-				with: 2 utilizing: aDeckOfCards.]
+				with: 2 managedBy: aCroupier.]
 		raise: Error
 		withMessage: 'Cannot create board with no spaceships'
 ]
@@ -228,7 +229,7 @@ BoardGameTest >> test09WhenASpaceshipAdvanceTwoRoundsThenCurrentPositionAndRound
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 3 4 20 )))
 		              on: aBoard
-		              with: 3 utilizing: aDeckOfCards.	
+		              with: 3 managedBy: aCroupier.	
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
@@ -252,7 +253,7 @@ BoardGameTest >> test10WhenASpaceshipAdvanceTwoRoundsThenGameIsOver [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 12 4 20 )))
 		              on: aBoard
-		              with: 3 utilizing: aDeckOfCards.
+		              with: 3 managedBy: aCroupier.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
@@ -276,7 +277,7 @@ BoardGameTest >> test11WhenABoardGameIsPlayedThenThereIsNotAWinner [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 )))
 		              on: aBoard
-		              with: 3 utilizing: aDeckOfCards.
+		              with: 3 managedBy: aCroupier.
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.

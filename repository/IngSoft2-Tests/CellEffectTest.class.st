@@ -2,19 +2,22 @@ Class {
 	#name : #CellEffectTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'aDeckOfCards'
+		'aDeckOfCards',
+		'aCroupier'
 	],
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #running }
 CellEffectTest >> setUp [
+
 	super setUp.
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: OverloadCard new.
-	aDeckOfCards add: AccelerationCard new.
-	aDeckOfCards add: CancellationCard new.
+	aDeckOfCards := DeckOfCards with: (OrderedCollection
+			                 with: SpeedCard new
+			                 with: OverloadCard new
+			                 with: AccelerationCard new
+			                 with: CancellationCard new).
+	aCroupier := Croupier handling: aDeckOfCards
 ]
 
 { #category : #tests }
@@ -36,7 +39,7 @@ CellEffectTest >> test01WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 		
 
 	aBoardGame playTurnFor: 'Vicky'.
@@ -65,7 +68,7 @@ CellEffectTest >> test02WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 2 1 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.	
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -97,7 +100,7 @@ CellEffectTest >> test03WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 1 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.	
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
@@ -138,7 +141,7 @@ CellEffectTest >> test04WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositi
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 
@@ -164,7 +167,7 @@ CellEffectTest >> test05WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoes
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 4 1 3 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 		
 
 	aBoardGame playTurnFor: 'Vicky'.
@@ -200,7 +203,7 @@ CellEffectTest >> test06WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLess
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
@@ -234,7 +237,7 @@ CellEffectTest >> test07WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 
@@ -269,7 +272,7 @@ CellEffectTest >> test08WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToSt
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
@@ -308,7 +311,7 @@ CellEffectTest >> test09WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsAndRoun
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 11 2 3 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 	
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2.
@@ -348,7 +351,7 @@ CellEffectTest >> test10WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePo
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 7 5 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 8.
@@ -388,7 +391,7 @@ CellEffectTest >> test11WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEff
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 
@@ -424,7 +427,7 @@ CellEffectTest >> test12WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -456,7 +459,7 @@ CellEffectTest >> test13ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 5 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.	
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
@@ -484,7 +487,7 @@ CellEffectTest >> test14ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 5 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
@@ -511,7 +514,7 @@ CellEffectTest >> test15ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 5 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
@@ -540,7 +543,7 @@ CellEffectTest >> test16WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPosi
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
@@ -577,7 +580,7 @@ CellEffectTest >> test17WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMov
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -606,7 +609,7 @@ CellEffectTest >> test18WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToIniti
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
@@ -636,7 +639,7 @@ CellEffectTest >> test19WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 10 1 3 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -669,7 +672,7 @@ CellEffectTest >> test20WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThe
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 10 1 3 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -701,7 +704,7 @@ CellEffectTest >> test21WhenThreeSpaceshipPlaysAndACellSpeedUpThenSpaceshipMoves
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.

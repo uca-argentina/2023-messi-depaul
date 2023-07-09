@@ -1,6 +1,9 @@
 Class {
 	#name : #OverloadCard,
 	#superclass : #Object,
+	#instVars : [
+		'cardId'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -10,15 +13,21 @@ OverloadCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 	aBoardGame validatePermanentPlayFor: aSpaceship
 ]
 
+{ #category : #'instance variable' }
+OverloadCard >> id [
+
+	^ cardId
+]
+
+{ #category : #initialization }
+OverloadCard >> id: number [ 
+	cardId:= number.
+]
+
 { #category : #action }
 OverloadCard >> implementOn: aBoardGame [
 
 	^ -2
-]
-
-{ #category : #'instance variable' }
-OverloadCard >> name [
-	^'overload'
 ]
 
 { #category : #action }
@@ -28,9 +37,9 @@ OverloadCard >> playOn: aBoardGame [
 ]
 
 { #category : #action }
-OverloadCard >> playOn: aBoardGame to: aSpaceship [
+OverloadCard >> playOn: aCroupier to: aCardPlayers [
 
-	aBoardGame permanentCardTo: aSpaceship
+	aCroupier recordPermanent: aCardPlayers
 ]
 
 { #category : #action }

@@ -8,19 +8,23 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #initialization }
-PlayerCards class >> named: aString with: aSpeedCard [ 
-	self shouldBeImplemented.
-]
-
 { #category : #initialize }
 PlayerCards class >> of: aSpaceship [ 
 	^(self new) of: aSpaceship.
 ]
 
 { #category : #'instance variables' }
-PlayerCards >> cards [
+PlayerCards >> card [
 	^ cards
+]
+
+{ #category : #action }
+PlayerCards >> obteinCard: cardId [
+	| aCard |
+	aCard := cards
+		         detect: [ :card | card id = cardId ]
+		         ifNone: [ Error signal: 'You do not have that card' ].
+	^aCard
 ]
 
 { #category : #'instance creation' }
@@ -29,7 +33,15 @@ PlayerCards >> of: aSpaceship [
 	cards := OrderedCollection new.
 ]
 
-{ #category : #'instance variable' }
-PlayerCards >> spaceship [
+{ #category : #action }
+PlayerCards >> removeCard: cardId [
+
+	| aCard |
+	aCard := self obteinCard: cardId.
+	cards remove: aCard
+]
+
+{ #category : #'instance variables' }
+PlayerCards >> spaceships [
 	^ spaceship
 ]

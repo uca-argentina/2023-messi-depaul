@@ -28,7 +28,7 @@ SpaceshipPosition >> position [
 ]
 
 { #category : #'instance variables' }
-SpaceshipPosition >> spaceship [
+SpaceshipPosition >> spaceships [
 
 	^ spaceship
 ]

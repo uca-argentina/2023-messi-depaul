@@ -62,6 +62,8 @@ BoardGame >> applyEffect [
 	| aCellEffect |
 	aCellEffect := board cellsEffect detect: [ :cell | 
 		               cell quantity = playingSpaceshipPosition  position cellNumber  ].
+	
+	"croupier lastCellEffect: aCellEffect effect."
 	lastCellEffect := aCellEffect effect.
 	aCellEffect effect implementOn: self
 ]
@@ -82,7 +84,7 @@ BoardGame >> applyMoonWalkEffect: cellsBackward [
 			self moves: spaceshipPosition to: cellsBackward negated ]]."
 
 	(spaceshipPositions select: [ :spaceshipPosition | 
-			playingSpaceshipPosition spaceship ~= spaceshipPosition spaceship ])
+			playingSpaceshipPosition spaceships ~= spaceshipPosition spaceships ])
 		do: [ :spaceshipPosition | 
 			self moves: spaceshipPosition to: cellsBackward negated ].
 
@@ -91,29 +93,6 @@ BoardGame >> applyMoonWalkEffect: cellsBackward [
 { #category : #effects }
 BoardGame >> applyMovingEffect: aNumber [ 
 	self moves: playingSpaceshipPosition to: aNumber.
-]
-
-{ #category : #cards }
-BoardGame >> cancellationCardTo: aSpaceshipCard [
-
-	permanentCards remove: (permanentCards
-			 detect: [ :permanentCard | 
-				 permanentCard card name = aSpaceshipCard card name and:
-					 permanentCard spaceship = aSpaceshipCard spaceship ]
-			 ifNone: [ Error signal: 'That card does not exist' ]).
-
-
-	lastCardPlayed := playingCard
-]
-
-{ #category : #cards }
-BoardGame >> dealACard [
-
-	spaceshipCards add: (SpaceshipCard
-			 named:
-			 (OrderedCollection with: playingSpaceshipPosition spaceship)
-			 with: (deckOfCards at: indexCards)).
-	indexCards := indexCards \\ deckOfCards size + 1
 ]
 
 { #category : #initialization }
@@ -148,7 +127,7 @@ BoardGame >> initializePlayedBy: manySpaceships rolling: manyDice on: aBoard win
 	winner := ''.
 	lastCellEffect := NoEffect new.
 	croupier := aCroupier.
-	croupier dealCardsTo: spaceships.
+	croupier dealCardsWhenGameIsStartedTo: spaceships.
 	self spaceshipsInitialization.
 ]
 
@@ -168,7 +147,7 @@ BoardGame >> moves: aSpaceshipPosition to: amountOfCellsToMove [
 
 
 	aSpaceshipPositionNew := SpaceshipPosition
-		                         named: aSpaceshipPosition spaceship
+		                         named: aSpaceshipPosition spaceships
 		                         on:
 		                         (Position on: cellNumberNew at: roundNew).
 	playingSpaceshipPosition := aSpaceshipPositionNew.
@@ -222,57 +201,10 @@ BoardGame >> newRoundPositionWhen: originalRound with: moveAmount [
 ]
 
 { #category : #cards }
-BoardGame >> permanentCard [
-
-	permanentCards add:
-		(SpaceshipCard named: spaceships with: playingCard).
-
-	lastCardPlayed := playingCard
-]
-
-{ #category : #cards }
-BoardGame >> permanentCardTo: aSpaceship [
-
-	permanentCards add: (SpaceshipCard
-			 named: (OrderedCollection with: aSpaceship)
-			 with: playingCard).
-
-	lastCardPlayed := playingCard
-]
-
-{ #category : #cards }
-BoardGame >> playCard [
-
-	playingCard playOn: self
-]
-
-{ #category : #cards }
-BoardGame >> playCardTo: aSpaceship [
-
-	self validateSpaceshipExists: aSpaceship.
-	playingCard playOn: self to: aSpaceship
-]
-
-{ #category : #cards }
 BoardGame >> playPermanentCardsForPlayingSpaceship [
 
-	^ (croupier permanentCardsOf: playingSpaceshipPosition spaceship).
-	"| anAmount |
-	anAmount := 0.
-	
-	permanentCards do: [ :permanentCard | 
-		(permanentCard spaceship includes:
-			 playingSpaceshipPosition spaceship) ifTrue: [ 
-			anAmount := anAmount + (permanentCard card implementOn: self) ] ].
-	^ anAmount"
-]
+	^ (croupier permanentCardsOf: playingSpaceshipPosition spaceships).
 
-{ #category : #cards }
-BoardGame >> playSelectedCard: aSpaceshipCard [
-
-	self validateSpaceshipExists: (aSpaceshipCard spaceship at: 1).
-
-	playingCard playOn: self toSelected: aSpaceshipCard
 ]
 
 { #category : #action }
@@ -310,7 +242,7 @@ BoardGame >> ranking [
 	namesRanking size >= 3 ifTrue: [ 
 		namesRanking := namesRanking first: 3 ].
 	^ namesRanking collect: [ :spaceshipPosition | 
-		  spaceshipPosition spaceship ]
+		  spaceshipPosition spaceships ]
 ]
 
 { #category : #action }
@@ -332,32 +264,17 @@ BoardGame >> repeatCardTo: aSpaceship [
 
 	playingSpaceshipPosition := spaceshipPositions detect: [ 
 		                            :spaceshipPosition | 
-		                            spaceshipPosition spaceship
+		                            spaceshipPosition spaceships
 		                            == aSpaceship ].
 
 	lastCellEffect implementOn: self
-]
-
-{ #category : #cards }
-BoardGame >> spaceshipCardOf: aCard from: aSpaceship [
-
-	| aSpaceshipCard |
-	aSpaceshipCard := spaceshipCards
-		                  detect: [ :spaceshipCard | 
-			                  (spaceshipCard spaceship includes: aSpaceship) 
-				                  and: [ spaceshipCard card name = aCard ] ]
-		                  ifNone: [ 
-		                  Error signal: 'You do not have that card' ].
-	(spaceshipCards at: 1) card.
-
-	^ aSpaceshipCard
 ]
 
 { #category : #action }
 BoardGame >> spaceshipPosition: aName [
 
 	^ (spaceshipPositions detect: [ :spaceshipPosition | 
-		   spaceshipPosition spaceship == aName ]) position
+		   spaceshipPosition spaceships == aName ]) position
 ]
 
 { #category : #initialization }
@@ -373,35 +290,32 @@ BoardGame >> spaceshipsInitialization [
 ]
 
 { #category : #cards }
-BoardGame >> take: aCard from: aSpaceship [
-
-	| aSpaceshipCard |
-	aSpaceshipCard := self spaceshipCardOf: aCard name from: aSpaceship.
-	playingCard := aSpaceshipCard card.
-	spaceshipCards remove: aSpaceshipCard.
-	aSpaceshipCard card canBePlayedIn: self for: aSpaceship
-]
-
-{ #category : #cards }
 BoardGame >> throw: aCard from: aSpaceship [
 
-	croupier take: aCard from: aSpaceship.
-	"self take: aCard from: aSpaceship."
-	self playCard
+	| aCardPlayers |
+	croupier take: aCard from: aSpaceship on: self.
+	aCardPlayers := CardPlayers of: aCard with: spaceships.
+	croupier play: aCardPlayers
 ]
 
 { #category : #cards }
-BoardGame >> throw: aCard from: aSpaceship choosing: aSpaceshipCard [
+BoardGame >> throw: aCard from: aSpaceship choosing: cardId [
+	
+	croupier take: aCard from: aSpaceship on: self.
+	croupier play: aCard forSelected: cardId
 
-	self take: aCard from: aSpaceship.
-	self playSelectedCard: aSpaceshipCard
 ]
 
 { #category : #cards }
 BoardGame >> throw: aCard from: aSpaceship to: anotherSpaceship [
-	croupier take: aCard from: aSpaceship.
-	"self take: aCard from: aSpaceship."
-	self playCardTo: anotherSpaceship
+
+	| aCardPlayers |
+	self validateSpaceshipExists: anotherSpaceship.
+	croupier take: aCard from: aSpaceship on: self.
+	aCardPlayers := CardPlayers
+		                of: aCard
+		                with: (OrderedCollection with: anotherSpaceship).
+	croupier play: aCardPlayers
 ]
 
 { #category : #action }
@@ -437,7 +351,7 @@ BoardGame >> validatePlayingSpaceshipPosition [
 
 	playingSpaceshipPosition := spaceshipPositions detect: [ 
 		                            :spaceshipPosition | 
-		                            spaceshipPosition spaceship
+		                            spaceshipPosition spaceships
 		                            == (spaceships at: turn) ]
 ]
 
@@ -469,7 +383,7 @@ BoardGame >> validateWinner: aSpaceshipPosition [
 	(aSpaceshipPosition position round) > rounds
 		ifTrue: [ 
 			isOver := true.
-			winner := aSpaceshipPosition spaceship ]
+			winner := aSpaceshipPosition spaceships ]
 		ifFalse: [  ]
 ]
 
