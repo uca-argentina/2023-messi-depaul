@@ -200,13 +200,6 @@ BoardGame >> newRoundPositionWhen: originalRound with: moveAmount [
 	^ round
 ]
 
-{ #category : #cards }
-BoardGame >> playPermanentCardsForPlayingSpaceship [
-
-	^ (croupier permanentCardsOf: playingSpaceshipPosition spaceships).
-
-]
-
 { #category : #action }
 BoardGame >> playTurnFor: aSpaceship [
 
@@ -330,7 +323,7 @@ BoardGame >> throwDice [
 { #category : #cards }
 BoardGame >> totalAmount [
 
-	^ self throwDice + self playPermanentCardsForPlayingSpaceship
+	^ self throwDice + (croupier permanentCardsOf: playingSpaceshipPosition spaceships).
 ]
 
 { #category : #validation }
