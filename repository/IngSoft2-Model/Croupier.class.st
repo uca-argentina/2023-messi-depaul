@@ -21,7 +21,7 @@ Croupier >> cancellationCardTo: cardId [
 
 	| aCardPlayers |
 	aCardPlayers := permanentCardsPlayers detect: [ :cardPlayers | 
-		                cardPlayers card id = cardId ]ifNone:[Error signal: 'That card does not exist'].
+		                cardPlayers card id = cardId id ]ifNone:[Error signal: 'That card does not exist'].
 	
 	permanentCardsPlayers remove: aCardPlayers .
 	lastCardPlayed := CancellationCard new.

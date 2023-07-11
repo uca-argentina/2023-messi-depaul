@@ -95,6 +95,11 @@ BoardGame >> applyMovingEffect: aNumber [
 	self moves: playingSpaceshipPosition to: aNumber.
 ]
 
+{ #category : #effect }
+BoardGame >> dealACardEffect [
+	croupier dealACardTo: playingSpaceshipPosition spaceships.
+]
+
 { #category : #initialization }
 BoardGame >> dealCards [
 

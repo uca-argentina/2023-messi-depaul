@@ -19,7 +19,7 @@ PlayerCards >> card [
 ]
 
 { #category : #action }
-PlayerCards >> obteinCard: cardId [
+PlayerCards >> obtainCard: cardId [
 	| aCard |
 	aCard := cards
 		         detect: [ :card | card id = cardId ]
@@ -37,7 +37,7 @@ PlayerCards >> of: aSpaceship [
 PlayerCards >> removeCard: cardId [
 
 	| aCard |
-	aCard := self obteinCard: cardId.
+	aCard := self obtainCard: cardId.
 	cards remove: aCard
 ]
 

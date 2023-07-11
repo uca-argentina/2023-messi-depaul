@@ -6,5 +6,5 @@ Class {
 
 { #category : #action }
 DrawCardEffect >> implementOn: aBoardGame [ 
-	aBoardGame dealACard.
+	aBoardGame dealACardEffect.
 ]
