@@ -40,10 +40,12 @@ CellGenerator >> hyperJumps [
 { #category : #'instance creation' }
 CellGenerator >> initializeCells [
 
+	| aNoEffect |
 	1 to: amountOfCells do: [ :index | 
 		| aNumber |
 		aNumber := 100 atRandom.
 		(aNumber > 0 and: aNumber <= 30) ifTrue: [ 
+			aNoEffect := NoEffect new.
 			noEffects := noEffects + 1 ].
 		(aNumber > 30 and: aNumber <= 40) ifTrue: [ 
 			cards := cards + 1 ].

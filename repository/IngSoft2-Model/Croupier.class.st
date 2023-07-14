@@ -106,7 +106,12 @@ Croupier >> recordPermanent: aCardPlayers [
 
 { #category : #repetedCard }
 Croupier >> repeatCardTo: aCardPlayers [ 
-	self shouldBeImplemented.
+	"playingSpaceshipPosition := spaceshipPositions detect: [ 
+		                            :spaceshipPosition | 
+		                            spaceshipPosition spaceships
+		                            == aSpaceship ]. "" el problema es en este porque la playing es la que le va a afectar en ese momento el coso, siempre le vamos a tener q pasar la spaceship que juega y solo deberia validarse una vez que valga, maybe.. 
+
+	lastCellEffect implementOn: self." "esta la re podemos guardar en el croupier"
 ]
 
 { #category : #play }

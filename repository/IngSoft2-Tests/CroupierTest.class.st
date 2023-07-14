@@ -804,16 +804,16 @@ CroupierTest >> test20WhenAspaceshipThrowsRepeatCardAndLastCellEffectAtomicBombT
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
-		              (OrderedCollection with: (LoadedDie of: #( 8 2 3 )))
+		              (OrderedCollection with: (LoadedDie of: #( 7 8 3 )))
 		              on: aBoard
 		              with: 3
 		              managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
-	
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 8.
+	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame throw: aRepeatCard from: 'Delfi'.
-	
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 1.
 	

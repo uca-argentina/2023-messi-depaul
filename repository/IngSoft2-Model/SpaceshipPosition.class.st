@@ -14,6 +14,11 @@ SpaceshipPosition class >> named: spaceshipName on: aPosition [
 	^ self new initializeNamed: spaceshipName on: aPosition
 ]
 
+{ #category : #'instance variables' }
+SpaceshipPosition >> >= anObject [
+	^ (position cellNumber >= anObject position cellNumber) and: (position round >= anObject position round).
+]
+
 { #category : #'instance creation' }
 SpaceshipPosition >> initializeNamed: spaceshipName on: aPosition [
 
