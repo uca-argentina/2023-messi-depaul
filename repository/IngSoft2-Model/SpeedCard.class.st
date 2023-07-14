@@ -28,6 +28,11 @@ SpeedCard >> implementOn: aBoardGame [
 	^ 1
 ]
 
+{ #category : #'instance variable' }
+SpeedCard >> name [
+	^'speed'.
+]
+
 { #category : #action }
 SpeedCard >> playOn: aBoardGame [
 

@@ -28,6 +28,11 @@ AccelerationCard >> implementOn: aBoardGame [
 	^1
 ]
 
+{ #category : #'instance variables' }
+AccelerationCard >> name [
+	'acceleration'.
+]
+
 { #category : #action }
 AccelerationCard >> playOn: aCroupier [ 
 	self shouldBeImplemented.

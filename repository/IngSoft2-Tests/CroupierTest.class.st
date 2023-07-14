@@ -778,7 +778,7 @@ CroupierTest >> test19WhenASpaceshipThrowsRepeatCardAndLastCellEffectSpeedUpThen
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Delfi'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Delfi'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 5.
@@ -869,7 +869,7 @@ CroupierTest >> test21WhenASpaceshipThrowsRepeatCardAndLastCellEffectMoonWalkThe
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Vicky'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
@@ -902,6 +902,7 @@ CroupierTest >> test22WhenASpaceshipThrowsAnAccelerationCardToAnotherSpaceshipTh
 		              managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
+	aBoardGame throw: anAccelerationCard from: 'Cami' to: 'Cami'.
 	self
 		should: [ 
 		aBoardGame throw: anAccelerationCard from: 'Cami' to: 'Cami' ]
@@ -951,7 +952,7 @@ CroupierTest >> test23WhenASpaceshipThrowsRepeatCardAndLastCellEffectWormHoleThe
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 2.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Vicky'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
 
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
@@ -1003,7 +1004,7 @@ CroupierTest >> test24WhenASpaceshipThrowsRepeatCardAndDiceWerentThrownThenNoEff
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 2.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Vicky'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
 
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
@@ -1119,7 +1120,6 @@ CroupierTest >> test27WhenASpaceshipThrowsSpeedCardChoosingASpaceshipCardThenCan
 		              managedBy: aCroupier.
 		
 	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
-	aBoardGame throw: aSpeedCard from: 'Vicky' choosing: 1. 
 
 	self should: [ 	aBoardGame throw: aSpeedCard from: 'Vicky' choosing: 1.  ] raise: Error  withMessage: 'To play card, choose a player' .
 	
@@ -1181,6 +1181,9 @@ CroupierTest >> test29WhenASpaceshipThrowsOverloadCardNotChoosingAPlayerThenCanN
 		              managedBy: aCroupier.
 
 	aBoardGame throw: anOverloadCard from: 'Vicky' to: 'Vicky'.
+	aBoardGame
+				throw: anOverloadCard
+				from: 'Vicky'.
 	
 	self
 		should: [ 
@@ -1251,7 +1254,7 @@ CroupierTest >> test31WhenASpaceshipThrowsCancellationCardChoosingAPlayerThenCan
 	self
 		should: [ aBoardGame throw: aCancellationCard from: 'Vicky' ]
 		raise: Error
-		withMessage: 'You have to choose a card'
+		withMessage: 'You have to choose a card.'
 ]
 
 { #category : #tests }
@@ -1304,6 +1307,7 @@ CroupierTest >> test33WhenASpaceshipThrowsRedoCardNotChoosingAPlayerForSpeedCard
 		              managedBy: aCroupier.
 
 	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
+	aBoardGame throw: aRedoCard from: 'Vicky'.
 
 	self
 		should: [ aBoardGame throw: aRedoCard from: 'Vicky' ]
@@ -1336,7 +1340,7 @@ CroupierTest >> testBanana [
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Delfi'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Delfi'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 5.

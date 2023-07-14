@@ -30,6 +30,11 @@ OverloadCard >> implementOn: aBoardGame [
 	^ -2
 ]
 
+{ #category : #'instance variables' }
+OverloadCard >> name [
+	^'overload'.
+]
+
 { #category : #action }
 OverloadCard >> playOn: aBoardGame [ 
 	

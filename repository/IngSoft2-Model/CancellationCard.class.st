@@ -22,10 +22,20 @@ CancellationCard >> id: number [
 	cardId:= number.
 ]
 
+{ #category : #'instance variables' }
+CancellationCard >> name [
+	^'cancellation'.
+]
+
 { #category : #action }
 CancellationCard >> playOn: aBoardGame [ 
 	
 	Error signal: 'You have to choose a card'.
+]
+
+{ #category : #action }
+CancellationCard >> playOn: aCroupier to: aCardPlayers [ 
+	Error signal: 'You have to choose a card.'.
 ]
 
 { #category : #action }

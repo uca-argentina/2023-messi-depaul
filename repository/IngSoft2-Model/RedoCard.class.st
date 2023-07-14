@@ -23,6 +23,11 @@ RedoCard >> id: number [
 	cardId:= number.
 ]
 
+{ #category : #'instance variables' }
+RedoCard >> name [
+	^'redo'.
+]
+
 { #category : #action }
 RedoCard >> playOn: aCroupier to: aCardPlayers [
 

@@ -289,20 +289,7 @@ BoardGame >> throw: aCard from: aSpaceship [
 	| aCardPlayers |
 	croupier take: aCard from: aSpaceship on: self.
 	aCardPlayers := CardPlayers of: aCard with: spaceships.
-	"(aCard name = 'repeat')ifTrue:[ 
-		aCardPlayers := CardPlayers of: aCard with: (OrderedCollection with: aSpaceship). ]."
 	croupier play: aCardPlayers.
-]
-
-{ #category : #cards }
-BoardGame >> throw: aCard from: aSpaceship affecting: anotherSpaceship [ 
-	| aCardPlayers |
-	self validateSpaceshipExists: anotherSpaceship.
-	croupier take: aCard from: aSpaceship on: self.
-	aCardPlayers := CardPlayers
-		                of: aCard
-		                with: (OrderedCollection with: anotherSpaceship).
-	croupier play: aCardPlayers on: self.
 ]
 
 { #category : #cards }
@@ -322,6 +309,7 @@ BoardGame >> throw: aCard from: aSpaceship to: anotherSpaceship [
 	aCardPlayers := CardPlayers
 		                of: aCard
 		                with: (OrderedCollection with: anotherSpaceship).
+	self validateRepeatOf: aCardPlayers.
 	croupier play: aCardPlayers.
 ]
 
@@ -368,6 +356,11 @@ BoardGame >> validateRedoCard [
 	(lastCardPlayed = '')ifTrue: [ 
 		Error signal: 'A card hasn´t been played yet' ].
 	playingCard := lastCardPlayed
+]
+
+{ #category : #cards }
+BoardGame >> validateRepeatOf: aCardPlayers [ 
+	(aCardPlayers card name = 'repeat')ifTrue:[croupier play: aCardPlayers on: self ]ifFalse:[].
 ]
 
 { #category : #validation }
