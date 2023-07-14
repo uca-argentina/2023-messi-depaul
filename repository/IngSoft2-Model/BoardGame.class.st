@@ -95,7 +95,7 @@ BoardGame >> applyMovingEffect: aNumber [
 	self moves: playingSpaceshipPosition to: aNumber.
 ]
 
-{ #category : #effect }
+{ #category : #effects }
 BoardGame >> dealACardEffect [
 	croupier dealACardTo: playingSpaceshipPosition spaceships.
 ]
@@ -293,10 +293,10 @@ BoardGame >> throw: aCard from: aSpaceship [
 ]
 
 { #category : #cards }
-BoardGame >> throw: aCard from: aSpaceship choosing: cardId [
+BoardGame >> throw: aCard from: aSpaceship choosing: anotherCard [
 	
 	croupier take: aCard from: aSpaceship on: self.
-	croupier play: aCard forSelected: cardId
+	croupier play: aCard forSelected: anotherCard
 
 ]
 

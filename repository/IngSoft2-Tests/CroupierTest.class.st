@@ -710,7 +710,7 @@ CroupierTest >> test17WhenASpaceshipsThrowsARedoAndLastCardAAccelerationThenSpac
 { #category : #tests }
 CroupierTest >> test18WhenASpaceshipsThrowsARedoAndLastCardACancellationThenSpaceshipsAffected [
 
-	| spaceships aBoard aBoardGame aCroupier aSpeedCard2 aCardPlayer2 aSpeedCard3 aCancellationCard2|
+	| spaceships aBoard aBoardGame aCroupier aSpeedCard2 aCardPlayer2 |
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
@@ -741,7 +741,7 @@ CroupierTest >> test18WhenASpaceshipsThrowsARedoAndLastCardACancellationThenSpac
 	aBoardGame throw: aSpeedCard2 from: 'Cami' to: 'Vicky'.
 	aBoardGame throw: aCancellationCard from: 'Vicky' choosing: aSpeedCard.
 
-	aBoardGame throw: aRedoCard from: 'Cami' choosing: aCardPlayer2.
+	aBoardGame throw: aRedoCard from: 'Cami' choosing: aSpeedCard2.
 
 	aBoardGame playTurnFor: 'Cami'.
 

@@ -17,11 +17,11 @@ Croupier class >> handling: aDeckOfCards [
 ]
 
 { #category : #action }
-Croupier >> cancellationCardTo: cardId [
+Croupier >> cancellationCardTo: aCard [
 
 	| aCardPlayers |
 	aCardPlayers := permanentCardsPlayers detect: [ :cardPlayers | 
-		                cardPlayers card id = cardId id ]ifNone:[Error signal: 'That card does not exist'].
+		                cardPlayers card id = aCard id ]ifNone:[Error signal: 'That card does not exist'].
 	
 	permanentCardsPlayers remove: aCardPlayers .
 	lastCardPlayed := CancellationCard new.
@@ -82,8 +82,8 @@ Croupier >> play: aCardPlayers [
 ]
 
 { #category : #play }
-Croupier >> play: aCard forSelected: cardId [ 
-	aCard playOn: self to: cardId
+Croupier >> play: aCard forSelected: choosenCard [ 
+	aCard playOn: self toSelected: choosenCard
 ]
 
 { #category : #action }

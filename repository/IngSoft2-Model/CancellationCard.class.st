@@ -29,7 +29,7 @@ CancellationCard >> playOn: aBoardGame [
 ]
 
 { #category : #action }
-CancellationCard >> playOn: aCroupier to: aCardId [ 
+CancellationCard >> playOn: aCroupier toSelected: card [ 
 	
-	aCroupier cancellationCardTo: aCardId
+	aCroupier cancellationCardTo: card
 ]

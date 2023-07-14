@@ -35,6 +35,7 @@ RedoCard >> playOn: aCroupier to: aCardPlayers [
 ]
 
 { #category : #action }
-RedoCard >> playOn: aCroupier toSelected: aCardId [ 
-	aCroupier cancellationCardTo: aCardId
+RedoCard >> playOn: aCroupier toSelected: card [
+
+	aCroupier play: aCroupier lastCardPlayed forSelected: card
 ]
