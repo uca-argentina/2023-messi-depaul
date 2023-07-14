@@ -29,8 +29,13 @@ AccelerationCard >> implementOn: aBoardGame [
 ]
 
 { #category : #action }
+AccelerationCard >> playOn: aCroupier [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #action }
 AccelerationCard >> playOn: aCroupier to: aCardPlayers [ 
-	aCroupier recordPermanent: aCardPlayers 
+	aCroupier recordPermanent: aCardPlayers
 ]
 
 { #category : #action }

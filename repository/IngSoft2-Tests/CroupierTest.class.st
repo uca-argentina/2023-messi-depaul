@@ -778,7 +778,7 @@ CroupierTest >> test19WhenASpaceshipThrowsRepeatCardAndLastCellEffectSpeedUpThen
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Delfi'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Delfi'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 5.
@@ -869,7 +869,7 @@ CroupierTest >> test21WhenASpaceshipThrowsRepeatCardAndLastCellEffectMoonWalkThe
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Vicky'.
 	
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
@@ -902,7 +902,6 @@ CroupierTest >> test22WhenASpaceshipThrowsAnAccelerationCardToAnotherSpaceshipTh
 		              managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
-	aBoardGame throw: anAccelerationCard from: 'Cami' to: 'Cami'.
 	self
 		should: [ 
 		aBoardGame throw: anAccelerationCard from: 'Cami' to: 'Cami' ]
@@ -952,7 +951,7 @@ CroupierTest >> test23WhenASpaceshipThrowsRepeatCardAndLastCellEffectWormHoleThe
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 2.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Vicky'.
 
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
@@ -1004,7 +1003,7 @@ CroupierTest >> test24WhenASpaceshipThrowsRepeatCardAndDiceWerentThrownThenNoEff
 	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 2.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
 	
-	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Vicky'.
+	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Vicky'.
 
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
 	self assert: (aBoardGame spaceshipPosition: 'Cami') round equals: 1.
@@ -1120,6 +1119,7 @@ CroupierTest >> test27WhenASpaceshipThrowsSpeedCardChoosingASpaceshipCardThenCan
 		              managedBy: aCroupier.
 		
 	aBoardGame throw: aSpeedCard from: 'Vicky' to: 'Vicky'.
+	aBoardGame throw: aSpeedCard from: 'Vicky' choosing: 1. 
 
 	self should: [ 	aBoardGame throw: aSpeedCard from: 'Vicky' choosing: 1.  ] raise: Error  withMessage: 'To play card, choose a player' .
 	
@@ -1309,4 +1309,38 @@ CroupierTest >> test33WhenASpaceshipThrowsRedoCardNotChoosingAPlayerForSpeedCard
 		should: [ aBoardGame throw: aRedoCard from: 'Vicky' ]
 		raise: Error
 		withMessage: 'To play card, choose a player'
+]
+
+{ #category : #tests }
+CroupierTest >> testBanana [
+
+	| spaceships aBoard aBoardGame aCroupier|
+	spaceships := OrderedCollection new.
+	spaceships add: 'Vicky'.
+	spaceships add: 'Cami'.
+	spaceships add: 'Delfi'.
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
+	
+	aDeckOfCards := DeckOfCards with: (OrderedCollection
+			                 with: aRepeatCard).
+	aCroupier := Croupier handling: aDeckOfCards.
+
+	aBoardGame := BoardGame
+		              playedBy: spaceships
+		              rolling:
+		              (OrderedCollection with: (LoadedDie of: #( 9 2 3 )))
+		              on: aBoard
+		              with: 3
+		              managedBy: aCroupier.
+
+	aBoardGame playTurnFor: 'Vicky'.
+	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
+	
+	aBoardGame throw: aRepeatCard from: 'Delfi' affecting: 'Delfi'.
+	
+	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
+	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 5.
+	
+
+
 ]

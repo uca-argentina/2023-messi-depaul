@@ -78,12 +78,17 @@ Croupier >> permanentCardsOf: aSpaceship [
 
 { #category : #play }
 Croupier >> play: aCardPlayers [ 
-	aCardPlayers card playOn: self to: aCardPlayers
+	aCardPlayers card playOn: self to: aCardPlayers.
 ]
 
 { #category : #play }
 Croupier >> play: aCard forSelected: choosenCard [ 
 	aCard playOn: self toSelected: choosenCard
+]
+
+{ #category : #play }
+Croupier >> play: aCardPlayers on: aBoardGame [ 
+	aCardPlayers card playOn: aBoardGame to: aCardPlayers.
 ]
 
 { #category : #action }

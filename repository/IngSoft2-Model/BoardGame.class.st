@@ -289,7 +289,20 @@ BoardGame >> throw: aCard from: aSpaceship [
 	| aCardPlayers |
 	croupier take: aCard from: aSpaceship on: self.
 	aCardPlayers := CardPlayers of: aCard with: spaceships.
-	croupier play: aCardPlayers
+	"(aCard name = 'repeat')ifTrue:[ 
+		aCardPlayers := CardPlayers of: aCard with: (OrderedCollection with: aSpaceship). ]."
+	croupier play: aCardPlayers.
+]
+
+{ #category : #cards }
+BoardGame >> throw: aCard from: aSpaceship affecting: anotherSpaceship [ 
+	| aCardPlayers |
+	self validateSpaceshipExists: anotherSpaceship.
+	croupier take: aCard from: aSpaceship on: self.
+	aCardPlayers := CardPlayers
+		                of: aCard
+		                with: (OrderedCollection with: anotherSpaceship).
+	croupier play: aCardPlayers on: self.
 ]
 
 { #category : #cards }
@@ -309,7 +322,7 @@ BoardGame >> throw: aCard from: aSpaceship to: anotherSpaceship [
 	aCardPlayers := CardPlayers
 		                of: aCard
 		                with: (OrderedCollection with: anotherSpaceship).
-	croupier play: aCardPlayers
+	croupier play: aCardPlayers.
 ]
 
 { #category : #action }

@@ -22,6 +22,11 @@ RepeatCard >> id: number [
 	cardId:= number.
 ]
 
+{ #category : #'instance variables' }
+RepeatCard >> name [
+	^'repeat'.
+]
+
 { #category : #action }
 RepeatCard >> playOn: aCroupier [ 
 	aCroupier repeatCard.
@@ -29,5 +34,5 @@ RepeatCard >> playOn: aCroupier [
 
 { #category : #action }
 RepeatCard >> playOn: aCroupier to: aCardPlayers [ 
-	aCroupier repeatCardTo: aCardPlayers.
+	aCroupier repeatCardTo: (aCardPlayers spaceships at: 1).
 ]
