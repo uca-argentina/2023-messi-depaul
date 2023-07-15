@@ -48,12 +48,6 @@ Board >> initializeOf: aCollectionOfCellsEffects withLenght: aMeasure [
 ]
 
 { #category : #'instance variables' }
-Board >> parsecs [
-
-	^ parsecs
-]
-
-{ #category : #'instance variables' }
 Board >> parsecsPerCell [
 
 	^ parsecsPerCell 
