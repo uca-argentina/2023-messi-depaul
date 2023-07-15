@@ -10,10 +10,6 @@ Class {
 		'winner',
 		'rounds',
 		'isOver',
-		'deckOfCards',
-		'spaceshipCards',
-		'permanentCards',
-		'indexCards',
 		'lastCardPlayed',
 		'playingCard',
 		'lastCellEffect',
@@ -62,8 +58,6 @@ BoardGame >> applyEffect [
 	| aCellEffect |
 	aCellEffect := board cellsEffect detect: [ :cell | 
 		               cell quantity = playingSpaceshipPosition  position cellNumber  ].
-	
-	"croupier lastCellEffect: aCellEffect effect."
 	lastCellEffect := aCellEffect effect.
 	aCellEffect effect implementOn: self
 ]
@@ -78,10 +72,6 @@ BoardGame >> applyHyperJumpEffect: parsecs [
 
 { #category : #effects }
 BoardGame >> applyMoonWalkEffect: cellsBackward [
-
-	"spaceshipPositions do: [ : spaceshipPosition | 
-		((playingSpaceshipPosition spaceship) ~= (spaceshipPosition spaceship)) ifTrue: [ 
-			self moves: spaceshipPosition to: cellsBackward negated ]]."
 
 	(spaceshipPositions select: [ :spaceshipPosition | 
 			playingSpaceshipPosition spaceships ~= spaceshipPosition spaceships ])

@@ -1278,37 +1278,3 @@ CroupierTest >> test34WhenASpaceshipThrowsRepeatCardNotChoosingACardThenCanNotTh
 	 
 	self should: [ aBoardGame throw: aRepeatCard from: 'Vicky'choosing: aSpeedCard.  ] raise: Error  withMessage: 'To play card, choose a player' .	
 ]
-
-{ #category : #tests }
-CroupierTest >> testBanana [
-
-	| spaceships aBoard aBoardGame aCroupier|
-	spaceships := OrderedCollection new.
-	spaceships add: 'Vicky'.
-	spaceships add: 'Cami'.
-	spaceships add: 'Delfi'.
-	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
-	
-	aDeckOfCards := DeckOfCards with: (OrderedCollection
-			                 with: aRepeatCard).
-	aCroupier := Croupier handling: aDeckOfCards.
-
-	aBoardGame := BoardGame
-		              playedBy: spaceships
-		              rolling:
-		              (OrderedCollection with: (LoadedDie of: #( 9 2 3 )))
-		              on: aBoard
-		              with: 3
-		              managedBy: aCroupier.
-
-	aBoardGame playTurnFor: 'Vicky'.
-	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
-	
-	aBoardGame throw: aRepeatCard from: 'Delfi' to: 'Delfi'.
-	
-	self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 1.
-	self assert: (aBoardGame spaceshipPosition: 'Delfi') cellNumber equals: 5.
-	
-
-
-]
