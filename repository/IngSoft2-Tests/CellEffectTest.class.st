@@ -2,19 +2,22 @@ Class {
 	#name : #CellEffectTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'aDeckOfCards'
+		'aDeckOfCards',
+		'aCroupier'
 	],
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #running }
 CellEffectTest >> setUp [
+
 	super setUp.
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: OverloadCard new.
-	aDeckOfCards add: AccelerationCard new.
-	aDeckOfCards add: CancellationCard new.
+	aDeckOfCards := DeckOfCards with: (OrderedCollection
+			                 with: SpeedCard new
+			                 with: OverloadCard new
+			                 with: AccelerationCard new
+			                 with: CancellationCard new).
+	aCroupier := Croupier handling: aDeckOfCards
 ]
 
 { #category : #tests }
@@ -30,13 +33,13 @@ CellEffectTest >> test01WhenACellIsSpeedUpThenSpaceshipMovesFourPositions [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 		
 
 	aBoardGame playTurnFor: 'Vicky'.
@@ -59,13 +62,13 @@ CellEffectTest >> test02WhenACellSpeedUpThenSpaceshipMovesTwoRounds [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 2 1 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.	
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -91,13 +94,13 @@ CellEffectTest >> test03WhenAllSpaceshipsLandOnSpeedUpCellsThenEffectIsApplied [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 2 1 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.	
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 6.
@@ -132,13 +135,13 @@ CellEffectTest >> test04WhenACellIsWormHoleThenSpaceshipMovesBackwardsFourPositi
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 
@@ -158,13 +161,13 @@ CellEffectTest >> test05WhenABoardOfTwoCellsAndASpaceshipLandsOnWormHoleThenGoes
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 		
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 4 1 3 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 		
 
 	aBoardGame playTurnFor: 'Vicky'.
@@ -194,13 +197,13 @@ CellEffectTest >> test06WhenASpaceshipInRoundOneLandsOnWormHoleAndInPositionLess
 	spaceships add: 'Vicky'.
 	
 		
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
@@ -228,13 +231,13 @@ CellEffectTest >> test07WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsToStart
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 
@@ -263,13 +266,13 @@ CellEffectTest >> test08WhenACellIsAtomicBombThenAllSpaceshipsMovesBackwardsToSt
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
@@ -302,13 +305,13 @@ CellEffectTest >> test09WhenACellIsAtomicBombThenSpaceshipsMovesBackwardsAndRoun
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 11 2 3 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 	
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 2.
@@ -342,13 +345,13 @@ CellEffectTest >> test10WhenASpaceshipLandsOnMoonWalkThenOtherSpaceshipsChangePo
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 		
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 7 5 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 8.
@@ -382,13 +385,13 @@ CellEffectTest >> test11WhenASpaceshipsLandOnWormHoleEffectAndLandsOnCellWithEff
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 
@@ -418,13 +421,13 @@ CellEffectTest >> test12WhenAGameIsPlayedWithCellsEffectThenSpaceshipsRanking [
 	spaceships add: 'Cami'.
 	spaceships add: 'Delfi'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 5 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
@@ -440,7 +443,7 @@ CellEffectTest >> test13ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
-	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: (Parsec withValue: 5)).
+	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: (Parsec of: 5)).
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
@@ -450,13 +453,13 @@ CellEffectTest >> test13ASpaceshipLandsOnHyperJumpThenMovesOneCell [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 5 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.	
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
@@ -468,7 +471,7 @@ CellEffectTest >> test14ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
-	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: (Parsec withValue: 5)).
+	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: (Parsec of: 5)).
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
@@ -478,13 +481,13 @@ CellEffectTest >> test14ASpaceshipLandsOnHyperJumpThenMovesTwoRounds [
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 5 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
@@ -496,7 +499,7 @@ CellEffectTest >> test15ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
-	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: (Parsec withValue: 3)).
+	aHyperJumpEffect := HyperJumpEffect with: (OrderedCollection with: (Parsec of: 3)).
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
@@ -505,13 +508,13 @@ CellEffectTest >> test15ASpaceshipLandsOnHyperJumpThenMovesTwoCells [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 5 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
@@ -526,7 +529,7 @@ CellEffectTest >> test16WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPosi
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell
 			 on: 2
-			 of: (HyperJumpEffect with: (OrderedCollection with: (Parsec withValue: 6) with: (Parsec withValue: 5)))).
+			 of: (HyperJumpEffect with: (OrderedCollection with: (Parsec of: 6) with: (Parsec of: 5)))).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
 	cellEffects add: (Cell on: 4 of: NoEffect new).
 	cellEffects add: (Cell on: 5 of: NoEffect new).
@@ -534,13 +537,13 @@ CellEffectTest >> test16WhenTwoSpaceshipsLandsOnHyperJumpThenMovesToTheirNewPosi
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 4.
@@ -561,7 +564,7 @@ CellEffectTest >> test17WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMov
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with:
-		                    (OrderedCollection with: (Parsec withValue: -4)).
+		                    (OrderedCollection with: (Parsec of: -4)).
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell on: 2 of: NoEffect new).
 	cellEffects add: (Cell on: 3 of: aHyperJumpEffect).
@@ -571,13 +574,13 @@ CellEffectTest >> test17WhenASpaceshipLandsInAHyperJumpWithNegativeValuesThenMov
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -590,7 +593,7 @@ CellEffectTest >> test18WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToIniti
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with:
-		                    (OrderedCollection with: (Parsec withValue: -5)).
+		                    (OrderedCollection with: (Parsec of: -5)).
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
@@ -600,13 +603,13 @@ CellEffectTest >> test18WhenASpaceshipLandsInHyperJumpInRoundOneThenMovesToIniti
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 1 1 3 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') round equals: 1.
@@ -620,7 +623,7 @@ CellEffectTest >> test19WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with:
-		                    (OrderedCollection with: (Parsec withValue: -30)).
+		                    (OrderedCollection with: (Parsec of: -30)).
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
@@ -630,13 +633,13 @@ CellEffectTest >> test19WhenSpaceshipLandsInHyperJumpThenGoesBackTwoRounds [
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 10 1 3 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -653,7 +656,7 @@ CellEffectTest >> test20WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThe
 	| spaceships aBoard aBoardGame cellEffects aHyperJumpEffect |
 	cellEffects := OrderedCollection new.
 	aHyperJumpEffect := HyperJumpEffect with:
-		                    (OrderedCollection with: (Parsec withValue: -30)).
+		                    (OrderedCollection with: (Parsec of: -30)).
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell on: 2 of: aHyperJumpEffect).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
@@ -663,13 +666,13 @@ CellEffectTest >> test20WhenASpaceshipPlaysAnHyperJumpWithNegativeParsecValueThe
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 10 1 3 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.
@@ -695,13 +698,13 @@ CellEffectTest >> test21WhenThreeSpaceshipPlaysAndACellSpeedUpThenSpaceshipMoves
 	spaceships add: 'Cami'.
 	spaceships add: 'Delfi'.
 	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
 		              rolling:
 		              (OrderedCollection with: (LoadedDie of: #( 2 )))
 		              on: aBoard
-		              with: 4 utilizing: aDeckOfCards.
+		              with: 4 managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 1.

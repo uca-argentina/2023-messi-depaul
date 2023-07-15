@@ -2,22 +2,22 @@ Class {
 	#name : #LightYear,
 	#superclass : #Object,
 	#instVars : [
-		'number'
+		'quantity'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #initialization }
-LightYear class >> withValue: aNumber [ 
-	^(self new) initializeWithValue: aNumber.
+LightYear class >> of: aQuantity [ 
+	^(self new) initializeOf: aQuantity.
 ]
 
 { #category : #'instance creation' }
-LightYear >> initializeWithValue: aNumber [ 
-	number := aNumber.
+LightYear >> initializeOf: aQuantity [
+	quantity := aQuantity.
 ]
 
 { #category : #action }
 LightYear >> parsecs [
-	^Parsec withValue: (number//3).
+	^Parsec of: (quantity//3).
 ]

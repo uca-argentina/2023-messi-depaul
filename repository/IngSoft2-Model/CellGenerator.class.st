@@ -9,7 +9,8 @@ Class {
 		'atomicBombs',
 		'hyperJumps',
 		'amountOfCells',
-		'cards'
+		'cards',
+		'cellEffects'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -31,6 +32,12 @@ CellGenerator >> cards [
 	^cards
 ]
 
+{ #category : #'instance creation' }
+CellGenerator >> cellsEffect [
+
+	^ cellEffects
+]
+
 { #category : #'instance variables' }
 CellGenerator >> hyperJumps [
 
@@ -44,24 +51,31 @@ CellGenerator >> initializeCells [
 		| aNumber |
 		aNumber := 100 atRandom.
 		(aNumber > 0 and: aNumber <= 30) ifTrue: [ 
+			cellEffects add: NoEffect new.
 			noEffects := noEffects + 1 ].
 		(aNumber > 30 and: aNumber <= 40) ifTrue: [ 
+			cellEffects add: DrawCardEffect new.
 			cards := cards + 1 ].
 		(aNumber > 40 and: aNumber <= 60) ifTrue: [ 
+			cellEffects add: WormHoleEffect new.
 			wormHoles := wormHoles + 1 ].
 		(aNumber > 60 and: aNumber <= 80) ifTrue: [ 
+			cellEffects add: SpeedUpEffect new.
 			speedUps := speedUps + 1 ].
 		(aNumber > 80 and: aNumber <= 90) ifTrue: [ 
+			cellEffects add: MoonWalkEffect new.
 			moonWalks := moonWalks + 1 ].
 		(aNumber > 90 and: aNumber <= 98) ifTrue: [ 
+			cellEffects add: HyperJumpEffect new.
 			hyperJumps := hyperJumps + 1 ].
 		(aNumber > 98 and: aNumber <= 100) ifTrue: [ 
+			cellEffects add: AtomicBombEffect new.
 			atomicBombs := atomicBombs + 1 ] ]
 ]
 
 { #category : #'instance creation' }
 CellGenerator >> initializeWithCellEffects: aNumber [
-
+	cellEffects := OrderedCollection new.
 	amountOfCells := aNumber.
 	noEffects := 0.
 	wormHoles := 0.

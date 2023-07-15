@@ -21,9 +21,9 @@ self should: [ LoadedDie of: #(-1)] raise: Error withMessage: 'Cannot create die
 
 { #category : #tests }
 DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
-|spaceships aBoard aBoardGame cellEffects aDeckOfCards |
-	
-	cellEffects := OrderedCollection new. 
+
+	| spaceships aBoard aBoardGame cellEffects aDeckOfCards aCroupier |
+	cellEffects := OrderedCollection new.
 	cellEffects add: (Cell on: 1 of: NoEffect new).
 	cellEffects add: (Cell on: 2 of: NoEffect new).
 	cellEffects add: (Cell on: 3 of: NoEffect new).
@@ -34,31 +34,38 @@ DieTest >> test02WhenAGameIsPlayedWithDifferentFacedDiceThenSpaceshipPositions [
 	cellEffects add: (Cell on: 8 of: NoEffect new).
 	cellEffects add: (Cell on: 9 of: NoEffect new).
 	cellEffects add: (Cell on: 10 of: NoEffect new).
-	
+
 	spaceships := OrderedCollection new.
 	spaceships add: 'Vicky'.
 	spaceships add: 'Cami'.
-	
-	aDeckOfCards := OrderedCollection new.
-	aDeckOfCards add: SpeedCard new.
-	aDeckOfCards add: OverloadCard new.
-	aDeckOfCards add: AccelerationCard new.
-	aDeckOfCards add: CancellationCard new.
-	
-	aBoard := Board of: cellEffects withLenght: (Parsec withValue: 15).
+
+	aDeckOfCards := DeckOfCards with: (OrderedCollection
+			                 with: SpeedCard new
+			                 with: OverloadCard new
+			                 with: AccelerationCard new
+			                 with: CancellationCard new).
+	aCroupier := Croupier handling: aDeckOfCards.
+
+	aBoard := Board of: cellEffects withLenght: (Parsec of: 15).
 	aBoardGame := BoardGame
 		              playedBy: spaceships
-		              rolling:
-		              (OrderedCollection with: (LoadedDie of: #( 1 2 3 )) with: (LoadedDie of: #( 4 5 )))
+		              rolling: (OrderedCollection
+				               with: (LoadedDie of: #( 1 2 3 ))
+				               with: (LoadedDie of: #( 4 5 )))
 		              on: aBoard
-		              with: 2 utilizing: aDeckOfCards.
+		              with: 2
+		              managedBy: aCroupier.
 
 	aBoardGame playTurnFor: 'Vicky'.
 	aBoardGame playTurnFor: 'Cami'.
 	aBoardGame playTurnFor: 'Vicky'.
 
-self assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber equals: 3.
-self assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber equals: 8.
+	self
+		assert: (aBoardGame spaceshipPosition: 'Vicky') cellNumber
+		equals: 3.
+	self
+		assert: (aBoardGame spaceshipPosition: 'Cami') cellNumber
+		equals: 8
 ]
 
 { #category : #tests }
