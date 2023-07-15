@@ -185,6 +185,6 @@ ProbabilityTest >> test13When1000BoardsAreCreatedThenProbabilityGeneratorOfCards
 		randomCellEffects add:
 			(CellGenerator setWithCellEffects: 100) ].
 	1 to: randomCellEffects size do: [ :index | 
-	sum := sum + (randomCellEffects at: index) card ].	
+	sum := sum + (randomCellEffects at: index) cards ].	
 	self assert: ((sum // 1000) between: 9 and: 11)
 ]

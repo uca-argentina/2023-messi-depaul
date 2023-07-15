@@ -27,7 +27,7 @@ CellGenerator >> atomicBombs [
 ]
 
 { #category : #'instance variables' }
-CellGenerator >> card [
+CellGenerator >> cards [
 	^cards
 ]
 

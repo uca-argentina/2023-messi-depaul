@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #running }
+{ #category : #tests }
 BoardTest >> should: anErrorBlock raise: anExceptionClass withMessage: anErrorMessage [
 
 	self

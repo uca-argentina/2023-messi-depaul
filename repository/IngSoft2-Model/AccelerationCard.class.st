@@ -34,17 +34,17 @@ AccelerationCard >> name [
 ]
 
 { #category : #action }
-AccelerationCard >> playOn: aCroupier [ 
-	self shouldBeImplemented.
+AccelerationCard >> playOn: aCroupier to: aCardPlayers [ 
+	Error signal: 'You cannot choose a player for acceleration card.'
 ]
 
 { #category : #action }
-AccelerationCard >> playOn: aCroupier to: aCardPlayers [ 
+AccelerationCard >> playOn: aCroupier toAll: aCardPlayers [ 
 	aCroupier recordPermanent: aCardPlayers
 ]
 
 { #category : #action }
-AccelerationCard >> playOn: aBoardGame toSelected: aSpaceshipCard [ 
+AccelerationCard >> playOn: aBoardGame toSelected: aCard [ 
 	
-	Error signal: 'You cannot choose a player for acceleration card.'
+	Error signal: 'You cannot choose a card for acceleration card.'
 ]

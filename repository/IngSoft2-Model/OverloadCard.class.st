@@ -21,6 +21,7 @@ OverloadCard >> id [
 
 { #category : #initialization }
 OverloadCard >> id: number [ 
+
 	cardId:= number.
 ]
 
@@ -32,19 +33,20 @@ OverloadCard >> implementOn: aBoardGame [
 
 { #category : #'instance variables' }
 OverloadCard >> name [
-	^'overload'.
-]
 
-{ #category : #action }
-OverloadCard >> playOn: aBoardGame [ 
-	
-	Error signal: 'To play card, choose a player'
+	^'overload'.
 ]
 
 { #category : #action }
 OverloadCard >> playOn: aCroupier to: aCardPlayers [
 
 	aCroupier recordPermanent: aCardPlayers
+]
+
+{ #category : #action }
+OverloadCard >> playOn: aCroupier toAll: aCardPlayers [
+
+	Error signal: 'To play card, choose a player'
 ]
 
 { #category : #action }

@@ -15,17 +15,20 @@ RedoCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 
 { #category : #'instance variable' }
 RedoCard >> id [
-	^cardId 
+
+	^ cardId
 ]
 
 { #category : #action }
-RedoCard >> id: number [ 
-	cardId:= number.
+RedoCard >> id: number [
+
+	cardId := number
 ]
 
 { #category : #'instance variables' }
 RedoCard >> name [
-	^'redo'.
+
+	^ 'redo'
 ]
 
 { #category : #action }
@@ -37,6 +40,17 @@ RedoCard >> playOn: aCroupier to: aCardPlayers [
 		                   with: aCardPlayers spaceships.
 
 	aCroupier play: lastCardPlayers
+]
+
+{ #category : #action }
+RedoCard >> playOn: aCroupier toAll: aCardPlayers [
+
+	| lastCardPlayers |
+	lastCardPlayers := CardPlayers
+		                   of: aCroupier lastCardPlayed
+		                   with: aCardPlayers spaceships.
+
+	aCroupier playOnAll: lastCardPlayers
 ]
 
 { #category : #action }

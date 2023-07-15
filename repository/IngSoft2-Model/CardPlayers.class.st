@@ -14,7 +14,7 @@ CardPlayers class >> of: aCard with: spaceships [
 ]
 
 { #category : #'instance creation' }
-CardPlayers >> card [
+CardPlayers >> cards [
 	^ card.
 ]
 

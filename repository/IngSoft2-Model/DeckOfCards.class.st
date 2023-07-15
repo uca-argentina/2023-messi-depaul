@@ -14,7 +14,7 @@ DeckOfCards class >> with: anAmountOfCards [
 ]
 
 { #category : #'instance variable' }
-DeckOfCards >> card [
+DeckOfCards >> cards [
 	^ cards
 ]
 

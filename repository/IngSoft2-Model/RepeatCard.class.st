@@ -14,25 +14,29 @@ RepeatCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 
 { #category : #'instance variable' }
 RepeatCard >> id [
-	^cardId 
+
+	^ cardId
 ]
 
 { #category : #'instance variable' }
-RepeatCard >> id: number [ 
-	cardId:= number.
+RepeatCard >> id: number [
+
+	cardId := number
 ]
 
 { #category : #'instance variables' }
 RepeatCard >> name [
-	^'repeat'.
+
+	^ 'repeat'
 ]
 
 { #category : #action }
-RepeatCard >> playOn: aCroupier [ 
-	aCroupier repeatCard.
+RepeatCard >> playOn: aBoardGame to: aCardPlayers [
+
+	aBoardGame repeatCardTo: (aCardPlayers spaceships at: 1)
 ]
 
 { #category : #action }
-RepeatCard >> playOn: aCroupier to: aCardPlayers [ 
-	aCroupier repeatCardTo: (aCardPlayers spaceships at: 1).
+RepeatCard >> playOn: aCroupier toSelected: aSpeedCard [ 
+	Error signal: 'To play card, choose a player'.
 ]

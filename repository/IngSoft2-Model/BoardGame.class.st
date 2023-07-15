@@ -100,26 +100,6 @@ BoardGame >> dealACardEffect [
 	croupier dealACardTo: playingSpaceshipPosition spaceships.
 ]
 
-{ #category : #initialization }
-BoardGame >> dealCards [
-
-	| size amountOfCards |
-	size := 0.
-	amountOfCards := 0.
-	spaceshipCards := OrderedCollection new.
-
-	[ spaceships size > size ] whileTrue: [ 
-		spaceshipCards add: (SpaceshipCard
-				 named: (OrderedCollection with: (spaceships at: size + 1))
-				 with: (deckOfCards at: indexCards)).
-		indexCards := indexCards \\ deckOfCards size + 1.
-		spaceshipCards add: (SpaceshipCard
-				 named:  (OrderedCollection with: (spaceships at: size + 1))
-				 with: (deckOfCards at: indexCards)).
-		indexCards := indexCards \\ deckOfCards size + 1.
-		size := size + 1 ]
-]
-
 { #category : #'instance creation' }
 BoardGame >> initializePlayedBy: manySpaceships rolling: manyDice on: aBoard winningAfter: anAmountOfRounds managedBy: aCroupier [ 
 
@@ -237,6 +217,12 @@ BoardGame >> ranking [
 		namesRanking := namesRanking first: 3 ].
 	^ namesRanking collect: [ :spaceshipPosition | 
 		  spaceshipPosition spaceships ]
+
+	"| namesRanking |
+	namesRanking size >= 3 ifTrue: [ 
+		namesRanking := namesRanking first: 3 ].
+	^ namesRanking collect: [ :spaceshipPosition | 
+		  spaceshipPosition spaceship ]"
 ]
 
 { #category : #action }
@@ -245,12 +231,6 @@ BoardGame >> relocatesSpaceshipPositionTo: aNumber [
 	self moves: playingSpaceshipPosition to: aNumber.
 
 	self applyEffect
-]
-
-{ #category : #cards }
-BoardGame >> repeatCard [
-
-	lastCellEffect implementOn: self
 ]
 
 { #category : #cards }
@@ -289,7 +269,8 @@ BoardGame >> throw: aCard from: aSpaceship [
 	| aCardPlayers |
 	croupier take: aCard from: aSpaceship on: self.
 	aCardPlayers := CardPlayers of: aCard with: spaceships.
-	croupier play: aCardPlayers.
+	(self validateRepeatOf: aCardPlayers) ifFalse: [ 
+		croupier playOnAll: aCardPlayers ]
 ]
 
 { #category : #cards }
@@ -309,8 +290,8 @@ BoardGame >> throw: aCard from: aSpaceship to: anotherSpaceship [
 	aCardPlayers := CardPlayers
 		                of: aCard
 		                with: (OrderedCollection with: anotherSpaceship).
-	self validateRepeatOf: aCardPlayers.
-	croupier play: aCardPlayers.
+	(self validateRepeatOf: aCardPlayers) ifFalse: [ 
+		croupier play: aCardPlayers ]
 ]
 
 { #category : #action }
@@ -359,8 +340,13 @@ BoardGame >> validateRedoCard [
 ]
 
 { #category : #cards }
-BoardGame >> validateRepeatOf: aCardPlayers [ 
-	(aCardPlayers card name = 'repeat')ifTrue:[croupier play: aCardPlayers on: self ]ifFalse:[].
+BoardGame >> validateRepeatOf: aCardPlayers [
+
+	aCardPlayers cards name = 'repeat'
+		ifTrue: [ 
+			croupier play: aCardPlayers on: self.
+			^ true ]
+		ifFalse: [ ^ false ]
 ]
 
 { #category : #validation }

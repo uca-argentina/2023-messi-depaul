@@ -21,7 +21,7 @@ Croupier >> cancellationCardTo: aCard [
 
 	| aCardPlayers |
 	aCardPlayers := permanentCardsPlayers detect: [ :cardPlayers | 
-		                cardPlayers card id = aCard id ]ifNone:[Error signal: 'That card does not exist'].
+		                cardPlayers cards id = aCard id ]ifNone:[Error signal: 'That card does not exist'].
 	
 	permanentCardsPlayers remove: aCardPlayers .
 	lastCardPlayed := CancellationCard new.
@@ -31,8 +31,8 @@ Croupier >> cancellationCardTo: aCard [
 Croupier >> dealACardTo: aSpaceship [
 		playersCards do: [ :playerCards | 
 		(playerCards spaceships = aSpaceship) ifTrue: [ 
-			playerCards card add: (deckOfCards card at: indexCards).
-			indexCards := indexCards \\ deckOfCards card size + 1]].
+			playerCards cards add: (deckOfCards cards at: indexCards).
+			indexCards := indexCards \\ deckOfCards cards size + 1]].
 ]
 
 { #category : #'instance creation' }
@@ -72,13 +72,13 @@ Croupier >> permanentCardsOf: aSpaceship [
 	anAmount := 0.
 	permanentCardsPlayers do: [ :cardPlayers | 
 		(cardPlayers spaceships includes: aSpaceship) ifTrue: [ 
-			anAmount := anAmount + (cardPlayers card implementOn: self) ] ].
+			anAmount := anAmount + (cardPlayers cards implementOn: self) ] ].
 	^ anAmount
 ]
 
 { #category : #play }
 Croupier >> play: aCardPlayers [ 
-	aCardPlayers card playOn: self to: aCardPlayers.
+	aCardPlayers cards playOn: self to: aCardPlayers.
 ]
 
 { #category : #play }
@@ -88,7 +88,12 @@ Croupier >> play: aCard forSelected: choosenCard [
 
 { #category : #play }
 Croupier >> play: aCardPlayers on: aBoardGame [ 
-	aCardPlayers card playOn: aBoardGame to: aCardPlayers.
+	aCardPlayers cards playOn: aBoardGame to: aCardPlayers.
+]
+
+{ #category : #play }
+Croupier >> playOnAll: aCardPlayers [ 
+	aCardPlayers cards playOn: self toAll: aCardPlayers.
 ]
 
 { #category : #action }
@@ -106,17 +111,7 @@ Croupier >> playerCardOf: aSpaceship [
 Croupier >> recordPermanent: aCardPlayers [
 
 	permanentCardsPlayers add: aCardPlayers.
-	lastCardPlayed := aCardPlayers card
-]
-
-{ #category : #repetedCard }
-Croupier >> repeatCardTo: aCardPlayers [ 
-	"playingSpaceshipPosition := spaceshipPositions detect: [ 
-		                            :spaceshipPosition | 
-		                            spaceshipPosition spaceships
-		                            == aSpaceship ]. "" el problema es en este porque la playing es la que le va a afectar en ese momento el coso, siempre le vamos a tener q pasar la spaceship que juega y solo deberia validarse una vez que valga, maybe.. 
-
-	lastCellEffect implementOn: self." "esta la re podemos guardar en el croupier"
+	lastCardPlayed := aCardPlayers cards
 ]
 
 { #category : #play }

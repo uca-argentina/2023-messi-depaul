@@ -14,23 +14,26 @@ PlayerCards class >> of: aSpaceship [
 ]
 
 { #category : #'instance variables' }
-PlayerCards >> card [
+PlayerCards >> cards [
+
 	^ cards
 ]
 
 { #category : #action }
 PlayerCards >> obtainCard: cardId [
+
 	| aCard |
 	aCard := cards
 		         detect: [ :card | card id = cardId ]
 		         ifNone: [ Error signal: 'You do not have that card' ].
-	^aCard
+	^ aCard
 ]
 
 { #category : #'instance creation' }
 PlayerCards >> of: aSpaceship [
-	spaceship:= aSpaceship.
-	cards := OrderedCollection new.
+
+	spaceship := aSpaceship.
+	cards := OrderedCollection new
 ]
 
 { #category : #action }
@@ -43,5 +46,6 @@ PlayerCards >> removeCard: cardId [
 
 { #category : #'instance variables' }
 PlayerCards >> spaceships [
+
 	^ spaceship
 ]

@@ -8,18 +8,21 @@ Class {
 }
 
 { #category : #action }
-SpeedCard >> canBePlayedIn: aBoardGame for: aSpaceship [ 
+SpeedCard >> canBePlayedIn: aBoardGame for: aSpaceship [
+
 	aBoardGame validatePermanentPlayFor: aSpaceship
 ]
 
 { #category : #'instance cration' }
 SpeedCard >> id [
-	^cardId.
+
+	^ cardId
 ]
 
 { #category : #initialization }
-SpeedCard >> id: number [ 
-	cardId:= number.
+SpeedCard >> id: number [
+
+	cardId := number
 ]
 
 { #category : #action }
@@ -30,18 +33,20 @@ SpeedCard >> implementOn: aBoardGame [
 
 { #category : #'instance variable' }
 SpeedCard >> name [
-	^'speed'.
+
+	^ 'speed'
 ]
 
 { #category : #action }
-SpeedCard >> playOn: aBoardGame [
+SpeedCard >> playOn: aCroupier to: aCardPlayers [
+
+	aCroupier recordPermanent: aCardPlayers
+]
+
+{ #category : #validation }
+SpeedCard >> playOn: aCroupier toAll: aCardPlayers [
 
 	Error signal: 'To play card, choose a player'
-]
-
-{ #category : #action }
-SpeedCard >> playOn: aCroupier to: aCardPlayers [ 
-	aCroupier recordPermanent: aCardPlayers 
 ]
 
 { #category : #action }

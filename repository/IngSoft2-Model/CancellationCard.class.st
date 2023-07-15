@@ -28,13 +28,12 @@ CancellationCard >> name [
 ]
 
 { #category : #action }
-CancellationCard >> playOn: aBoardGame [ 
-	
-	Error signal: 'You have to choose a card'.
+CancellationCard >> playOn: aCroupier to: aCardPlayers [ 
+	Error signal: 'You have to choose a card.'.
 ]
 
 { #category : #action }
-CancellationCard >> playOn: aCroupier to: aCardPlayers [ 
+CancellationCard >> playOn: aCroupier toAll: aCardPlayers [ 
 	Error signal: 'You have to choose a card.'.
 ]
 
