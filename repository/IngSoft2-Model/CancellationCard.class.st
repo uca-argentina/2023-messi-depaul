@@ -22,7 +22,7 @@ CancellationCard >> id: number [
 	cardId:= number.
 ]
 
-{ #category : #'instance variables' }
+{ #category : #'instance variable' }
 CancellationCard >> name [
 	^'cancellation'.
 ]

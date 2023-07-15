@@ -60,7 +60,7 @@ Croupier >> handling: aDeckOfCards [
 	permanentCardsPlayers:= OrderedCollection new.
 ]
 
-{ #category : #'instance creation' }
+{ #category : #action }
 Croupier >> lastCardPlayed [
 	^lastCardPlayed .
 ]
@@ -107,7 +107,7 @@ Croupier >> playerCardOf: aSpaceship [
 	^ aPlayerCards
 ]
 
-{ #category : #permanentCards }
+{ #category : #action }
 Croupier >> recordPermanent: aCardPlayers [
 
 	permanentCardsPlayers add: aCardPlayers.

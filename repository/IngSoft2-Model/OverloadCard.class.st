@@ -13,7 +13,7 @@ OverloadCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 	aBoardGame validatePermanentPlayFor: aSpaceship
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 OverloadCard >> id [
 
 	^ cardId

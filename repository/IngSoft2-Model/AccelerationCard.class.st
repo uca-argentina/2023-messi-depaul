@@ -28,7 +28,7 @@ AccelerationCard >> implementOn: aBoardGame [
 	^1
 ]
 
-{ #category : #'instance variables' }
+{ #category : #'instance variable' }
 AccelerationCard >> name [
 	'acceleration'.
 ]

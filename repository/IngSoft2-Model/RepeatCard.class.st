@@ -24,7 +24,7 @@ RepeatCard >> id: number [
 	cardId := number
 ]
 
-{ #category : #'instance variables' }
+{ #category : #'instance variable' }
 RepeatCard >> name [
 
 	^ 'repeat'

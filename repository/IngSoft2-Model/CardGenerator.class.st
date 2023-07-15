@@ -28,7 +28,7 @@ CardGenerator >> cancellations [
 	^ cancellations
 ]
 
-{ #category : #initialize }
+{ #category : #'instance creation' }
 CardGenerator >> initializeDeck [
 	1 to: amountOfCards do: [ :index | 
 		| aNumber |

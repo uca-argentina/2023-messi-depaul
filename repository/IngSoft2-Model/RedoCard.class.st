@@ -13,7 +13,7 @@ RedoCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 	aBoardGame validateRedoCard
 ]
 
-{ #category : #'instance variable' }
+{ #category : #'instance variables' }
 RedoCard >> id [
 
 	^ cardId

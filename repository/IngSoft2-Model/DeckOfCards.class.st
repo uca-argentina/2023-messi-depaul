@@ -18,7 +18,7 @@ DeckOfCards >> cards [
 	^ cards
 ]
 
-{ #category : #initialization }
+{ #category : #'instance creation' }
 DeckOfCards >> initializeCards [
 	cards do: [ :card | card id: indexCard.
 		indexCard:= indexCard + 1. ]

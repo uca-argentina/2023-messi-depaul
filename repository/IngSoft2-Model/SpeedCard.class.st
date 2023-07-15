@@ -13,7 +13,7 @@ SpeedCard >> canBePlayedIn: aBoardGame for: aSpaceship [
 	aBoardGame validatePermanentPlayFor: aSpaceship
 ]
 
-{ #category : #'instance cration' }
+{ #category : #'instance variable' }
 SpeedCard >> id [
 
 	^ cardId

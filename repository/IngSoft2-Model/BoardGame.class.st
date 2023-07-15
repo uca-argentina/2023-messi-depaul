@@ -218,11 +218,6 @@ BoardGame >> ranking [
 	^ namesRanking collect: [ :spaceshipPosition | 
 		  spaceshipPosition spaceships ]
 
-	"| namesRanking |
-	namesRanking size >= 3 ifTrue: [ 
-		namesRanking := namesRanking first: 3 ].
-	^ namesRanking collect: [ :spaceshipPosition | 
-		  spaceshipPosition spaceship ]"
 ]
 
 { #category : #action }
